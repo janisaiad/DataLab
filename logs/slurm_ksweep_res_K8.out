@@ -1,0 +1,116 @@
+=== K=8, variant=resilient_mcl, batch=512 ===
+Node: juliet4   GPU: NVIDIA A100-SXM4-80GB
+[resilient_mcl_K8] Device: cuda
+[resilient_mcl_K8] GPU: NVIDIA A100-SXM4-80GB
+
+[resilient_mcl_K8] Reusing baseline from checkpoints/baseline_final.pt
+
+============================================================
+  [resilient_mcl_K8] 2/7  MCL training K=8 (200 epochs, resilient_mcl)
+============================================================
+  total params: 7,208,968  (901,121 per expert)
+  [resilient_mcl_K8] epoch   5/200  loss=0.0827  usage=['0.00', '0.39', '0.00', '0.00', '0.00', '0.00', '0.00', '0.61']
+  [resilient_mcl_K8] epoch  10/200  loss=0.0700  usage=['0.00', '0.33', '0.00', '0.00', '0.00', '0.00', '0.00', '0.67']
+  [resilient_mcl_K8] epoch  15/200  loss=0.0647  usage=['0.00', '0.30', '0.00', '0.00', '0.00', '0.00', '0.00', '0.70']
+  [resilient_mcl_K8] epoch  20/200  loss=0.0620  usage=['0.00', '0.29', '0.00', '0.00', '0.00', '0.00', '0.00', '0.71']
+  [resilient_mcl_K8] epoch  25/200  loss=0.0604  usage=['0.00', '0.28', '0.00', '0.00', '0.00', '0.00', '0.00', '0.72']
+  [resilient_mcl_K8] epoch  30/200  loss=0.0591  usage=['0.00', '0.28', '0.00', '0.00', '0.00', '0.00', '0.00', '0.72']
+  [resilient_mcl_K8] epoch  35/200  loss=0.0577  usage=['0.00', '0.28', '0.00', '0.00', '0.00', '0.00', '0.00', '0.72']
+  [resilient_mcl_K8] epoch  40/200  loss=0.0568  usage=['0.00', '0.27', '0.00', '0.00', '0.00', '0.00', '0.00', '0.73']
+  [resilient_mcl_K8] epoch  45/200  loss=0.0556  usage=['0.00', '0.27', '0.00', '0.00', '0.00', '0.00', '0.00', '0.73']
+  [resilient_mcl_K8] epoch  50/200  loss=0.0557  usage=['0.00', '0.27', '0.00', '0.00', '0.00', '0.00', '0.00', '0.73']
+  [resilient_mcl_K8] epoch  55/200  loss=0.0548  usage=['0.00', '0.27', '0.00', '0.00', '0.00', '0.00', '0.00', '0.73']
+  [resilient_mcl_K8] epoch  60/200  loss=0.0545  usage=['0.00', '0.27', '0.00', '0.00', '0.00', '0.00', '0.00', '0.73']
+  [resilient_mcl_K8] epoch  65/200  loss=0.0539  usage=['0.00', '0.26', '0.00', '0.00', '0.00', '0.00', '0.00', '0.74']
+  [resilient_mcl_K8] epoch  70/200  loss=0.0537  usage=['0.00', '0.27', '0.00', '0.00', '0.00', '0.00', '0.00', '0.73']
+  [resilient_mcl_K8] epoch  75/200  loss=0.0531  usage=['0.00', '0.27', '0.00', '0.00', '0.00', '0.00', '0.00', '0.73']
+  [resilient_mcl_K8] epoch  80/200  loss=0.0532  usage=['0.00', '0.27', '0.00', '0.00', '0.00', '0.00', '0.00', '0.73']
+  [resilient_mcl_K8] epoch  85/200  loss=0.0530  usage=['0.00', '0.27', '0.00', '0.00', '0.00', '0.00', '0.00', '0.73']
+  [resilient_mcl_K8] epoch  90/200  loss=0.0530  usage=['0.00', '0.27', '0.00', '0.00', '0.00', '0.00', '0.00', '0.73']
+  [resilient_mcl_K8] epoch  95/200  loss=0.0525  usage=['0.00', '0.27', '0.00', '0.00', '0.00', '0.00', '0.00', '0.73']
+  [resilient_mcl_K8] epoch 100/200  loss=0.0520  usage=['0.00', '0.26', '0.00', '0.00', '0.00', '0.00', '0.00', '0.74']
+  [resilient_mcl_K8] epoch 105/200  loss=0.0525  usage=['0.00', '0.27', '0.00', '0.00', '0.00', '0.00', '0.00', '0.73']
+  [resilient_mcl_K8] epoch 110/200  loss=0.0521  usage=['0.00', '0.27', '0.00', '0.00', '0.00', '0.00', '0.00', '0.73']
+  [resilient_mcl_K8] epoch 115/200  loss=0.0519  usage=['0.00', '0.26', '0.00', '0.00', '0.00', '0.00', '0.00', '0.74']
+  [resilient_mcl_K8] epoch 120/200  loss=0.0517  usage=['0.00', '0.26', '0.00', '0.00', '0.00', '0.00', '0.00', '0.74']
+  [resilient_mcl_K8] epoch 125/200  loss=0.0517  usage=['0.00', '0.26', '0.00', '0.00', '0.00', '0.00', '0.00', '0.74']
+  [resilient_mcl_K8] epoch 130/200  loss=0.0516  usage=['0.00', '0.26', '0.00', '0.00', '0.00', '0.00', '0.00', '0.74']
+  [resilient_mcl_K8] epoch 135/200  loss=0.0514  usage=['0.00', '0.26', '0.00', '0.00', '0.00', '0.00', '0.00', '0.74']
+  [resilient_mcl_K8] epoch 140/200  loss=0.0516  usage=['0.00', '0.26', '0.00', '0.00', '0.00', '0.00', '0.00', '0.74']
+  [resilient_mcl_K8] epoch 145/200  loss=0.0509  usage=['0.00', '0.25', '0.00', '0.00', '0.00', '0.00', '0.00', '0.75']
+  [resilient_mcl_K8] epoch 150/200  loss=0.0509  usage=['0.00', '0.25', '0.00', '0.00', '0.00', '0.00', '0.00', '0.75']
+  [resilient_mcl_K8] epoch 155/200  loss=0.0509  usage=['0.00', '0.25', '0.00', '0.00', '0.00', '0.00', '0.00', '0.75']
+  [resilient_mcl_K8] epoch 160/200  loss=0.0511  usage=['0.00', '0.25', '0.00', '0.00', '0.00', '0.00', '0.00', '0.75']
+  [resilient_mcl_K8] epoch 165/200  loss=0.0508  usage=['0.00', '0.26', '0.00', '0.00', '0.00', '0.00', '0.00', '0.74']
+  [resilient_mcl_K8] epoch 170/200  loss=0.0507  usage=['0.00', '0.25', '0.00', '0.00', '0.00', '0.00', '0.00', '0.75']
+  [resilient_mcl_K8] epoch 175/200  loss=0.0506  usage=['0.00', '0.25', '0.00', '0.00', '0.00', '0.00', '0.00', '0.75']
+  [resilient_mcl_K8] epoch 180/200  loss=0.0505  usage=['0.00', '0.25', '0.00', '0.00', '0.00', '0.00', '0.00', '0.75']
+  [resilient_mcl_K8] epoch 185/200  loss=0.0504  usage=['0.00', '0.25', '0.00', '0.00', '0.00', '0.00', '0.00', '0.75']
+  [resilient_mcl_K8] epoch 190/200  loss=0.0508  usage=['0.00', '0.25', '0.00', '0.00', '0.00', '0.00', '0.00', '0.75']
+  [resilient_mcl_K8] epoch 195/200  loss=0.0501  usage=['0.00', '0.25', '0.00', '0.00', '0.00', '0.00', '0.00', '0.75']
+  [resilient_mcl_K8] epoch 200/200  loss=0.0499  usage=['0.00', '0.25', '0.00', '0.00', '0.00', '0.00', '0.00', '0.75']
+  [resilient_mcl_K8] MCL done in 84.5 min
+
+============================================================
+  [resilient_mcl_K8] 3/7  Gating network (25 epochs)
+============================================================
+  [resilient_mcl_K8] Collecting winner labels ...
+  [resilient_mcl_K8] epoch   5/25  acc=0.975
+  [resilient_mcl_K8] epoch  10/25  acc=0.975
+  [resilient_mcl_K8] epoch  15/25  acc=0.974
+  [resilient_mcl_K8] epoch  20/25  acc=0.974
+  [resilient_mcl_K8] epoch  25/25  acc=0.975
+  [resilient_mcl_K8] Gating done in 0.2 min
+
+============================================================
+  [resilient_mcl_K8] 4/7  Generating samples (N=2048)
+============================================================
+  [resilient_mcl_K8] baseline (euler) ...
+  [resilient_mcl_K8] baseline (heun) ...
+  [resilient_mcl_K8] mcl single_expert ...
+  [resilient_mcl_K8] mcl random_expert ...
+  [resilient_mcl_K8] mcl best_expert ...
+  [resilient_mcl_K8] mcl mixture_score ...
+  [resilient_mcl_K8] mcl gated ...
+  [resilient_mcl_K8] expert 0 grid ...
+  [resilient_mcl_K8] expert 1 grid ...
+  [resilient_mcl_K8] expert 2 grid ...
+  [resilient_mcl_K8] expert 3 grid ...
+  [resilient_mcl_K8] expert 4 grid ...
+  [resilient_mcl_K8] expert 5 grid ...
+  [resilient_mcl_K8] expert 6 grid ...
+  [resilient_mcl_K8] expert 7 grid ...
+  [resilient_mcl_K8] Sampling done in 6.2 min
+
+============================================================
+  [resilient_mcl_K8] 5/7  Evaluation (FID, Precision, Recall)
+============================================================
+  [resilient_mcl_K8] baseline_euler        FID=  113.62  P=0.4316  R=0.8325
+  [resilient_mcl_K8] baseline_heun         FID=  111.44  P=0.4341  R=0.8325
+  [resilient_mcl_K8] single_expert         FID= 3206.19  P=0.0000  R=0.0000
+  [resilient_mcl_K8] random_expert         FID= 2771.81  P=0.0000  R=0.0000
+  [resilient_mcl_K8] best_expert           FID= 2254.72  P=0.0000  R=0.0000
+  [resilient_mcl_K8] mixture_score         FID= 2683.71  P=0.0000  R=0.0000
+  [resilient_mcl_K8] gated                 FID=   13.00  P=0.6304  R=0.8584
+  [resilient_mcl_K8] Evaluation done in 0.1 min
+
+============================================================
+  [resilient_mcl_K8] 6/7  Analysis & visualisation
+============================================================
+  [resilient_mcl_K8] expert vs digit ...
+  [resilient_mcl_K8] expert vs sigma ...
+  [resilient_mcl_K8] multi-expert grid ...
+  [resilient_mcl_K8] trajectory ...
+  [resilient_mcl_K8] strategy comparison ...
+  [resilient_mcl_K8] Analysis done in 0.7 min
+
+============================================================
+  [resilient_mcl_K8] 7/7  Summary figures
+============================================================
+
+============================================================
+  [resilient_mcl_K8] PIPELINE COMPLETE
+  Checkpoints:  checkpoints_resilient_mcl_K8/
+  Outputs:      outputs_resilient_mcl_K8/
+  Analysis:     outputs_resilient_mcl_K8/analysis/
+============================================================

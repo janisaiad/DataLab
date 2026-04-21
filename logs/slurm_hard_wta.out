@@ -1,0 +1,159 @@
+[hard_wta] Device: cuda
+[hard_wta] GPU: NVIDIA A100-SXM4-80GB
+
+============================================================
+  [hard_wta] 1/7  Baseline training (200 epochs)
+============================================================
+  params: 901,121
+  [hard_wta] epoch   5/200  loss=0.0865
+  [hard_wta] epoch  10/200  loss=0.0722
+  [hard_wta] epoch  15/200  loss=0.0664
+  [hard_wta] epoch  20/200  loss=0.0631
+  [hard_wta] epoch  25/200  loss=0.0611
+  [hard_wta] epoch  30/200  loss=0.0595
+  [hard_wta] epoch  35/200  loss=0.0584
+  [hard_wta] epoch  40/200  loss=0.0575
+  [hard_wta] epoch  45/200  loss=0.0568
+  [hard_wta] epoch  50/200  loss=0.0563
+  [hard_wta] epoch  55/200  loss=0.0557
+  [hard_wta] epoch  60/200  loss=0.0552
+  [hard_wta] epoch  65/200  loss=0.0547
+  [hard_wta] epoch  70/200  loss=0.0544
+  [hard_wta] epoch  75/200  loss=0.0541
+  [hard_wta] epoch  80/200  loss=0.0537
+  [hard_wta] epoch  85/200  loss=0.0535
+  [hard_wta] epoch  90/200  loss=0.0532
+  [hard_wta] epoch  95/200  loss=0.0529
+  [hard_wta] epoch 100/200  loss=0.0527
+  [hard_wta] epoch 105/200  loss=0.0525
+  [hard_wta] epoch 110/200  loss=0.0522
+  [hard_wta] epoch 115/200  loss=0.0521
+  [hard_wta] epoch 120/200  loss=0.0519
+  [hard_wta] epoch 125/200  loss=0.0517
+  [hard_wta] epoch 130/200  loss=0.0515
+  [hard_wta] epoch 135/200  loss=0.0513
+  [hard_wta] epoch 140/200  loss=0.0511
+  [hard_wta] epoch 145/200  loss=0.0511
+  [hard_wta] epoch 150/200  loss=0.0509
+  [hard_wta] epoch 155/200  loss=0.0508
+  [hard_wta] epoch 160/200  loss=0.0507
+  [hard_wta] epoch 165/200  loss=0.0506
+  [hard_wta] epoch 170/200  loss=0.0504
+  [hard_wta] epoch 175/200  loss=0.0503
+  [hard_wta] epoch 180/200  loss=0.0502
+  [hard_wta] epoch 185/200  loss=0.0502
+  [hard_wta] epoch 190/200  loss=0.0500
+  [hard_wta] epoch 195/200  loss=0.0501
+  [hard_wta] epoch 200/200  loss=0.0499
+  [hard_wta] Baseline done in 20.7 min
+
+============================================================
+  [hard_wta] 2/7  MCL training K=4 (200 epochs, hard_wta)
+============================================================
+  total params: 3,604,484  (901,121 per expert)
+  [hard_wta] epoch   5/200  loss=0.0826  usage=['0.39', '0.46', '0.15', '0.00']
+  [hard_wta] epoch  10/200  loss=0.0703  usage=['0.40', '0.52', '0.08', '0.00']
+  [hard_wta] epoch  15/200  loss=0.0650  usage=['0.40', '0.54', '0.06', '0.00']
+  [hard_wta] epoch  20/200  loss=0.0620  usage=['0.41', '0.55', '0.04', '0.00']
+  [hard_wta] epoch  25/200  loss=0.0596  usage=['0.42', '0.55', '0.03', '0.00']
+  [hard_wta] epoch  30/200  loss=0.0581  usage=['0.44', '0.53', '0.03', '0.00']
+  [hard_wta] epoch  35/200  loss=0.0576  usage=['0.45', '0.55', '0.00', '0.00']
+  [hard_wta] epoch  40/200  loss=0.0570  usage=['0.45', '0.55', '0.00', '0.00']
+  [hard_wta] epoch  45/200  loss=0.0561  usage=['0.46', '0.54', '0.00', '0.00']
+  [hard_wta] epoch  50/200  loss=0.0546  usage=['0.48', '0.52', '0.00', '0.00']
+  [hard_wta] epoch  55/200  loss=0.0546  usage=['0.48', '0.52', '0.00', '0.00']
+  [hard_wta] epoch  60/200  loss=0.0543  usage=['0.49', '0.51', '0.00', '0.00']
+  [hard_wta] epoch  65/200  loss=0.0537  usage=['0.50', '0.50', '0.00', '0.00']
+  [hard_wta] epoch  70/200  loss=0.0532  usage=['0.50', '0.50', '0.00', '0.00']
+  [hard_wta] epoch  75/200  loss=0.0534  usage=['0.51', '0.49', '0.00', '0.00']
+  [hard_wta] epoch  80/200  loss=0.0535  usage=['0.51', '0.49', '0.00', '0.00']
+  [hard_wta] epoch  85/200  loss=0.0533  usage=['0.51', '0.49', '0.00', '0.00']
+  [hard_wta] epoch  90/200  loss=0.0529  usage=['0.51', '0.49', '0.00', '0.00']
+  [hard_wta] epoch  95/200  loss=0.0524  usage=['0.52', '0.48', '0.00', '0.00']
+  [hard_wta] epoch 100/200  loss=0.0526  usage=['0.52', '0.48', '0.00', '0.00']
+  [hard_wta] epoch 105/200  loss=0.0521  usage=['0.52', '0.48', '0.00', '0.00']
+  [hard_wta] epoch 110/200  loss=0.0519  usage=['0.52', '0.48', '0.00', '0.00']
+  [hard_wta] epoch 115/200  loss=0.0519  usage=['0.53', '0.47', '0.00', '0.00']
+  [hard_wta] epoch 120/200  loss=0.0515  usage=['0.54', '0.46', '0.00', '0.00']
+  [hard_wta] epoch 125/200  loss=0.0517  usage=['0.53', '0.47', '0.00', '0.00']
+  [hard_wta] epoch 130/200  loss=0.0518  usage=['0.54', '0.46', '0.00', '0.00']
+  [hard_wta] epoch 135/200  loss=0.0515  usage=['0.53', '0.47', '0.00', '0.00']
+  [hard_wta] epoch 140/200  loss=0.0515  usage=['0.54', '0.46', '0.00', '0.00']
+  [hard_wta] epoch 145/200  loss=0.0515  usage=['0.54', '0.46', '0.00', '0.00']
+  [hard_wta] epoch 150/200  loss=0.0513  usage=['0.54', '0.46', '0.00', '0.00']
+  [hard_wta] epoch 155/200  loss=0.0509  usage=['0.54', '0.46', '0.00', '0.00']
+  [hard_wta] epoch 160/200  loss=0.0507  usage=['0.54', '0.46', '0.00', '0.00']
+  [hard_wta] epoch 165/200  loss=0.0509  usage=['0.55', '0.45', '0.00', '0.00']
+  [hard_wta] epoch 170/200  loss=0.0507  usage=['0.54', '0.46', '0.00', '0.00']
+  [hard_wta] epoch 175/200  loss=0.0511  usage=['0.54', '0.46', '0.00', '0.00']
+  [hard_wta] epoch 180/200  loss=0.0505  usage=['0.55', '0.45', '0.00', '0.00']
+  [hard_wta] epoch 185/200  loss=0.0506  usage=['0.55', '0.45', '0.00', '0.00']
+  [hard_wta] epoch 190/200  loss=0.0504  usage=['0.56', '0.44', '0.00', '0.00']
+  [hard_wta] epoch 195/200  loss=0.0504  usage=['0.55', '0.45', '0.00', '0.00']
+  [hard_wta] epoch 200/200  loss=0.0506  usage=['0.55', '0.45', '0.00', '0.00']
+  [hard_wta] MCL done in 53.0 min
+
+============================================================
+  [hard_wta] 3/7  Gating network (25 epochs)
+============================================================
+  [hard_wta] Collecting winner labels ...
+  [hard_wta] epoch   5/25  acc=0.864
+  [hard_wta] epoch  10/25  acc=0.864
+  [hard_wta] epoch  15/25  acc=0.862
+  [hard_wta] epoch  20/25  acc=0.863
+  [hard_wta] epoch  25/25  acc=0.864
+  [hard_wta] Gating done in 0.2 min
+
+============================================================
+  [hard_wta] 4/7  Generating samples (N=2048)
+============================================================
+  [hard_wta] baseline (euler) ...
+  [hard_wta] baseline (heun) ...
+  [hard_wta] mcl single_expert ...
+  [hard_wta] mcl random_expert ...
+  [hard_wta] mcl best_expert ...
+  [hard_wta] mcl mixture_score ...
+  [hard_wta] mcl gated ...
+  [hard_wta] expert 0 grid ...
+  [hard_wta] expert 1 grid ...
+  [hard_wta] expert 2 grid ...
+  [hard_wta] expert 3 grid ...
+  [hard_wta] Sampling done in 3.6 min
+
+============================================================
+  [hard_wta] 5/7  Evaluation (FID, Precision, Recall)
+============================================================
+  Classifier epoch 1: acc=0.9764
+  Classifier epoch 2: acc=0.9814
+  Classifier epoch 3: acc=0.9860
+  Classifier epoch 4: acc=0.9878
+  Classifier epoch 5: acc=0.9893
+  [hard_wta] baseline_euler        FID=  113.62  P=0.4316  R=0.8325
+  [hard_wta] baseline_heun         FID=  111.44  P=0.4341  R=0.8325
+  [hard_wta] single_expert         FID=   53.80  P=0.6787  R=0.8306
+  [hard_wta] random_expert         FID= 2169.02  P=0.0000  R=0.0000
+  [hard_wta] best_expert           FID= 2547.13  P=0.0000  R=0.0000
+  [hard_wta] mixture_score         FID= 1860.00  P=0.0000  R=0.0000
+  [hard_wta] gated                 FID=   49.50  P=0.6611  R=0.8389
+  [hard_wta] Evaluation done in 0.5 min
+
+============================================================
+  [hard_wta] 6/7  Analysis & visualisation
+============================================================
+  [hard_wta] expert vs digit ...
+  [hard_wta] expert vs sigma ...
+  [hard_wta] multi-expert grid ...
+  [hard_wta] trajectory ...
+  [hard_wta] strategy comparison ...
+  [hard_wta] Analysis done in 0.4 min
+
+============================================================
+  [hard_wta] 7/7  Summary figures
+============================================================
+
+============================================================
+  [hard_wta] PIPELINE COMPLETE
+  Checkpoints:  checkpoints_hard_wta/
+  Outputs:      outputs_hard_wta/
+  Analysis:     outputs_hard_wta/analysis/
+============================================================

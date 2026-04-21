@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Backups / scratch
+*.bak
+*.bak_*
+*.swp
+*.swo
+
+# IDE
+.vscode/
+.idea/
+.cursor/
+
+# Virtual environments
+venv/
+.venv/
+
+# OS
+.DS_Store
+Thumbs.db

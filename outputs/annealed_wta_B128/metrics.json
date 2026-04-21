@@ -1,0 +1,37 @@
+{
+  "baseline_euler": {
+    "fid": 113.61537843553268,
+    "precision": 0.431640625,
+    "recall": 0.83251953125
+  },
+  "baseline_heun": {
+    "fid": 111.43938671263669,
+    "precision": 0.43408203125,
+    "recall": 0.83251953125
+  },
+  "single_expert": {
+    "fid": 335.36579959681876,
+    "precision": 0.43505859375,
+    "recall": 0.68408203125
+  },
+  "random_expert": {
+    "fid": 2112.1077350170312,
+    "precision": 0.0,
+    "recall": 0.0
+  },
+  "best_expert": {
+    "fid": 2550.456412862316,
+    "precision": 0.0,
+    "recall": 0.0
+  },
+  "mixture_score": {
+    "fid": 2365.240064883976,
+    "precision": 0.0,
+    "recall": 0.0
+  },
+  "gated": {
+    "fid": 93.51177885798721,
+    "precision": 0.66552734375,
+    "recall": 0.8515625
+  }
+}

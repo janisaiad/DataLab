@@ -1,0 +1,18 @@
+4 runs discovered.
+
+=== annealed_wta (1 runs) ===
+    K     B   gated FID   single FID  baseline_heun
+    4   512       88.25       339.12         111.44
+
+=== hard_wta (1 runs) ===
+    K     B   gated FID   single FID  baseline_heun
+    4   512       49.50        53.80         111.44
+
+=== relaxed_wta (1 runs) ===
+    K     B   gated FID   single FID  baseline_heun
+    4   512      116.48       116.26         111.44
+
+=== resilient_mcl (1 runs) ===
+    K     B   gated FID   single FID  baseline_heun
+    4   512       13.49        13.42         111.44
+

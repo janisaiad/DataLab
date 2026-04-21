@@ -1,0 +1,19 @@
+\begin{table}[t]
+\centering
+\caption{Expert usage analysis at training end (averaged over the last 10 epochs). $K_{\text{eff}} = \exp(H(\text{usage}))$ is the effective number of active experts (information-theoretic). $K_{\text{eff}} \ll K$ signals collapse.}
+\label{tab:expert_collapse}
+\small
+\begin{tabular}{llcccc}
+\toprule
+\textbf{Variant} & $K$ & \textbf{Starved} ($<5\%$) & $K_{\text{eff}}$ & \textbf{Max usage} & \textbf{Min usage} \\
+\midrule
+\texttt{annealed\_wta} & 4 & 0/4 & 3.83 & 0.325 & 0.173 \\
+\midrule
+\texttt{hard\_wta} & 4 & 2/4 & 1.99 & 0.551 & 0.000 \\
+\midrule
+\texttt{relaxed\_wta} & 4 & 0/4 & 3.86 & 0.364 & 0.188 \\
+\midrule
+\texttt{resilient\_mcl} & 4 & 2/4 & 1.77 & 0.744 & 0.000 \\
+\bottomrule
+\end{tabular}
+\end{table}

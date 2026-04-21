@@ -1,0 +1,17 @@
+=== K=2, batch_size=100, annealed_wta ===
+Node: juliet3.cluster.local
+GPU: NVIDIA A100-SXM4-80GB
+[annealed_wta_K2_B100] Device: cuda
+[annealed_wta_K2_B100] GPU: NVIDIA A100-SXM4-80GB
+
+[annealed_wta_K2_B100] Reusing baseline from checkpoints/baseline_final.pt
+
+============================================================
+  [annealed_wta_K2_B100] 2/7  MCL training K=2 (200 epochs, annealed_wta)
+============================================================
+  total params: 1,802,242  (901,121 per expert)
+  [annealed_wta_K2_B100] epoch   5/200  loss=0.0907  usage=['0.76', '0.24']  τ=8.704
+  [annealed_wta_K2_B100] epoch  10/200  loss=0.0584  usage=['0.70', '0.30']  τ=7.317
+  [annealed_wta_K2_B100] epoch  15/200  loss=0.0565  usage=['0.66', '0.34']  τ=6.151
+  [annealed_wta_K2_B100] epoch  20/200  loss=0.0548  usage=['0.61', '0.39']  τ=5.171
+  [annealed_wta_K2_B100] epoch  25/200  loss=0.0541  usage=['0.59', '0.41']  τ=4.347

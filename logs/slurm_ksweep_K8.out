@@ -1,0 +1,15 @@
+=== K-sweep Job Info ===
+Node: juliet3.cluster.local
+K = 8
+GPUs: NVIDIA A100-SXM4-80GB
+========================
+[annealed_wta_K8] Device: cuda
+[annealed_wta_K8] GPU: NVIDIA A100-SXM4-80GB
+
+[annealed_wta_K8] Reusing baseline from checkpoints/baseline_final.pt
+
+============================================================
+  [annealed_wta_K8] 2/7  MCL training K=8 (200 epochs, annealed_wta)
+============================================================
+  total params: 7,208,968  (901,121 per expert)
+  [annealed_wta_K8] epoch   5/200  loss=0.0558  usage=['0.16', '0.14', '0.12', '0.10', '0.00', '0.00', '0.22', '0.26']  τ=8.704

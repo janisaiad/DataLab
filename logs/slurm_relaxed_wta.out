@@ -1,0 +1,154 @@
+[relaxed_wta] Device: cuda
+[relaxed_wta] GPU: NVIDIA A100-SXM4-80GB
+
+============================================================
+  [relaxed_wta] 1/7  Baseline training (200 epochs)
+============================================================
+  params: 901,121
+  [relaxed_wta] epoch   5/200  loss=0.0865
+  [relaxed_wta] epoch  10/200  loss=0.0722
+  [relaxed_wta] epoch  15/200  loss=0.0664
+  [relaxed_wta] epoch  20/200  loss=0.0631
+  [relaxed_wta] epoch  25/200  loss=0.0611
+  [relaxed_wta] epoch  30/200  loss=0.0595
+  [relaxed_wta] epoch  35/200  loss=0.0584
+  [relaxed_wta] epoch  40/200  loss=0.0575
+  [relaxed_wta] epoch  45/200  loss=0.0568
+  [relaxed_wta] epoch  50/200  loss=0.0563
+  [relaxed_wta] epoch  55/200  loss=0.0557
+  [relaxed_wta] epoch  60/200  loss=0.0552
+  [relaxed_wta] epoch  65/200  loss=0.0547
+  [relaxed_wta] epoch  70/200  loss=0.0544
+  [relaxed_wta] epoch  75/200  loss=0.0541
+  [relaxed_wta] epoch  80/200  loss=0.0537
+  [relaxed_wta] epoch  85/200  loss=0.0535
+  [relaxed_wta] epoch  90/200  loss=0.0532
+  [relaxed_wta] epoch  95/200  loss=0.0529
+  [relaxed_wta] epoch 100/200  loss=0.0527
+  [relaxed_wta] epoch 105/200  loss=0.0525
+  [relaxed_wta] epoch 110/200  loss=0.0522
+  [relaxed_wta] epoch 115/200  loss=0.0521
+  [relaxed_wta] epoch 120/200  loss=0.0519
+  [relaxed_wta] epoch 125/200  loss=0.0517
+  [relaxed_wta] epoch 130/200  loss=0.0515
+  [relaxed_wta] epoch 135/200  loss=0.0513
+  [relaxed_wta] epoch 140/200  loss=0.0511
+  [relaxed_wta] epoch 145/200  loss=0.0511
+  [relaxed_wta] epoch 150/200  loss=0.0509
+  [relaxed_wta] epoch 155/200  loss=0.0508
+  [relaxed_wta] epoch 160/200  loss=0.0507
+  [relaxed_wta] epoch 165/200  loss=0.0506
+  [relaxed_wta] epoch 170/200  loss=0.0504
+  [relaxed_wta] epoch 175/200  loss=0.0503
+  [relaxed_wta] epoch 180/200  loss=0.0502
+  [relaxed_wta] epoch 185/200  loss=0.0502
+  [relaxed_wta] epoch 190/200  loss=0.0500
+  [relaxed_wta] epoch 195/200  loss=0.0501
+  [relaxed_wta] epoch 200/200  loss=0.0499
+  [relaxed_wta] Baseline done in 21.1 min
+
+============================================================
+  [relaxed_wta] 2/7  MCL training K=4 (200 epochs, relaxed_wta)
+============================================================
+  total params: 3,604,484  (901,121 per expert)
+  [relaxed_wta] epoch   5/200  loss=0.0705  usage=['0.68', '0.22', '0.03', '0.06']
+  [relaxed_wta] epoch  10/200  loss=0.0661  usage=['0.58', '0.22', '0.16', '0.05']
+  [relaxed_wta] epoch  15/200  loss=0.0619  usage=['0.56', '0.19', '0.20', '0.06']
+  [relaxed_wta] epoch  20/200  loss=0.0603  usage=['0.54', '0.19', '0.21', '0.07']
+  [relaxed_wta] epoch  25/200  loss=0.0582  usage=['0.52', '0.17', '0.21', '0.09']
+  [relaxed_wta] epoch  30/200  loss=0.0573  usage=['0.50', '0.18', '0.21', '0.11']
+  [relaxed_wta] epoch  35/200  loss=0.0562  usage=['0.47', '0.18', '0.21', '0.14']
+  [relaxed_wta] epoch  40/200  loss=0.0556  usage=['0.45', '0.18', '0.21', '0.15']
+  [relaxed_wta] epoch  45/200  loss=0.0553  usage=['0.43', '0.19', '0.22', '0.16']
+  [relaxed_wta] epoch  50/200  loss=0.0547  usage=['0.42', '0.18', '0.22', '0.17']
+  [relaxed_wta] epoch  55/200  loss=0.0543  usage=['0.41', '0.19', '0.22', '0.18']
+  [relaxed_wta] epoch  60/200  loss=0.0536  usage=['0.41', '0.19', '0.22', '0.18']
+  [relaxed_wta] epoch  65/200  loss=0.0537  usage=['0.40', '0.20', '0.22', '0.19']
+  [relaxed_wta] epoch  70/200  loss=0.0534  usage=['0.40', '0.19', '0.22', '0.19']
+  [relaxed_wta] epoch  75/200  loss=0.0532  usage=['0.39', '0.19', '0.23', '0.19']
+  [relaxed_wta] epoch  80/200  loss=0.0526  usage=['0.38', '0.19', '0.23', '0.19']
+  [relaxed_wta] epoch  85/200  loss=0.0527  usage=['0.38', '0.19', '0.23', '0.20']
+  [relaxed_wta] epoch  90/200  loss=0.0524  usage=['0.39', '0.18', '0.23', '0.19']
+  [relaxed_wta] epoch  95/200  loss=0.0521  usage=['0.37', '0.19', '0.24', '0.19']
+  [relaxed_wta] epoch 100/200  loss=0.0521  usage=['0.37', '0.19', '0.24', '0.20']
+  [relaxed_wta] epoch 105/200  loss=0.0521  usage=['0.38', '0.19', '0.23', '0.19']
+  [relaxed_wta] epoch 110/200  loss=0.0518  usage=['0.38', '0.18', '0.24', '0.20']
+  [relaxed_wta] epoch 115/200  loss=0.0514  usage=['0.38', '0.18', '0.24', '0.20']
+  [relaxed_wta] epoch 120/200  loss=0.0519  usage=['0.37', '0.19', '0.24', '0.20']
+  [relaxed_wta] epoch 125/200  loss=0.0515  usage=['0.37', '0.19', '0.24', '0.20']
+  [relaxed_wta] epoch 130/200  loss=0.0517  usage=['0.37', '0.19', '0.23', '0.20']
+  [relaxed_wta] epoch 135/200  loss=0.0511  usage=['0.37', '0.18', '0.24', '0.21']
+  [relaxed_wta] epoch 140/200  loss=0.0510  usage=['0.37', '0.19', '0.24', '0.20']
+  [relaxed_wta] epoch 145/200  loss=0.0511  usage=['0.37', '0.19', '0.24', '0.20']
+  [relaxed_wta] epoch 150/200  loss=0.0510  usage=['0.37', '0.18', '0.24', '0.20']
+  [relaxed_wta] epoch 155/200  loss=0.0509  usage=['0.36', '0.19', '0.25', '0.20']
+  [relaxed_wta] epoch 160/200  loss=0.0507  usage=['0.37', '0.19', '0.25', '0.20']
+  [relaxed_wta] epoch 165/200  loss=0.0504  usage=['0.37', '0.18', '0.24', '0.20']
+  [relaxed_wta] epoch 170/200  loss=0.0505  usage=['0.37', '0.18', '0.24', '0.21']
+  [relaxed_wta] epoch 175/200  loss=0.0504  usage=['0.37', '0.18', '0.24', '0.21']
+  [relaxed_wta] epoch 180/200  loss=0.0503  usage=['0.37', '0.18', '0.24', '0.20']
+  [relaxed_wta] epoch 185/200  loss=0.0506  usage=['0.37', '0.19', '0.24', '0.20']
+  [relaxed_wta] epoch 190/200  loss=0.0503  usage=['0.37', '0.18', '0.24', '0.20']
+  [relaxed_wta] epoch 195/200  loss=0.0501  usage=['0.36', '0.19', '0.24', '0.20']
+  [relaxed_wta] epoch 200/200  loss=0.0500  usage=['0.36', '0.19', '0.25', '0.20']
+  [relaxed_wta] MCL done in 102.8 min
+
+============================================================
+  [relaxed_wta] 3/7  Gating network (25 epochs)
+============================================================
+  [relaxed_wta] Collecting winner labels ...
+  [relaxed_wta] epoch   5/25  acc=0.432
+  [relaxed_wta] epoch  10/25  acc=0.434
+  [relaxed_wta] epoch  15/25  acc=0.447
+  [relaxed_wta] epoch  20/25  acc=0.468
+  [relaxed_wta] epoch  25/25  acc=0.487
+  [relaxed_wta] Gating done in 0.2 min
+
+============================================================
+  [relaxed_wta] 4/7  Generating samples (N=2048)
+============================================================
+  [relaxed_wta] baseline (euler) ...
+  [relaxed_wta] baseline (heun) ...
+  [relaxed_wta] mcl single_expert ...
+  [relaxed_wta] mcl random_expert ...
+  [relaxed_wta] mcl best_expert ...
+  [relaxed_wta] mcl mixture_score ...
+  [relaxed_wta] mcl gated ...
+  [relaxed_wta] expert 0 grid ...
+  [relaxed_wta] expert 1 grid ...
+  [relaxed_wta] expert 2 grid ...
+  [relaxed_wta] expert 3 grid ...
+  [relaxed_wta] Sampling done in 3.6 min
+
+============================================================
+  [relaxed_wta] 5/7  Evaluation (FID, Precision, Recall)
+============================================================
+  [relaxed_wta] baseline_euler        FID=  113.62  P=0.4316  R=0.8325
+  [relaxed_wta] baseline_heun         FID=  111.44  P=0.4341  R=0.8325
+  [relaxed_wta] single_expert         FID=  116.26  P=0.6187  R=0.7710
+  [relaxed_wta] random_expert         FID=   94.04  P=0.4902  R=0.8413
+  [relaxed_wta] best_expert           FID=  423.31  P=0.3076  R=0.8394
+  [relaxed_wta] mixture_score         FID=  110.68  P=0.4795  R=0.8564
+  [relaxed_wta] gated                 FID=  116.48  P=0.5571  R=0.8188
+  [relaxed_wta] Evaluation done in 0.1 min
+
+============================================================
+  [relaxed_wta] 6/7  Analysis & visualisation
+============================================================
+  [relaxed_wta] expert vs digit ...
+  [relaxed_wta] expert vs sigma ...
+  [relaxed_wta] multi-expert grid ...
+  [relaxed_wta] trajectory ...
+  [relaxed_wta] strategy comparison ...
+  [relaxed_wta] Analysis done in 0.4 min
+
+============================================================
+  [relaxed_wta] 7/7  Summary figures
+============================================================
+
+============================================================
+  [relaxed_wta] PIPELINE COMPLETE
+  Checkpoints:  checkpoints_relaxed_wta/
+  Outputs:      outputs_relaxed_wta/
+  Analysis:     outputs_relaxed_wta/analysis/
+============================================================

@@ -1,0 +1,116 @@
+=== K=8, variant=annealed_wta, batch=512 ===
+Node: juliet3.cluster.local   GPU: NVIDIA A100-SXM4-80GB
+[annealed_wta_K8] Device: cuda
+[annealed_wta_K8] GPU: NVIDIA A100-SXM4-80GB
+
+[annealed_wta_K8] Reusing baseline from checkpoints/baseline_final.pt
+
+============================================================
+  [annealed_wta_K8] 2/7  MCL training K=8 (200 epochs, annealed_wta)
+============================================================
+  total params: 7,208,968  (901,121 per expert)
+  [annealed_wta_K8] epoch   5/200  loss=0.0565  usage=['0.17', '0.12', '0.14', '0.08', '0.00', '0.00', '0.22', '0.26']  τ=8.704
+  [annealed_wta_K8] epoch  10/200  loss=0.0560  usage=['0.21', '0.05', '0.15', '0.14', '0.00', '0.00', '0.21', '0.25']  τ=7.317
+  [annealed_wta_K8] epoch  15/200  loss=0.0532  usage=['0.22', '0.02', '0.16', '0.16', '0.00', '0.00', '0.20', '0.24']  τ=6.151
+  [annealed_wta_K8] epoch  20/200  loss=0.0501  usage=['0.21', '0.01', '0.17', '0.18', '0.00', '0.00', '0.20', '0.22']  τ=5.171
+  [annealed_wta_K8] epoch  25/200  loss=0.0480  usage=['0.21', '0.02', '0.17', '0.20', '0.00', '0.00', '0.20', '0.21']  τ=4.347
+  [annealed_wta_K8] epoch  30/200  loss=0.0469  usage=['0.18', '0.02', '0.19', '0.21', '0.00', '0.00', '0.20', '0.20']  τ=3.654
+  [annealed_wta_K8] epoch  35/200  loss=0.0459  usage=['0.19', '0.03', '0.19', '0.20', '0.00', '0.00', '0.19', '0.19']  τ=3.072
+  [annealed_wta_K8] epoch  40/200  loss=0.0449  usage=['0.19', '0.04', '0.20', '0.19', '0.00', '0.00', '0.18', '0.19']  τ=2.583
+  [annealed_wta_K8] epoch  45/200  loss=0.0445  usage=['0.17', '0.04', '0.23', '0.19', '0.00', '0.00', '0.18', '0.20']  τ=2.171
+  [annealed_wta_K8] epoch  50/200  loss=0.0438  usage=['0.17', '0.04', '0.24', '0.17', '0.00', '0.00', '0.18', '0.19']  τ=1.825
+  [annealed_wta_K8] epoch  55/200  loss=0.0433  usage=['0.17', '0.05', '0.25', '0.16', '0.00', '0.00', '0.18', '0.19']  τ=1.534
+  [annealed_wta_K8] epoch  60/200  loss=0.0432  usage=['0.18', '0.04', '0.25', '0.16', '0.00', '0.00', '0.18', '0.20']  τ=1.290
+  [annealed_wta_K8] epoch  65/200  loss=0.0430  usage=['0.18', '0.04', '0.24', '0.16', '0.00', '0.00', '0.18', '0.20']  τ=1.084
+  [annealed_wta_K8] epoch  70/200  loss=0.0425  usage=['0.17', '0.04', '0.25', '0.17', '0.00', '0.00', '0.18', '0.20']  τ=0.912
+  [annealed_wta_K8] epoch  75/200  loss=0.0426  usage=['0.18', '0.04', '0.23', '0.17', '0.00', '0.00', '0.18', '0.20']  τ=0.766
+  [annealed_wta_K8] epoch  80/200  loss=0.0349  usage=['0.16', '0.00', '0.26', '0.17', '0.00', '0.00', '0.19', '0.22']  τ=0.644
+  [annealed_wta_K8] epoch  85/200  loss=0.0409  usage=['0.17', '0.00', '0.24', '0.17', '0.00', '0.00', '0.20', '0.22']  τ=0.542
+  [annealed_wta_K8] epoch  90/200  loss=0.0411  usage=['0.17', '0.00', '0.23', '0.18', '0.00', '0.00', '0.21', '0.21']  τ=0.455
+  [annealed_wta_K8] epoch  95/200  loss=0.0403  usage=['0.19', '0.00', '0.22', '0.18', '0.00', '0.00', '0.20', '0.21']  τ=0.383
+  [annealed_wta_K8] epoch 100/200  loss=0.0399  usage=['0.17', '0.00', '0.23', '0.18', '0.00', '0.00', '0.21', '0.21']  τ=0.322
+  [annealed_wta_K8] epoch 105/200  loss=0.0406  usage=['0.17', '0.00', '0.23', '0.19', '0.00', '0.00', '0.21', '0.21']  τ=0.270
+  [annealed_wta_K8] epoch 110/200  loss=0.0408  usage=['0.19', '0.00', '0.20', '0.17', '0.00', '0.00', '0.22', '0.21']  τ=0.227
+  [annealed_wta_K8] epoch 115/200  loss=0.0406  usage=['0.17', '0.00', '0.23', '0.18', '0.00', '0.00', '0.21', '0.20']  τ=0.191
+  [annealed_wta_K8] epoch 120/200  loss=0.0400  usage=['0.18', '0.00', '0.20', '0.20', '0.00', '0.00', '0.21', '0.21']  τ=0.161
+  [annealed_wta_K8] epoch 125/200  loss=0.0394  usage=['0.15', '0.00', '0.23', '0.20', '0.00', '0.00', '0.22', '0.20']  τ=0.135
+  [annealed_wta_K8] epoch 130/200  loss=0.0411  usage=['0.16', '0.00', '0.24', '0.18', '0.00', '0.00', '0.22', '0.20']  τ=0.114
+  [annealed_wta_K8] epoch 135/200  loss=0.0403  usage=['0.19', '0.00', '0.20', '0.20', '0.00', '0.00', '0.21', '0.20']  τ=0.095
+  [annealed_wta_K8] epoch 140/200  loss=0.0396  usage=['0.17', '0.00', '0.22', '0.19', '0.00', '0.00', '0.22', '0.19']  τ=0.080
+  [annealed_wta_K8] epoch 145/200  loss=0.0394  usage=['0.20', '0.00', '0.18', '0.21', '0.00', '0.00', '0.22', '0.19']  τ=0.067
+  [annealed_wta_K8] epoch 150/200  loss=0.0372  usage=['0.24', '0.00', '0.00', '0.30', '0.00', '0.00', '0.25', '0.20']  τ=0.057
+  [annealed_wta_K8] epoch 155/200  loss=0.0366  usage=['0.22', '0.00', '0.00', '0.32', '0.00', '0.00', '0.26', '0.19']  τ=0.048
+  [annealed_wta_K8] epoch 160/200  loss=0.0355  usage=['0.22', '0.00', '0.00', '0.32', '0.00', '0.00', '0.26', '0.19']  τ=0.040
+  [annealed_wta_K8] epoch 165/200  loss=0.0375  usage=['0.24', '0.00', '0.05', '0.26', '0.00', '0.00', '0.26', '0.19']  τ=0.034
+  [annealed_wta_K8] epoch 170/200  loss=0.0373  usage=['0.22', '0.00', '0.08', '0.26', '0.00', '0.00', '0.25', '0.19']  τ=0.028
+  [annealed_wta_K8] epoch 175/200  loss=0.0375  usage=['0.21', '0.00', '0.08', '0.28', '0.00', '0.00', '0.23', '0.19']  τ=0.024
+  [annealed_wta_K8] epoch 180/200  loss=0.0359  usage=['0.24', '0.00', '0.09', '0.23', '0.00', '0.00', '0.25', '0.19']  τ=0.020
+  [annealed_wta_K8] epoch 185/200  loss=0.0378  usage=['0.19', '0.00', '0.10', '0.28', '0.00', '0.00', '0.24', '0.19']  τ=0.017
+  [annealed_wta_K8] epoch 190/200  loss=0.0387  usage=['0.20', '0.00', '0.14', '0.23', '0.00', '0.00', '0.23', '0.19']  τ=0.014
+  [annealed_wta_K8] epoch 195/200  loss=0.0381  usage=['0.19', '0.00', '0.14', '0.25', '0.00', '0.00', '0.23', '0.19']  τ=0.012
+  [annealed_wta_K8] epoch 200/200  loss=0.0382  usage=['0.20', '0.00', '0.15', '0.23', '0.00', '0.00', '0.22', '0.19']  τ=0.010
+  [annealed_wta_K8] MCL done in 164.2 min
+
+============================================================
+  [annealed_wta_K8] 3/7  Gating network (25 epochs)
+============================================================
+  [annealed_wta_K8] Collecting winner labels ...
+  [annealed_wta_K8] epoch   5/25  acc=0.507
+  [annealed_wta_K8] epoch  10/25  acc=0.511
+  [annealed_wta_K8] epoch  15/25  acc=0.515
+  [annealed_wta_K8] epoch  20/25  acc=0.524
+  [annealed_wta_K8] epoch  25/25  acc=0.532
+  [annealed_wta_K8] Gating done in 0.3 min
+
+============================================================
+  [annealed_wta_K8] 4/7  Generating samples (N=2048)
+============================================================
+  [annealed_wta_K8] baseline (euler) ...
+  [annealed_wta_K8] baseline (heun) ...
+  [annealed_wta_K8] mcl single_expert ...
+  [annealed_wta_K8] mcl random_expert ...
+  [annealed_wta_K8] mcl best_expert ...
+  [annealed_wta_K8] mcl mixture_score ...
+  [annealed_wta_K8] mcl gated ...
+  [annealed_wta_K8] expert 0 grid ...
+  [annealed_wta_K8] expert 1 grid ...
+  [annealed_wta_K8] expert 2 grid ...
+  [annealed_wta_K8] expert 3 grid ...
+  [annealed_wta_K8] expert 4 grid ...
+  [annealed_wta_K8] expert 5 grid ...
+  [annealed_wta_K8] expert 6 grid ...
+  [annealed_wta_K8] expert 7 grid ...
+  [annealed_wta_K8] Sampling done in 6.2 min
+
+============================================================
+  [annealed_wta_K8] 5/7  Evaluation (FID, Precision, Recall)
+============================================================
+  [annealed_wta_K8] baseline_euler        FID=  113.62  P=0.4316  R=0.8325
+  [annealed_wta_K8] baseline_heun         FID=  111.44  P=0.4341  R=0.8325
+  [annealed_wta_K8] single_expert         FID=  445.87  P=0.6987  R=0.8740
+  [annealed_wta_K8] random_expert         FID= 2300.35  P=0.0000  R=0.0000
+  [annealed_wta_K8] best_expert           FID= 2304.40  P=0.0000  R=0.0000
+  [annealed_wta_K8] mixture_score         FID= 2323.83  P=0.0000  R=0.0000
+  [annealed_wta_K8] gated                 FID=  105.60  P=0.6489  R=0.8579
+  [annealed_wta_K8] Evaluation done in 0.1 min
+
+============================================================
+  [annealed_wta_K8] 6/7  Analysis & visualisation
+============================================================
+  [annealed_wta_K8] expert vs digit ...
+  [annealed_wta_K8] expert vs sigma ...
+  [annealed_wta_K8] multi-expert grid ...
+  [annealed_wta_K8] trajectory ...
+  [annealed_wta_K8] strategy comparison ...
+  [annealed_wta_K8] Analysis done in 0.7 min
+
+============================================================
+  [annealed_wta_K8] 7/7  Summary figures
+============================================================
+
+============================================================
+  [annealed_wta_K8] PIPELINE COMPLETE
+  Checkpoints:  checkpoints_annealed_wta_K8/
+  Outputs:      outputs_annealed_wta_K8/
+  Analysis:     outputs_annealed_wta_K8/analysis/
+============================================================
