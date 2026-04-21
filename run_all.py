@@ -1,4 +1,9 @@
-"""Integrated pipeline tuned for GPU (SLURM): AMP + multi-worker loading."""
+"""Integrated pipeline tuned for GPU (SLURM): AMP + multi-worker loading.
+
+Single-process, in-memory version of run_pipeline.py — models stay on GPU,
+no subprocess round-trip. Reproduces the main experiment (annealed WTA, K=4)
+on an A100 in ~30 min. Same 7 stages as run_pipeline.py.
+"""
 
 import os, sys, json, time, copy
 import torch
@@ -30,17 +35,18 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 SEED = 42
 K = 4
 MCL_VARIANT = "annealed_wta"
-TAG = f"{MCL_VARIANT}_K{K}"
+TAG = f"{MCL_VARIANT}_K{K}"              # namespaces ckpts/outputs per run
 SHARED_CKPT = "checkpoints/shared"
 CKPT = f"checkpoints/{TAG}"
 OUT = f"outputs/{TAG}"
 ANALYSIS = f"{OUT}/analysis"
 
+# U-Net + Karras-style sigma range (continuous noise schedule).
 ARCH = dict(base_ch=32, ch_mult=(1, 2), num_res_blocks=2, time_dim=128, dropout=0.05)
 SIGMA_MIN, SIGMA_MAX = 0.01, 80.0
-ANNEAL_TAU_MAX = 10.0
+ANNEAL_TAU_MAX = 10.0                    # tau endpoints for annealed_wta
 ANNEAL_TAU_MIN = 0.01
-RELAXED_ALPHA = 0.1
+RELAXED_ALPHA = 0.1                      # loser weight for relaxed_wta
 
 BASELINE_EPOCHS = 200
 MCL_EPOCHS = 200
@@ -67,6 +73,7 @@ if device.type == "cuda":
 train_loader, test_loader = get_mnist_loaders(BATCH_SIZE, num_workers=NUM_WORKERS)
 
 
+# Stage 1 — baseline: denoising score matching with EMA shadow for sampling.
 print(f"\n{'='*60}\n  1/7  Baseline training ({BASELINE_EPOCHS} epochs)\n{'='*60}")
 t0 = time.time()
 
@@ -82,6 +89,7 @@ for epoch in range(1, BASELINE_EPOCHS + 1):
     eloss = 0.0
     for images, _ in train_loader:
         x0 = images.to(device, non_blocking=True)
+        # Add Gaussian noise at a random sigma; net is trained to predict the noise.
         sigma = sample_sigma_train(x0.shape[0], SIGMA_MIN, SIGMA_MAX, device)
         xt, eps = add_noise(x0, sigma)
         with autocast("cuda", enabled=USE_AMP):
@@ -112,6 +120,7 @@ print(f"  Baseline done in {(time.time()-t0)/60:.1f} min")
 baseline_model = copy.deepcopy(ema.shadow).eval()
 
 
+# Stage 2 — K experts under Winner-Takes-All (variant selected by MCL_VARIANT).
 print(f"\n{'='*60}\n  2/7  MCL training K={K} ({MCL_EPOCHS} epochs, {MCL_VARIANT})\n{'='*60}")
 t0 = time.time()
 
@@ -123,6 +132,7 @@ total_p = sum(p.numel() for p in experts.parameters())
 print(f"  total params: {total_p:,}  ({total_p//K:,} per expert)")
 
 if MCL_VARIANT == "resilient_mcl":
+    # Extra scoring head per expert; learns to predict the best expert directly.
     from src.model import ScoringHead
     scoring_heads = nn.ModuleList([ScoringHead() for _ in range(K)]).to(device)
     score_opt = torch.optim.Adam(scoring_heads.parameters(), lr=LR)
@@ -135,6 +145,7 @@ for epoch in range(1, MCL_EPOCHS + 1):
     usage = torch.zeros(K)
 
     if MCL_VARIANT == "annealed_wta":
+        # Temperature cools geometrically from TAU_MAX to TAU_MIN over training.
         progress = (epoch - 1) / max(MCL_EPOCHS - 1, 1)
         tau = ANNEAL_TAU_MAX * (ANNEAL_TAU_MIN / ANNEAL_TAU_MAX) ** progress
     if MCL_VARIANT == "resilient_mcl":
@@ -146,6 +157,7 @@ for epoch in range(1, MCL_EPOCHS + 1):
         sigma = sample_sigma_train(B, SIGMA_MIN, SIGMA_MAX, device)
         xt, eps = add_noise(x0, sigma)
 
+        # Per-sample per-expert loss; used to pick the winner(s).
         with torch.no_grad(), autocast("cuda", enabled=USE_AMP):
             ls = torch.stack([
                 (experts[k](xt, sigma) - eps).pow(2).sum(dim=(1,2,3))
@@ -153,6 +165,7 @@ for epoch in range(1, MCL_EPOCHS + 1):
             ], dim=1)
 
         if MCL_VARIANT == "hard_wta":
+            # Strict WTA: only the best expert per sample gets a gradient.
             winners = ls.argmin(dim=1)
             bloss = 0.0
             for k in range(K):
@@ -172,6 +185,7 @@ for epoch in range(1, MCL_EPOCHS + 1):
                 usage[k] += n
 
         elif MCL_VARIANT == "annealed_wta":
+            # Soft WTA: all experts update, weighted by a cooling softmax.
             weights = F.softmax(-ls / (tau + 1e-8), dim=1)
             winners = ls.argmin(dim=1)
             bloss = 0.0
@@ -193,6 +207,7 @@ for epoch in range(1, MCL_EPOCHS + 1):
                 usage[k] += (winners == k).sum().item()
 
         elif MCL_VARIANT == "relaxed_wta":
+            # Winners learn at full weight; losers still learn with weight RELAXED_ALPHA.
             winners = ls.argmin(dim=1)
             bloss = 0.0
             for k in range(K):
@@ -218,6 +233,7 @@ for epoch in range(1, MCL_EPOCHS + 1):
                 usage[k] += n_win
 
         elif MCL_VARIANT == "resilient_mcl":
+            # Winner chosen by the learned scoring heads, not by the loss directly.
             with torch.no_grad():
                 scores = torch.stack([scoring_heads[k](xt, sigma) for k in range(K)], dim=1)
             winners = scores.argmax(dim=1)
@@ -237,6 +253,7 @@ for epoch in range(1, MCL_EPOCHS + 1):
                 emas_mcl[k].update(experts[k])
                 bloss += lk.item() * n
                 usage[k] += n
+            # Train the scoring heads to predict the true best expert (cross-entropy label).
             best_expert = ls.argmin(dim=1)
             score_opt.zero_grad()
             with autocast("cuda", enabled=USE_AMP):
@@ -271,9 +288,11 @@ print(f"  MCL ({MCL_VARIANT}) done in {(time.time()-t0)/60:.1f} min")
 ema_experts = nn.ModuleList([emas_mcl[k].shadow for k in range(K)]).eval()
 
 
+# Stage 3 — gating: classifies (xt, sigma) → winning expert (supervised).
 print(f"\n{'='*60}\n  3/7  Gating network ({GATING_EPOCHS} epochs)\n{'='*60}")
 t0 = time.time()
 
+# Build the (xt, sigma, winner) training set from a few batches of noisy samples.
 print("  Collecting winner labels ...")
 xts, sigs, wins = [], [], []
 for i, (images, _) in enumerate(train_loader):
@@ -313,6 +332,7 @@ print(f"  Gating done in {(time.time()-t0)/60:.1f} min")
 del xts, sigs, wins, ds, gl
 
 
+# Stage 4 — generate N_EVAL samples per strategy (7 total) + per-expert grids.
 print(f"\n{'='*60}\n  4/7  Generating samples (N={N_EVAL})\n{'='*60}")
 t0 = time.time()
 
@@ -351,6 +371,7 @@ for name, imgs in gen.items():
 print(f"  Sampling done in {(time.time()-t0)/60:.1f} min")
 
 
+# Stage 5 — FID/P/R on small-CNN features (Inception is overkill for 28×28).
 print(f"\n{'='*60}\n  5/7  Evaluation (FID, Precision, Recall)\n{'='*60}")
 t0 = time.time()
 
@@ -371,6 +392,7 @@ with open(f"{OUT}/metrics.json", "w") as f:
 print(f"  Evaluation done in {(time.time()-t0)/60:.1f} min")
 
 
+# Stage 6 — specialisation plots (expert-vs-digit, expert-vs-sigma, trajectory, ...).
 print(f"\n{'='*60}\n  6/7  Analysis & visualisation\n{'='*60}")
 t0 = time.time()
 
@@ -404,6 +426,7 @@ plot_strategy_comparison(results, f"{ANALYSIS}/strategy_comparison.png")
 print(f"  Analysis done in {(time.time()-t0)/60:.1f} min")
 
 
+# Stage 7 — summary figures: loss curves, expert usage, FID/P/R bars.
 print(f"\n{'='*60}\n  7/7  Summary figures\n{'='*60}")
 
 fig, axes = plt.subplots(1, 2, figsize=(12, 4))

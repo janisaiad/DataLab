@@ -1,4 +1,8 @@
-"""End-to-end pipeline: train, sample, evaluate, analyse."""
+"""End-to-end pipeline (subprocess-driven): train → sample → eval → analyse.
+
+Each stage shells out to `python -m src.<module>`. Slower than run_all.py
+(no AMP, models reloaded per stage) but easier to debug stage-by-stage.
+"""
 
 import subprocess, sys, os, json, time, torch
 
@@ -6,6 +10,8 @@ PYTHON = sys.executable
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+# TAG namespaces checkpoints/outputs so variants don't overwrite each other.
+# SHARED_CKPT holds the baseline + MNIST classifier, reused across variants.
 K = 4
 MCL_VARIANT = "annealed_wta"
 TAG = f"{MCL_VARIANT}_K{K}"
@@ -15,6 +21,7 @@ OUT_DIR = os.path.join(BASE_DIR, "outputs", TAG)
 for d in [SHARED_CKPT, CKPT_DIR, OUT_DIR]:
     os.makedirs(d, exist_ok=True)
 
+# Shared U-Net arch; sigma range = Karras-style continuous noise schedule.
 ARCH = {
     "base_ch": 32,
     "ch_mult": "1 2",
@@ -50,22 +57,29 @@ def run(desc, cmd):
 
 arch_flags = " ".join(f"--{k} {v}" for k, v in ARCH.items())
 
+# Stage 1 — baseline ScoreNet (denoising score matching, EMA-shadow saved).
 run(f"1/7  Train baseline ({BASELINE_EPOCHS} epochs)",
     f"{PYTHON} -m src.train --mode baseline --epochs {BASELINE_EPOCHS} --batch_size {BATCH} "
     f"--lr 3e-4 --device {DEVICE} --out_dir {SHARED_CKPT} --save_every {SAVE_EVERY} "
     f"--seed 42 {arch_flags}")
 
+# Stage 2 — K experts under WTA. Variant controls how the winner is softened:
+#   hard_wta (only the best expert learns), annealed_wta (soft winner, cooling),
+#   relaxed_wta (losers also learn, with small weight), resilient_mcl (learned scoring head).
 run(f"2/7  Train MCL K={K} ({MCL_EPOCHS} epochs, {MCL_VARIANT})",
     f"{PYTHON} -m src.train --mode mcl --K {K} --mcl_variant {MCL_VARIANT} "
     f"--epochs {MCL_EPOCHS} --batch_size {BATCH} "
     f"--lr 3e-4 --device {DEVICE} --out_dir {CKPT_DIR} --save_every {SAVE_EVERY} "
     f"--seed 42 {arch_flags}")
 
+# Stage 3 — gating p(expert | x_t, sigma), supervised on winner-expert labels.
 run("3/7  Train gating network",
     f"{PYTHON} -m src.gating --mcl_ckpt {CKPT_DIR}/mcl_K{K}_final.pt "
     f"--epochs {GATING_EPOCHS} --batch_size 512 --collect_batches 80 "
     f"--device {DEVICE} --out_dir {CKPT_DIR}")
 
+# Stage 4 — sampling. 5 MCL strategies: single_expert (expert 0 only),
+# random_expert, best_expert (best expert picked per step), mixture_score (avg scores), gated.
 N_EVAL = 2048
 strategies = [
     ("baseline",       f"--checkpoint {SHARED_CKPT}/baseline_final.pt --mode baseline"),
@@ -84,11 +98,13 @@ for name, flags in strategies:
         f"--num_steps {STEPS} --solver euler --seed 0 --device {DEVICE} "
         f"--out_dir {OUT_DIR}")
 
+# Heun 2nd-order solver on same net; isolates "bad net" vs "bad sampler" in FID.
 run("4/7  Sample [baseline_heun]",
     f"{PYTHON} -m src.sample --checkpoint {SHARED_CKPT}/baseline_final.pt "
     f"--mode baseline --num_samples {N_EVAL} --num_steps {STEPS} --solver heun "
     f"--seed 0 --device {DEVICE} --out_dir {OUT_DIR}")
 
+# Per-expert 64-image grids for the qualitative specialisation figure.
 for eid in range(K):
     run(f"4/7  Sample [expert_{eid}]",
         f"{PYTHON} -m src.sample --checkpoint {CKPT_DIR}/mcl_K{K}_final.pt "
@@ -96,6 +112,8 @@ for eid in range(K):
         f"--num_samples 64 --num_steps {STEPS} --solver euler --seed 0 "
         f"--device {DEVICE} --out_dir {OUT_DIR}")
 
+# Stage 5 — FID/P/R on classifier features (small CNN trained on-the-fly;
+# Inception would be overkill for 28×28). Same real-feature bank for every strategy.
 all_metrics = {}
 sample_files = {
     "baseline_euler":  f"{OUT_DIR}/baseline_euler_n{N_EVAL}.pt",
@@ -134,11 +152,13 @@ with open(os.path.join(OUT_DIR, "metrics.json"), "w") as f:
     json.dump(all_metrics, f, indent=2)
 print(f"\nMetrics saved -> {OUT_DIR}/metrics.json")
 
+# Stage 6 — specialisation plots (expert-vs-digit, expert-vs-sigma, trajectory, ...).
 run("6/7  Analysis plots",
     f"{PYTHON} -m src.analyze --mcl_ckpt {CKPT_DIR}/mcl_K{K}_final.pt "
     f"--baseline_ckpt {SHARED_CKPT}/baseline_final.pt "
     f"--out_dir {OUT_DIR}/analysis --num_batches 40 --seed 42 --device {DEVICE}")
 
+# Stage 7 — summary figures: loss curves, expert usage, FID/P/R bars.
 print("\n7/7  Plotting training curves ...")
 import matplotlib
 matplotlib.use("Agg")
