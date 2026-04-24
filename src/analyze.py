@@ -6,6 +6,7 @@ import torch
 import torch.nn as nn
 import numpy as np
 import matplotlib
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from tqdm import tqdm
@@ -14,13 +15,15 @@ from src.model import ScoreNet
 from src.diffusion import get_sigmas, sample_sigma_train, add_noise
 from src.utils import get_mnist_loaders, set_seed, save_image_grid
 from src.sample import (
-    load_mcl, generate_mcl, generate_baseline, load_baseline,
+    load_mcl,
+    generate_mcl,
+    generate_baseline,
+    load_baseline,
 )
 
 
 @torch.no_grad()
-def expert_vs_digit(experts, K, loader, sigma_min, sigma_max, device,
-                    num_batches=50):
+def expert_vs_digit(experts, K, loader, sigma_min, sigma_max, device, num_batches=50):
     """Count expert wins for each digit label.
 
     Args:
@@ -81,8 +84,9 @@ def plot_expert_vs_digit(counts, out_path):
 
 
 @torch.no_grad()
-def expert_vs_sigma(experts, K, loader, sigma_min, sigma_max, device,
-                    n_bins=20, num_batches=50):
+def expert_vs_sigma(
+    experts, K, loader, sigma_min, sigma_max, device, n_bins=20, num_batches=50
+):
     """Measure expert win frequency across noise-level bins.
 
     Args:
@@ -151,8 +155,9 @@ def plot_expert_vs_sigma(centres, usage, out_path):
     plt.close()
 
 
-def same_noise_multi_expert(experts, K, device, sigma_min, sigma_max,
-                            num_samples=8, num_steps=200, seed=42):
+def same_noise_multi_expert(
+    experts, K, device, sigma_min, sigma_max, num_samples=8, num_steps=200, seed=42
+):
     """Generate samples per expert from the same initial noise.
 
     Args:
@@ -171,9 +176,15 @@ def same_noise_multi_expert(experts, K, device, sigma_min, sigma_max,
     all_samples = []
     for k in range(K):
         samples = generate_mcl(
-            experts, K, strategy="single_expert", expert_id=k,
-            num_samples=num_samples, num_steps=num_steps,
-            device=device, sigma_min=sigma_min, sigma_max=sigma_max,
+            experts,
+            K,
+            strategy="single_expert",
+            expert_id=k,
+            num_samples=num_samples,
+            num_steps=num_steps,
+            device=device,
+            sigma_min=sigma_min,
+            sigma_max=sigma_max,
             seed=seed,
         )
         all_samples.append(samples)
@@ -201,8 +212,17 @@ def plot_trajectory(traj, out_path, steps_to_show=10):
     save_image_grid(imgs, out_path, nrow=steps_to_show)
 
 
-def compare_strategies(experts, K, device, sigma_min, sigma_max,
-                       num_samples=8, num_steps=200, seed=42, baseline_model=None):
+def compare_strategies(
+    experts,
+    K,
+    device,
+    sigma_min,
+    sigma_max,
+    num_samples=8,
+    num_steps=200,
+    seed=42,
+    baseline_model=None,
+):
     """Generate samples for each routing strategy with shared initial noise.
 
     Args:
@@ -222,17 +242,27 @@ def compare_strategies(experts, K, device, sigma_min, sigma_max,
     results = {}
     if baseline_model is not None:
         results["baseline"] = generate_baseline(
-            baseline_model, num_samples=num_samples, num_steps=num_steps,
-            device=device, sigma_min=sigma_min, sigma_max=sigma_max,
+            baseline_model,
+            num_samples=num_samples,
+            num_steps=num_steps,
+            device=device,
+            sigma_min=sigma_min,
+            sigma_max=sigma_max,
             seed=seed,
         )
     strategies = ["single_expert", "random_expert", "best_expert", "mixture_score"]
     for s in strategies:
         kwargs = {"strategy": s, "expert_id": 0}
         samples = generate_mcl(
-            experts, K, num_samples=num_samples, num_steps=num_steps,
-            device=device, sigma_min=sigma_min, sigma_max=sigma_max,
-            seed=seed, **kwargs,
+            experts,
+            K,
+            num_samples=num_samples,
+            num_steps=num_steps,
+            device=device,
+            sigma_min=sigma_min,
+            sigma_max=sigma_max,
+            seed=seed,
+            **kwargs,
         )
         results[s] = samples
     return results
@@ -255,8 +285,9 @@ def plot_strategy_comparison(results, out_path):
             img = results[name][c, 0].cpu().clamp(-1, 1) * 0.5 + 0.5
             axes[r, c].imshow(img, cmap="gray", vmin=0, vmax=1)
             axes[r, c].axis("off")
-        axes[r, 0].set_ylabel(name.replace("_", "\n"), fontsize=8, rotation=0,
-                               labelpad=60, va="center")
+        axes[r, 0].set_ylabel(
+            name.replace("_", "\n"), fontsize=8, rotation=0, labelpad=60, va="center"
+        )
     plt.suptitle("Strategy comparison (same initial noise)", y=1.02)
     plt.tight_layout()
     plt.savefig(out_path, dpi=150, bbox_inches="tight")
@@ -283,26 +314,51 @@ def main():
     train_loader, _ = get_mnist_loaders(batch_size=256)
 
     print("1/5  Expert vs digit heatmap ...")
-    counts = expert_vs_digit(experts, K, train_loader, sigma_min, sigma_max,
-                             device, args.num_batches)
+    counts = expert_vs_digit(
+        experts, K, train_loader, sigma_min, sigma_max, device, args.num_batches
+    )
     plot_expert_vs_digit(counts, os.path.join(args.out_dir, "expert_vs_digit.png"))
 
     print("2/5  Expert vs sigma ...")
-    centres, usage = expert_vs_sigma(experts, K, train_loader, sigma_min, sigma_max,
-                                     device, num_batches=args.num_batches)
-    plot_expert_vs_sigma(centres, usage, os.path.join(args.out_dir, "expert_vs_sigma.png"))
+    centres, usage = expert_vs_sigma(
+        experts,
+        K,
+        train_loader,
+        sigma_min,
+        sigma_max,
+        device,
+        num_batches=args.num_batches,
+    )
+    plot_expert_vs_sigma(
+        centres, usage, os.path.join(args.out_dir, "expert_vs_sigma.png")
+    )
 
     print("3/5  Same-noise multi-expert grid ...")
     all_samples = same_noise_multi_expert(
-        experts, K, device, sigma_min, sigma_max, num_samples=8, seed=args.seed,
+        experts,
+        K,
+        device,
+        sigma_min,
+        sigma_max,
+        num_samples=8,
+        seed=args.seed,
     )
-    plot_multi_expert_grid(all_samples, os.path.join(args.out_dir, "multi_expert_grid.png"))
+    plot_multi_expert_grid(
+        all_samples, os.path.join(args.out_dir, "multi_expert_grid.png")
+    )
 
     print("4/5  Denoising trajectory ...")
     samples, traj = generate_mcl(
-        experts, K, strategy="single_expert", expert_id=0,
-        num_samples=1, num_steps=200, device=device,
-        sigma_min=sigma_min, sigma_max=sigma_max, seed=args.seed,
+        experts,
+        K,
+        strategy="single_expert",
+        expert_id=0,
+        num_samples=1,
+        num_steps=200,
+        device=device,
+        sigma_min=sigma_min,
+        sigma_max=sigma_max,
+        seed=args.seed,
         return_trajectory=True,
     )
     plot_trajectory(traj, os.path.join(args.out_dir, "trajectory.png"))
@@ -312,10 +368,17 @@ def main():
     if args.baseline_ckpt:
         baseline_model, _ = load_baseline(args.baseline_ckpt, device)
     results = compare_strategies(
-        experts, K, device, sigma_min, sigma_max, seed=args.seed,
+        experts,
+        K,
+        device,
+        sigma_min,
+        sigma_max,
+        seed=args.seed,
         baseline_model=baseline_model,
     )
-    plot_strategy_comparison(results, os.path.join(args.out_dir, "strategy_comparison.png"))
+    plot_strategy_comparison(
+        results, os.path.join(args.out_dir, "strategy_comparison.png")
+    )
 
     print(f"All analysis saved to {args.out_dir}/")
 

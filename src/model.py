@@ -159,9 +159,7 @@ class ScoreNet(nn.Module):
             out_ch = base_ch * ch_mult[i]
             for _ in range(num_res_blocks + 1):
                 skip_ch = skip_channels.pop()
-                self.up_blocks.append(
-                    ResBlock(ch + skip_ch, out_ch, time_dim, dropout)
-                )
+                self.up_blocks.append(ResBlock(ch + skip_ch, out_ch, time_dim, dropout))
                 ch = out_ch
             if i > 0:
                 self.up_samples.append(Upsample(ch))

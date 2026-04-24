@@ -13,8 +13,7 @@ from src.sample import load_mcl
 
 
 @torch.no_grad()
-def collect_winners(experts, K, loader, sigma_min, sigma_max, device,
-                    num_batches=None):
+def collect_winners(experts, K, loader, sigma_min, sigma_max, device, num_batches=None):
     """Collect winner labels predicted by expert reconstruction loss.
 
     Args:
@@ -69,20 +68,30 @@ def train_gating(args):
 
     print(f"Collecting winner labels from {K} experts ...")
     x_t, sigma, winners = collect_winners(
-        experts, K, train_loader, sigma_min, sigma_max, device,
+        experts,
+        K,
+        train_loader,
+        sigma_min,
+        sigma_max,
+        device,
         num_batches=args.collect_batches,
     )
     dataset = torch.utils.data.TensorDataset(x_t, sigma, winners)
     gating_loader = torch.utils.data.DataLoader(
-        dataset, batch_size=args.batch_size, shuffle=True, drop_last=True,
+        dataset,
+        batch_size=args.batch_size,
+        shuffle=True,
+        drop_last=True,
     )
 
     gating_net = GatingNet(K=K).to(device)
     optimizer = torch.optim.Adam(gating_net.parameters(), lr=args.lr)
     criterion = nn.CrossEntropyLoss()
 
-    print(f"Training gating network  |  params: "
-          f"{sum(p.numel() for p in gating_net.parameters()):,}")
+    print(
+        f"Training gating network  |  params: "
+        f"{sum(p.numel() for p in gating_net.parameters()):,}"
+    )
 
     for epoch in range(1, args.epochs + 1):
         gating_net.train()
@@ -106,7 +115,9 @@ def train_gating(args):
 
     os.makedirs(args.out_dir, exist_ok=True)
     path = os.path.join(args.out_dir, f"gating_K{K}.pt")
-    torch.save({"gating_net": gating_net.state_dict(), "K": K, "args": vars(args)}, path)
+    torch.save(
+        {"gating_net": gating_net.state_dict(), "K": K, "args": vars(args)}, path
+    )
     print(f"Gating network saved -> {path}")
 
 
@@ -116,8 +127,12 @@ if __name__ == "__main__":
     p.add_argument("--epochs", type=int, default=20)
     p.add_argument("--batch_size", type=int, default=256)
     p.add_argument("--lr", type=float, default=1e-3)
-    p.add_argument("--collect_batches", type=int, default=100,
-                   help="Number of data batches used to collect winner labels")
+    p.add_argument(
+        "--collect_batches",
+        type=int,
+        default=100,
+        help="Number of data batches used to collect winner labels",
+    )
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     p.add_argument("--out_dir", default="checkpoints")

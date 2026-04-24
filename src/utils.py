@@ -32,12 +32,19 @@ def get_mnist_loaders(batch_size=128, data_dir="./data", num_workers=2):
     )
     pin = torch.cuda.is_available()
     train_loader = DataLoader(
-        train_ds, batch_size=batch_size, shuffle=True,
-        num_workers=num_workers, pin_memory=pin, drop_last=True,
+        train_ds,
+        batch_size=batch_size,
+        shuffle=True,
+        num_workers=num_workers,
+        pin_memory=pin,
+        drop_last=True,
     )
     test_loader = DataLoader(
-        test_ds, batch_size=batch_size, shuffle=False,
-        num_workers=num_workers, pin_memory=pin,
+        test_ds,
+        batch_size=batch_size,
+        shuffle=False,
+        num_workers=num_workers,
+        pin_memory=pin,
     )
     return train_loader, test_loader
 

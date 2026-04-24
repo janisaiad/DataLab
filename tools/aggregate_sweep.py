@@ -43,10 +43,16 @@ def discover_runs(root):
         if not os.path.exists(log_path):
             log_path = None
 
-        runs.append({
-            "variant": variant, "K": K, "B": B,
-            "tag": name, "metrics_path": metrics_path, "log_path": log_path,
-        })
+        runs.append(
+            {
+                "variant": variant,
+                "K": K,
+                "B": B,
+                "tag": name,
+                "metrics_path": metrics_path,
+                "log_path": log_path,
+            }
+        )
     return runs
 
 
@@ -84,16 +90,23 @@ def load_usage(log_path, n_avg=10):
     }
 
 
-STRATEGIES = ["baseline_euler", "baseline_heun", "single_expert",
-              "random_expert", "best_expert", "mixture_score", "gated"]
+STRATEGIES = [
+    "baseline_euler",
+    "baseline_heun",
+    "single_expert",
+    "random_expert",
+    "best_expert",
+    "mixture_score",
+    "gated",
+]
 STRAT_DISPLAY = {
     "baseline_euler": "Baseline (Euler)",
-    "baseline_heun":  "Baseline (Heun)",
-    "single_expert":  "Single Expert",
-    "random_expert":  "Random per-step",
-    "best_expert":    "Best per-step",
-    "mixture_score":  "Mixture Score",
-    "gated":          "Learned Gating",
+    "baseline_heun": "Baseline (Heun)",
+    "single_expert": "Single Expert",
+    "random_expert": "Random per-step",
+    "best_expert": "Best per-step",
+    "mixture_score": "Mixture Score",
+    "gated": "Learned Gating",
 }
 
 
@@ -106,8 +119,7 @@ def fmt(x, prec=2):
 
 def ksweep_table(runs, variant, batch_size=512):
     """LaTeX table: rows = strategies, columns = K values."""
-    rows = [r for r in runs
-            if r["variant"] == variant and r["B"] == batch_size]
+    rows = [r for r in runs if r["variant"] == variant and r["B"] == batch_size]
     rows.sort(key=lambda r: r["K"])
     if not rows:
         return f"% No runs found for variant={variant}, B={batch_size}\n"
@@ -119,9 +131,11 @@ def ksweep_table(runs, variant, batch_size=512):
     out = []
     out.append("\\begin{table}[t]")
     out.append("\\centering")
-    out.append(f"\\caption{{$K$-sweep on \\texttt{{{label}}} (batch=$ {batch_size}$, "
-               f"200 epochs, $N=2{{,}}048$). FID $\\downarrow$. Baseline rows are shared "
-               f"(single-model diffusion, no MCL).}}")
+    out.append(
+        f"\\caption{{$K$-sweep on \\texttt{{{label}}} (batch=$ {batch_size}$, "
+        f"200 epochs, $N=2{{,}}048$). FID $\\downarrow$. Baseline rows are shared "
+        f"(single-model diffusion, no MCL).}}"
+    )
     out.append(f"\\label{{tab:ksweep_{variant}}}")
     out.append("\\small")
     col_spec = "l" + "c" * len(Ks)
@@ -154,8 +168,7 @@ def ksweep_table(runs, variant, batch_size=512):
 
 def batchsweep_table(runs, variant="annealed_wta", K=4):
     """LaTeX table: rows = strategies, columns = batch sizes."""
-    rows = [r for r in runs
-            if r["variant"] == variant and r["K"] == K]
+    rows = [r for r in runs if r["variant"] == variant and r["K"] == K]
     rows.sort(key=lambda r: r["B"])
     if not rows:
         return f"% No runs found for variant={variant}, K={K}\n"
@@ -167,10 +180,12 @@ def batchsweep_table(runs, variant="annealed_wta", K=4):
     out = []
     out.append("\\begin{table}[t]")
     out.append("\\centering")
-    out.append(f"\\caption{{Batch-size sweep on \\texttt{{{label}}} ($K={K}$, 200 epochs, "
-               f"$N=2{{,}}048$). The baseline is shared across all batch sizes "
-               f"(trained once at $B=512$); only MCL re-trains per cell. "
-               f"FID $\\downarrow$.}}")
+    out.append(
+        f"\\caption{{Batch-size sweep on \\texttt{{{label}}} ($K={K}$, 200 epochs, "
+        f"$N=2{{,}}048$). The baseline is shared across all batch sizes "
+        f"(trained once at $B=512$); only MCL re-trains per cell. "
+        f"FID $\\downarrow$.}}"
+    )
     out.append(f"\\label{{tab:batchsweep_{variant}}}")
     out.append("\\small")
     col_spec = "l" + "c" * len(Bs)
@@ -215,11 +230,17 @@ def collapse_table(runs):
         usage = [max(x, 1e-8) for x in u["usage"]]
         H = -sum(x * math.log(x) for x in usage)
         keff = math.exp(H)
-        rows.append({
-            "variant": r["variant"], "K": r["K"], "starved": u["starved"],
-            "K_eff": keff, "loss": u["final_loss"],
-            "max_use": max(u["usage"]), "min_use": min(u["usage"]),
-        })
+        rows.append(
+            {
+                "variant": r["variant"],
+                "K": r["K"],
+                "starved": u["starved"],
+                "K_eff": keff,
+                "loss": u["final_loss"],
+                "max_use": max(u["usage"]),
+                "min_use": min(u["usage"]),
+            }
+        )
     rows.sort(key=lambda r: (r["variant"], r["K"]))
     if not rows:
         return "% No usage logs found.\n"
@@ -227,16 +248,20 @@ def collapse_table(runs):
     out = []
     out.append("\\begin{table}[t]")
     out.append("\\centering")
-    out.append("\\caption{Expert usage analysis at training end (averaged over the last "
-               "10 epochs). $K_{\\text{eff}} = \\exp(H(\\text{usage}))$ is the "
-               "effective number of active experts (information-theoretic). "
-               "$K_{\\text{eff}} \\ll K$ signals collapse.}")
+    out.append(
+        "\\caption{Expert usage analysis at training end (averaged over the last "
+        "10 epochs). $K_{\\text{eff}} = \\exp(H(\\text{usage}))$ is the "
+        "effective number of active experts (information-theoretic). "
+        "$K_{\\text{eff}} \\ll K$ signals collapse.}"
+    )
     out.append("\\label{tab:expert_collapse}")
     out.append("\\small")
     out.append("\\begin{tabular}{llcccc}")
     out.append("\\toprule")
-    out.append("\\textbf{Variant} & $K$ & \\textbf{Starved} ($<5\\%$) & "
-               "$K_{\\text{eff}}$ & \\textbf{Max usage} & \\textbf{Min usage} \\\\")
+    out.append(
+        "\\textbf{Variant} & $K$ & \\textbf{Starved} ($<5\\%$) & "
+        "$K_{\\text{eff}}$ & \\textbf{Max usage} & \\textbf{Min usage} \\\\"
+    )
     out.append("\\midrule")
     cur_var = None
     for r in rows:
@@ -248,8 +273,10 @@ def collapse_table(runs):
             var_cell = f"\\texttt{{{var}}}"
         else:
             var_cell = ""
-        out.append(f"{var_cell} & {r['K']} & {r['starved']}/{r['K']} & "
-                   f"{r['K_eff']:.2f} & {r['max_use']:.3f} & {r['min_use']:.3f} \\\\")
+        out.append(
+            f"{var_cell} & {r['K']} & {r['starved']}/{r['K']} & "
+            f"{r['K_eff']:.2f} & {r['max_use']:.3f} & {r['min_use']:.3f} \\\\"
+        )
     out.append("\\bottomrule")
     out.append("\\end{tabular}")
     out.append("\\end{table}")
@@ -268,6 +295,7 @@ def make_figures(runs, out_dir):
     """
     try:
         import matplotlib
+
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
     except ImportError:
@@ -277,28 +305,45 @@ def make_figures(runs, out_dir):
     saved = []
 
     fig, ax = plt.subplots(figsize=(7, 4.5))
-    for variant, color, marker in [("annealed_wta", "#1f77b4", "o"),
-                                    ("resilient_mcl", "#d62728", "s")]:
-        rows = sorted([r for r in runs
-                       if r["variant"] == variant and r["B"] == 512],
-                      key=lambda r: r["K"])
+    for variant, color, marker in [
+        ("annealed_wta", "#1f77b4", "o"),
+        ("resilient_mcl", "#d62728", "s"),
+    ]:
+        rows = sorted(
+            [r for r in runs if r["variant"] == variant and r["B"] == 512],
+            key=lambda r: r["K"],
+        )
         if not rows:
             continue
         Ks = [r["K"] for r in rows]
         for strat, ls, alpha in [("gated", "-", 1.0), ("single_expert", "--", 0.6)]:
-            fids = [load_metrics(r["metrics_path"]).get(strat, {}).get("fid") for r in rows]
+            fids = [
+                load_metrics(r["metrics_path"]).get(strat, {}).get("fid") for r in rows
+            ]
             fids = [f for f in fids if f is not None]
             if len(fids) != len(Ks):
                 continue
-            ax.plot(Ks, fids, color=color, marker=marker, linestyle=ls, alpha=alpha,
-                    label=f"{variant.replace('_', ' ')} - {strat.replace('_', ' ')}")
+            ax.plot(
+                Ks,
+                fids,
+                color=color,
+                marker=marker,
+                linestyle=ls,
+                alpha=alpha,
+                label=f"{variant.replace('_', ' ')} - {strat.replace('_', ' ')}",
+            )
     any_run = next(iter(runs), None)
     if any_run is not None:
         m = load_metrics(any_run["metrics_path"])
         bl = m.get("baseline_heun", {}).get("fid")
         if bl is not None:
-            ax.axhline(bl, color="gray", linestyle=":", alpha=0.7,
-                       label=f"Baseline Heun ({bl:.1f})")
+            ax.axhline(
+                bl,
+                color="gray",
+                linestyle=":",
+                alpha=0.7,
+                label=f"Baseline Heun ({bl:.1f})",
+            )
     ax.set_xlabel("Number of experts $K$")
     ax.set_ylabel("FID $\\downarrow$")
     ax.set_yscale("log")
@@ -311,21 +356,25 @@ def make_figures(runs, out_dir):
     plt.close(fig)
     saved.append(p)
 
-    rows = sorted([r for r in runs
-                   if r["variant"] == "annealed_wta" and r["K"] == 4],
-                  key=lambda r: r["B"])
+    rows = sorted(
+        [r for r in runs if r["variant"] == "annealed_wta" and r["K"] == 4],
+        key=lambda r: r["B"],
+    )
     if len(rows) >= 2:
         Bs = [r["B"] for r in rows]
         fig, ax = plt.subplots(figsize=(7, 4.5))
-        for strat, color, marker in [("gated", "#2ca02c", "o"),
-                                      ("single_expert", "#9467bd", "s"),
-                                      ("random_expert", "#ff7f0e", "^")]:
-            fids = [load_metrics(r["metrics_path"]).get(strat, {}).get("fid") for r in rows]
+        for strat, color, marker in [
+            ("gated", "#2ca02c", "o"),
+            ("single_expert", "#9467bd", "s"),
+            ("random_expert", "#ff7f0e", "^"),
+        ]:
+            fids = [
+                load_metrics(r["metrics_path"]).get(strat, {}).get("fid") for r in rows
+            ]
             fids = [f for f in fids if f is not None]
             if len(fids) != len(Bs):
                 continue
-            ax.plot(Bs, fids, marker=marker, color=color,
-                    label=strat.replace("_", " "))
+            ax.plot(Bs, fids, marker=marker, color=color, label=strat.replace("_", " "))
         ax.set_xscale("log", base=2)
         ax.set_xticks(Bs)
         ax.set_xticklabels(Bs)
@@ -361,15 +410,18 @@ def text_summary(runs):
     for v, rs in sorted(by_variant.items()):
         rs = sorted(rs, key=lambda r: (r["K"], r["B"]))
         lines.append(f"=== {v} ({len(rs)} runs) ===")
-        lines.append(f"  {'K':>3} {'B':>5}  {'gated FID':>10}  "
-                     f"{'single FID':>11}  {'baseline_heun':>13}")
+        lines.append(
+            f"  {'K':>3} {'B':>5}  {'gated FID':>10}  "
+            f"{'single FID':>11}  {'baseline_heun':>13}"
+        )
         for r in rs:
             m = load_metrics(r["metrics_path"])
             g = m.get("gated", {}).get("fid")
             s = m.get("single_expert", {}).get("fid")
             b = m.get("baseline_heun", {}).get("fid")
-            lines.append(f"  {r['K']:>3} {r['B']:>5}  {fmt(g):>10}  "
-                         f"{fmt(s):>11}  {fmt(b):>13}")
+            lines.append(
+                f"  {r['K']:>3} {r['B']:>5}  {fmt(g):>10}  {fmt(s):>11}  {fmt(b):>13}"
+            )
         lines.append("")
     return "\n".join(lines)
 
@@ -378,8 +430,11 @@ def main():
     """Discover runs and generate summary artefacts."""
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--root", default=".", help="Project root (default: cwd)")
-    p.add_argument("--out-dir", default="tools/sweep_artefacts",
-                   help="Output directory for tables/figures")
+    p.add_argument(
+        "--out-dir",
+        default="tools/sweep_artefacts",
+        help="Output directory for tables/figures",
+    )
     args = p.parse_args()
 
     runs = discover_runs(args.root)
@@ -402,8 +457,9 @@ def main():
         with open(os.path.join(args.out_dir, "ksweep_table.tex"), "w") as f:
             f.write("\n".join(ksweep_combined))
 
-    Bs = sorted({r["B"] for r in runs
-                 if r["variant"] == "annealed_wta" and r["K"] == 4})
+    Bs = sorted(
+        {r["B"] for r in runs if r["variant"] == "annealed_wta" and r["K"] == 4}
+    )
     if len(Bs) >= 2:
         with open(os.path.join(args.out_dir, "batchsweep_table.tex"), "w") as f:
             f.write(batchsweep_table(runs))

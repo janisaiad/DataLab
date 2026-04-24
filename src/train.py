@@ -26,8 +26,10 @@ def train_baseline(args):
 
     train_loader, _ = get_mnist_loaders(args.batch_size)
     model = ScoreNet(
-        base_ch=args.base_ch, ch_mult=tuple(args.ch_mult),
-        num_res_blocks=args.num_res_blocks, time_dim=args.time_dim,
+        base_ch=args.base_ch,
+        ch_mult=tuple(args.ch_mult),
+        num_res_blocks=args.num_res_blocks,
+        time_dim=args.time_dim,
         dropout=args.dropout,
     ).to(device)
     ema = EMA(model, decay=args.ema_decay)
@@ -70,17 +72,24 @@ def train_baseline(args):
 
         if epoch % args.save_every == 0 or epoch == args.epochs:
             ckpt = {
-                "epoch": epoch, "model": model.state_dict(),
-                "ema": ema.state_dict(), "optimizer": optimizer.state_dict(),
+                "epoch": epoch,
+                "model": model.state_dict(),
+                "ema": ema.state_dict(),
+                "optimizer": optimizer.state_dict(),
                 "scheduler": scheduler.state_dict(),
                 "args": vars(args),
             }
             torch.save(ckpt, os.path.join(args.out_dir, f"baseline_ep{epoch}.pt"))
 
             samples = generate_baseline(
-                ema.shadow, num_samples=64, num_steps=args.preview_steps,
-                device=device, sigma_min=args.sigma_min, sigma_max=args.sigma_max,
-                solver=args.preview_solver, seed=args.seed,
+                ema.shadow,
+                num_samples=64,
+                num_steps=args.preview_steps,
+                device=device,
+                sigma_min=args.sigma_min,
+                sigma_max=args.sigma_max,
+                solver=args.preview_solver,
+                seed=args.seed,
             )
             save_image_grid(
                 samples, os.path.join(args.out_dir, f"baseline_samples_ep{epoch}.png")
@@ -94,14 +103,18 @@ def train_baseline(args):
 
 def _make_experts(args, device):
     """Create K expert ScoreNet instances."""
-    experts = nn.ModuleList([
-        ScoreNet(
-            base_ch=args.base_ch, ch_mult=tuple(args.ch_mult),
-            num_res_blocks=args.num_res_blocks, time_dim=args.time_dim,
-            dropout=args.dropout,
-        )
-        for _ in range(args.K)
-    ]).to(device)
+    experts = nn.ModuleList(
+        [
+            ScoreNet(
+                base_ch=args.base_ch,
+                ch_mult=tuple(args.ch_mult),
+                num_res_blocks=args.num_res_blocks,
+                time_dim=args.time_dim,
+                dropout=args.dropout,
+            )
+            for _ in range(args.K)
+        ]
+    ).to(device)
     return experts
 
 
@@ -149,12 +162,16 @@ def _preview_and_log(experts, emas, args, epoch, log, avg_loss, usage_frac, devi
 
     if epoch % args.save_every == 0 or epoch == args.epochs:
         # Preview checkpoints do not need optimizer state, so placeholders are used.
-        _save_mcl_checkpoint(experts, emas, [None]*args.K, args, epoch, f"ep{epoch}")
+        _save_mcl_checkpoint(experts, emas, [None] * args.K, args, epoch, f"ep{epoch}")
         ema_experts = [emas[k].shadow for k in range(args.K)]
         samples = generate_mcl(
-            ema_experts, args.K, strategy="mixture_score",
-            num_samples=64, device=device,
-            sigma_min=args.sigma_min, sigma_max=args.sigma_max,
+            ema_experts,
+            args.K,
+            strategy="mixture_score",
+            num_samples=64,
+            device=device,
+            sigma_min=args.sigma_min,
+            sigma_max=args.sigma_max,
         )
         save_image_grid(
             samples,
@@ -174,7 +191,9 @@ def train_mcl_hard_wta(args):
 
     experts = _make_experts(args, device)
     emas = [EMA(experts[k], decay=args.ema_decay) for k in range(args.K)]
-    optimizers = [torch.optim.Adam(experts[k].parameters(), lr=args.lr) for k in range(args.K)]
+    optimizers = [
+        torch.optim.Adam(experts[k].parameters(), lr=args.lr) for k in range(args.K)
+    ]
 
     os.makedirs(args.out_dir, exist_ok=True)
     log = {"loss": [], "expert_usage": [], "variant": "hard_wta"}
@@ -196,10 +215,13 @@ def train_mcl_hard_wta(args):
 
             with torch.no_grad():
                 # Routing is selected from detached losses to avoid cross-expert gradients.
-                losses_det = torch.stack([
-                    (experts[k](x_t, sigma) - eps).pow(2).sum(dim=(1, 2, 3))
-                    for k in range(args.K)
-                ], dim=1)
+                losses_det = torch.stack(
+                    [
+                        (experts[k](x_t, sigma) - eps).pow(2).sum(dim=(1, 2, 3))
+                        for k in range(args.K)
+                    ],
+                    dim=1,
+                )
                 winners = losses_det.argmin(dim=1)
 
             batch_loss = 0.0
@@ -225,7 +247,9 @@ def train_mcl_hard_wta(args):
         usage_frac = (usage / usage.sum()).tolist()
         _preview_and_log(experts, emas, args, epoch, log, avg_loss, usage_frac, device)
 
-    _save_mcl_checkpoint(experts, emas, optimizers, args, args.epochs, f"K{args.K}_final")
+    _save_mcl_checkpoint(
+        experts, emas, optimizers, args, args.epochs, f"K{args.K}_final"
+    )
     with open(os.path.join(args.out_dir, f"mcl_K{args.K}_log.json"), "w") as f:
         json.dump(log, f)
     print("MCL (hard_wta) training complete.")
@@ -243,7 +267,9 @@ def train_mcl_annealed_wta(args):
 
     experts = _make_experts(args, device)
     emas = [EMA(experts[k], decay=args.ema_decay) for k in range(args.K)]
-    optimizers = [torch.optim.Adam(experts[k].parameters(), lr=args.lr) for k in range(args.K)]
+    optimizers = [
+        torch.optim.Adam(experts[k].parameters(), lr=args.lr) for k in range(args.K)
+    ]
 
     os.makedirs(args.out_dir, exist_ok=True)
     log = {"loss": [], "expert_usage": [], "variant": "annealed_wta"}
@@ -271,10 +297,13 @@ def train_mcl_annealed_wta(args):
             x_t, eps = add_noise(x_0, sigma)
 
             with torch.no_grad():
-                losses_det = torch.stack([
-                    (experts[k](x_t, sigma) - eps).pow(2).sum(dim=(1, 2, 3))
-                    for k in range(args.K)
-                ], dim=1)
+                losses_det = torch.stack(
+                    [
+                        (experts[k](x_t, sigma) - eps).pow(2).sum(dim=(1, 2, 3))
+                        for k in range(args.K)
+                    ],
+                    dim=1,
+                )
 
             # Experts are weighted by current soft assignment probabilities.
             weights = F.softmax(-losses_det / (tau + 1e-8), dim=1)
@@ -303,7 +332,9 @@ def train_mcl_annealed_wta(args):
         usage_frac = (usage / usage.sum()).tolist()
         _preview_and_log(experts, emas, args, epoch, log, avg_loss, usage_frac, device)
 
-    _save_mcl_checkpoint(experts, emas, optimizers, args, args.epochs, f"K{args.K}_final")
+    _save_mcl_checkpoint(
+        experts, emas, optimizers, args, args.epochs, f"K{args.K}_final"
+    )
     with open(os.path.join(args.out_dir, f"mcl_K{args.K}_log.json"), "w") as f:
         json.dump(log, f)
     print("MCL (annealed_wta) training complete.")
@@ -321,14 +352,18 @@ def train_mcl_relaxed_wta(args):
 
     experts = _make_experts(args, device)
     emas = [EMA(experts[k], decay=args.ema_decay) for k in range(args.K)]
-    optimizers = [torch.optim.Adam(experts[k].parameters(), lr=args.lr) for k in range(args.K)]
+    optimizers = [
+        torch.optim.Adam(experts[k].parameters(), lr=args.lr) for k in range(args.K)
+    ]
 
     os.makedirs(args.out_dir, exist_ok=True)
     log = {"loss": [], "expert_usage": [], "variant": "relaxed_wta"}
 
     alpha = args.relaxed_alpha
     total_params = sum(p.numel() for p in experts.parameters())
-    print(f"MCL (relaxed_wta, α={alpha})  |  K={args.K}  |  total params: {total_params:,}")
+    print(
+        f"MCL (relaxed_wta, α={alpha})  |  K={args.K}  |  total params: {total_params:,}"
+    )
 
     for epoch in range(1, args.epochs + 1):
         experts.train()
@@ -344,15 +379,18 @@ def train_mcl_relaxed_wta(args):
 
             with torch.no_grad():
                 # Winner assignment is detached; each expert update uses fixed routing.
-                losses_det = torch.stack([
-                    (experts[k](x_t, sigma) - eps).pow(2).sum(dim=(1, 2, 3))
-                    for k in range(args.K)
-                ], dim=1)
+                losses_det = torch.stack(
+                    [
+                        (experts[k](x_t, sigma) - eps).pow(2).sum(dim=(1, 2, 3))
+                        for k in range(args.K)
+                    ],
+                    dim=1,
+                )
                 winners = losses_det.argmin(dim=1)
 
             batch_loss = 0.0
             for k in range(args.K):
-                mask_win = (winners == k)
+                mask_win = winners == k
                 mask_lose = ~mask_win
                 n_win = mask_win.sum().item()
                 n_lose = mask_lose.sum().item()
@@ -385,7 +423,9 @@ def train_mcl_relaxed_wta(args):
         usage_frac = (usage / max(usage.sum(), 1)).tolist()
         _preview_and_log(experts, emas, args, epoch, log, avg_loss, usage_frac, device)
 
-    _save_mcl_checkpoint(experts, emas, optimizers, args, args.epochs, f"K{args.K}_final")
+    _save_mcl_checkpoint(
+        experts, emas, optimizers, args, args.epochs, f"K{args.K}_final"
+    )
     with open(os.path.join(args.out_dir, f"mcl_K{args.K}_log.json"), "w") as f:
         json.dump(log, f)
     print("MCL (relaxed_wta) training complete.")
@@ -405,14 +445,17 @@ def train_mcl_resilient(args):
     scoring_heads = nn.ModuleList([ScoringHead() for _ in range(args.K)]).to(device)
 
     emas = [EMA(experts[k], decay=args.ema_decay) for k in range(args.K)]
-    expert_optimizers = [torch.optim.Adam(experts[k].parameters(), lr=args.lr) for k in range(args.K)]
+    expert_optimizers = [
+        torch.optim.Adam(experts[k].parameters(), lr=args.lr) for k in range(args.K)
+    ]
     score_optimizer = torch.optim.Adam(scoring_heads.parameters(), lr=args.lr)
 
     os.makedirs(args.out_dir, exist_ok=True)
     log = {"loss": [], "expert_usage": [], "variant": "resilient_mcl"}
 
-    total_params = sum(p.numel() for p in experts.parameters()) + \
-                   sum(p.numel() for p in scoring_heads.parameters())
+    total_params = sum(p.numel() for p in experts.parameters()) + sum(
+        p.numel() for p in scoring_heads.parameters()
+    )
     print(f"MCL (resilient)  |  K={args.K}  |  total params: {total_params:,}")
 
     for epoch in range(1, args.epochs + 1):
@@ -430,9 +473,9 @@ def train_mcl_resilient(args):
 
             with torch.no_grad():
                 # Scoring heads choose routing; experts are updated only on assigned samples.
-                scores = torch.stack([
-                    scoring_heads[k](x_t, sigma) for k in range(args.K)
-                ], dim=1)
+                scores = torch.stack(
+                    [scoring_heads[k](x_t, sigma) for k in range(args.K)], dim=1
+                )
             winners = scores.argmax(dim=1)
 
             batch_loss = 0.0
@@ -456,22 +499,27 @@ def train_mcl_resilient(args):
                 # Keep per-sample expert errors to build a full error tensor for this batch.
                 error_full = torch.zeros(B, device=device)
                 with torch.no_grad():
-                    error_full[mask] = (eps_pred_k.detach() - eps[mask]).pow(2).mean(dim=(1, 2, 3))
+                    error_full[mask] = (
+                        (eps_pred_k.detach() - eps[mask]).pow(2).mean(dim=(1, 2, 3))
+                    )
                 per_expert_errors.append(error_full)
 
             with torch.no_grad():
                 actual_errors = torch.stack(per_expert_errors, dim=1)
                 # Target labels for scoring heads come from true best experts on this batch.
-                all_losses = torch.stack([
-                    (experts[k](x_t, sigma) - eps).pow(2).sum(dim=(1, 2, 3))
-                    for k in range(args.K)
-                ], dim=1)
+                all_losses = torch.stack(
+                    [
+                        (experts[k](x_t, sigma) - eps).pow(2).sum(dim=(1, 2, 3))
+                        for k in range(args.K)
+                    ],
+                    dim=1,
+                )
                 best_expert = all_losses.argmin(dim=1)
 
             score_optimizer.zero_grad()
-            score_logits = torch.stack([
-                scoring_heads[k](x_t, sigma) for k in range(args.K)
-            ], dim=1)
+            score_logits = torch.stack(
+                [scoring_heads[k](x_t, sigma) for k in range(args.K)], dim=1
+            )
             score_loss = F.cross_entropy(score_logits, best_expert)
             score_loss.backward()
             nn.utils.clip_grad_norm_(scoring_heads.parameters(), 1.0)
@@ -485,7 +533,12 @@ def train_mcl_resilient(args):
         _preview_and_log(experts, emas, args, epoch, log, avg_loss, usage_frac, device)
 
     _save_mcl_checkpoint(
-        experts, emas, expert_optimizers, args, args.epochs, f"K{args.K}_final",
+        experts,
+        emas,
+        expert_optimizers,
+        args,
+        args.epochs,
+        f"K{args.K}_final",
         extra={"scoring_heads": scoring_heads.state_dict()},
     )
     with open(os.path.join(args.out_dir, f"mcl_K{args.K}_log.json"), "w") as f:
@@ -509,7 +562,9 @@ def train_mcl(args):
     """
     variant = getattr(args, "mcl_variant", "hard_wta")
     if variant not in MCL_VARIANTS:
-        raise ValueError(f"Unknown MCL variant '{variant}'. Choose from: {list(MCL_VARIANTS.keys())}")
+        raise ValueError(
+            f"Unknown MCL variant '{variant}'. Choose from: {list(MCL_VARIANTS.keys())}"
+        )
     MCL_VARIANTS[variant](args)
 
 
@@ -518,10 +573,12 @@ def parse_args():
     p = argparse.ArgumentParser(description="Train diffusion model (baseline or MCL)")
     p.add_argument("--mode", choices=["baseline", "mcl"], default="baseline")
     p.add_argument("--K", type=int, default=5, help="Number of MCL experts")
-    p.add_argument("--mcl_variant",
-                   choices=["hard_wta", "annealed_wta", "relaxed_wta", "resilient_mcl"],
-                   default="hard_wta",
-                   help="MCL training variant (only used when --mode mcl)")
+    p.add_argument(
+        "--mcl_variant",
+        choices=["hard_wta", "annealed_wta", "relaxed_wta", "resilient_mcl"],
+        default="hard_wta",
+        help="MCL training variant (only used when --mode mcl)",
+    )
     p.add_argument("--base_ch", type=int, default=64)
     p.add_argument("--ch_mult", type=int, nargs="+", default=[1, 2, 4])
     p.add_argument("--num_res_blocks", type=int, default=2)
@@ -539,12 +596,24 @@ def parse_args():
     p.add_argument("--save_every", type=int, default=10)
     p.add_argument("--preview_steps", type=int, default=200)
     p.add_argument("--preview_solver", choices=["euler", "heun"], default="heun")
-    p.add_argument("--anneal_tau_max", type=float, default=10.0,
-                   help="Initial (soft) temperature for annealed WTA")
-    p.add_argument("--anneal_tau_min", type=float, default=0.01,
-                   help="Final (hard) temperature for annealed WTA")
-    p.add_argument("--relaxed_alpha", type=float, default=0.1,
-                   help="Gradient weight for losing experts in relaxed WTA")
+    p.add_argument(
+        "--anneal_tau_max",
+        type=float,
+        default=10.0,
+        help="Initial (soft) temperature for annealed WTA",
+    )
+    p.add_argument(
+        "--anneal_tau_min",
+        type=float,
+        default=0.01,
+        help="Final (hard) temperature for annealed WTA",
+    )
+    p.add_argument(
+        "--relaxed_alpha",
+        type=float,
+        default=0.1,
+        help="Gradient weight for losing experts in relaxed WTA",
+    )
     return p.parse_args()
 
 

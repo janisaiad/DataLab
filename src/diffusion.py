@@ -16,7 +16,7 @@ def get_sigmas(num_steps, sigma_min=0.01, sigma_max=80.0):
         A tensor of noise levels of length `num_steps + 1`.
     """
     ramp = torch.linspace(0, 1, num_steps)
-    sigmas = sigma_max ** (1 - ramp) * sigma_min ** ramp
+    sigmas = sigma_max ** (1 - ramp) * sigma_min**ramp
     return torch.cat([sigmas, sigmas.new_zeros(1)])
 
 

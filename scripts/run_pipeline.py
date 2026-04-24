@@ -37,6 +37,7 @@ MCL_EPOCHS = 200
 SAVE_EVERY = 20
 GATING_EPOCHS = 25
 
+
 def run(desc, cmd):
     """Run a shell command for one pipeline step.
 
@@ -44,99 +45,130 @@ def run(desc, cmd):
         desc: Human-readable step description.
         cmd: Shell command executed from `BASE_DIR`.
     """
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"  {desc}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
     t0 = time.time()
     r = subprocess.run(cmd, shell=True, cwd=BASE_DIR)
     elapsed = time.time() - t0
-    print(f"  [{desc}] done in {elapsed/60:.1f} min  (exit {r.returncode})")
+    print(f"  [{desc}] done in {elapsed / 60:.1f} min  (exit {r.returncode})")
     if r.returncode != 0:
         print(f"  ** FAILED - stopping pipeline **")
         sys.exit(1)
 
+
 arch_flags = " ".join(f"--{k} {v}" for k, v in ARCH.items())
 
 # Stage 1 — baseline ScoreNet (denoising score matching, EMA-shadow saved).
-run(f"1/7  Train baseline ({BASELINE_EPOCHS} epochs)",
+run(
+    f"1/7  Train baseline ({BASELINE_EPOCHS} epochs)",
     f"{PYTHON} -m src.train --mode baseline --epochs {BASELINE_EPOCHS} --batch_size {BATCH} "
     f"--lr 3e-4 --device {DEVICE} --out_dir {SHARED_CKPT} --save_every {SAVE_EVERY} "
-    f"--seed 42 {arch_flags}")
+    f"--seed 42 {arch_flags}",
+)
 
 # Stage 2 — K experts under WTA. Variant controls how the winner is softened:
 #   hard_wta (only the best expert learns), annealed_wta (soft winner, cooling),
 #   relaxed_wta (losers also learn, with small weight), resilient_mcl (learned scoring head).
-run(f"2/7  Train MCL K={K} ({MCL_EPOCHS} epochs, {MCL_VARIANT})",
+run(
+    f"2/7  Train MCL K={K} ({MCL_EPOCHS} epochs, {MCL_VARIANT})",
     f"{PYTHON} -m src.train --mode mcl --K {K} --mcl_variant {MCL_VARIANT} "
     f"--epochs {MCL_EPOCHS} --batch_size {BATCH} "
     f"--lr 3e-4 --device {DEVICE} --out_dir {CKPT_DIR} --save_every {SAVE_EVERY} "
-    f"--seed 42 {arch_flags}")
+    f"--seed 42 {arch_flags}",
+)
 
 # Stage 3 — gating p(expert | x_t, sigma), supervised on winner-expert labels.
-run("3/7  Train gating network",
+run(
+    "3/7  Train gating network",
     f"{PYTHON} -m src.gating --mcl_ckpt {CKPT_DIR}/mcl_K{K}_final.pt "
     f"--epochs {GATING_EPOCHS} --batch_size 512 --collect_batches 80 "
-    f"--device {DEVICE} --out_dir {CKPT_DIR}")
+    f"--device {DEVICE} --out_dir {CKPT_DIR}",
+)
 
 # Stage 4 — sampling. 5 MCL strategies: single_expert (expert 0 only),
 # random_expert, best_expert (best expert picked per step), mixture_score (avg scores), gated.
 N_EVAL = 2048
 strategies = [
-    ("baseline",       f"--checkpoint {SHARED_CKPT}/baseline_final.pt --mode baseline"),
-    ("single_expert",  f"--checkpoint {CKPT_DIR}/mcl_K{K}_final.pt --mode mcl --strategy single_expert --expert_id 0"),
-    ("random_expert",  f"--checkpoint {CKPT_DIR}/mcl_K{K}_final.pt --mode mcl --strategy random_expert"),
-    ("best_expert",    f"--checkpoint {CKPT_DIR}/mcl_K{K}_final.pt --mode mcl --strategy best_expert"),
-    ("mixture_score",  f"--checkpoint {CKPT_DIR}/mcl_K{K}_final.pt --mode mcl --strategy mixture_score"),
-    ("gated",          f"--checkpoint {CKPT_DIR}/mcl_K{K}_final.pt --mode mcl --strategy gated "
-                       f"--gating_ckpt {CKPT_DIR}/gating_K{K}.pt"),
+    ("baseline", f"--checkpoint {SHARED_CKPT}/baseline_final.pt --mode baseline"),
+    (
+        "single_expert",
+        f"--checkpoint {CKPT_DIR}/mcl_K{K}_final.pt --mode mcl --strategy single_expert --expert_id 0",
+    ),
+    (
+        "random_expert",
+        f"--checkpoint {CKPT_DIR}/mcl_K{K}_final.pt --mode mcl --strategy random_expert",
+    ),
+    (
+        "best_expert",
+        f"--checkpoint {CKPT_DIR}/mcl_K{K}_final.pt --mode mcl --strategy best_expert",
+    ),
+    (
+        "mixture_score",
+        f"--checkpoint {CKPT_DIR}/mcl_K{K}_final.pt --mode mcl --strategy mixture_score",
+    ),
+    (
+        "gated",
+        f"--checkpoint {CKPT_DIR}/mcl_K{K}_final.pt --mode mcl --strategy gated "
+        f"--gating_ckpt {CKPT_DIR}/gating_K{K}.pt",
+    ),
 ]
 
 STEPS = 200
 for name, flags in strategies:
-    run(f"4/7  Sample [{name}]",
+    run(
+        f"4/7  Sample [{name}]",
         f"{PYTHON} -m src.sample {flags} --num_samples {N_EVAL} "
         f"--num_steps {STEPS} --solver euler --seed 0 --device {DEVICE} "
-        f"--out_dir {OUT_DIR}")
+        f"--out_dir {OUT_DIR}",
+    )
 
 # Heun 2nd-order solver on same net; isolates "bad net" vs "bad sampler" in FID.
-run("4/7  Sample [baseline_heun]",
+run(
+    "4/7  Sample [baseline_heun]",
     f"{PYTHON} -m src.sample --checkpoint {SHARED_CKPT}/baseline_final.pt "
     f"--mode baseline --num_samples {N_EVAL} --num_steps {STEPS} --solver heun "
-    f"--seed 0 --device {DEVICE} --out_dir {OUT_DIR}")
+    f"--seed 0 --device {DEVICE} --out_dir {OUT_DIR}",
+)
 
 # Per-expert 64-image grids for the qualitative specialisation figure.
 for eid in range(K):
-    run(f"4/7  Sample [expert_{eid}]",
+    run(
+        f"4/7  Sample [expert_{eid}]",
         f"{PYTHON} -m src.sample --checkpoint {CKPT_DIR}/mcl_K{K}_final.pt "
         f"--mode mcl --strategy single_expert --expert_id {eid} "
         f"--num_samples 64 --num_steps {STEPS} --solver euler --seed 0 "
-        f"--device {DEVICE} --out_dir {OUT_DIR}")
+        f"--device {DEVICE} --out_dir {OUT_DIR}",
+    )
 
 # Stage 5 — FID/P/R on classifier features (small CNN trained on-the-fly;
 # Inception would be overkill for 28×28). Same real-feature bank for every strategy.
 all_metrics = {}
 sample_files = {
-    "baseline_euler":  f"{OUT_DIR}/baseline_euler_n{N_EVAL}.pt",
-    "baseline_heun":   f"{OUT_DIR}/baseline_heun_n{N_EVAL}.pt",
-    "single_expert":   f"{OUT_DIR}/mcl_K{K}_single_expert_e0_euler_n{N_EVAL}.pt",
-    "random_expert":   f"{OUT_DIR}/mcl_K{K}_random_expert_euler_n{N_EVAL}.pt",
-    "best_expert":     f"{OUT_DIR}/mcl_K{K}_best_expert_euler_n{N_EVAL}.pt",
-    "mixture_score":   f"{OUT_DIR}/mcl_K{K}_mixture_score_euler_n{N_EVAL}.pt",
-    "gated":           f"{OUT_DIR}/mcl_K{K}_gated_euler_n{N_EVAL}.pt",
+    "baseline_euler": f"{OUT_DIR}/baseline_euler_n{N_EVAL}.pt",
+    "baseline_heun": f"{OUT_DIR}/baseline_heun_n{N_EVAL}.pt",
+    "single_expert": f"{OUT_DIR}/mcl_K{K}_single_expert_e0_euler_n{N_EVAL}.pt",
+    "random_expert": f"{OUT_DIR}/mcl_K{K}_random_expert_euler_n{N_EVAL}.pt",
+    "best_expert": f"{OUT_DIR}/mcl_K{K}_best_expert_euler_n{N_EVAL}.pt",
+    "mixture_score": f"{OUT_DIR}/mcl_K{K}_mixture_score_euler_n{N_EVAL}.pt",
+    "gated": f"{OUT_DIR}/mcl_K{K}_gated_euler_n{N_EVAL}.pt",
 }
 
 for name, pt_path in sample_files.items():
     if not os.path.exists(pt_path):
         print(f"  [SKIP] {pt_path} not found")
         continue
-    run(f"5/7  Evaluate [{name}]",
+    run(
+        f"5/7  Evaluate [{name}]",
         f"{PYTHON} -m src.evaluate --samples_pt {pt_path} "
-        f"--num_samples {N_EVAL} --k 5 --device {DEVICE}")
+        f"--num_samples {N_EVAL} --k 5 --device {DEVICE}",
+    )
 
 print("\n\nCollecting metrics programmatically ...")
 sys.path.insert(0, BASE_DIR)
 from src.evaluate import evaluate
 from src.utils import get_mnist_loaders
+
 _, test_loader = get_mnist_loaders(batch_size=512)
 real_images = torch.cat([x for x, _ in test_loader])[:N_EVAL]
 
@@ -146,21 +178,26 @@ for name, pt_path in sample_files.items():
     gen = torch.load(pt_path, weights_only=True)[:N_EVAL]
     m = evaluate(real_images, gen, device=DEVICE, k=5)
     all_metrics[name] = m
-    print(f"  {name:20s}  FID={m['fid']:8.2f}  P={m['precision']:.4f}  R={m['recall']:.4f}")
+    print(
+        f"  {name:20s}  FID={m['fid']:8.2f}  P={m['precision']:.4f}  R={m['recall']:.4f}"
+    )
 
 with open(os.path.join(OUT_DIR, "metrics.json"), "w") as f:
     json.dump(all_metrics, f, indent=2)
 print(f"\nMetrics saved -> {OUT_DIR}/metrics.json")
 
 # Stage 6 — specialisation plots (expert-vs-digit, expert-vs-sigma, trajectory, ...).
-run("6/7  Analysis plots",
+run(
+    "6/7  Analysis plots",
     f"{PYTHON} -m src.analyze --mcl_ckpt {CKPT_DIR}/mcl_K{K}_final.pt "
     f"--baseline_ckpt {SHARED_CKPT}/baseline_final.pt "
-    f"--out_dir {OUT_DIR}/analysis --num_batches 40 --seed 42 --device {DEVICE}")
+    f"--out_dir {OUT_DIR}/analysis --num_batches 40 --seed 42 --device {DEVICE}",
+)
 
 # Stage 7 — summary figures: loss curves, expert usage, FID/P/R bars.
 print("\n7/7  Plotting training curves ...")
 import matplotlib
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
@@ -195,6 +232,7 @@ if os.path.exists(mcl_log):
         ml = json.load(f)
     if "expert_usage" in ml and ml["expert_usage"]:
         import numpy as np
+
         usage = np.array(ml["expert_usage"])
         fig, ax = plt.subplots(figsize=(8, 4))
         for k in range(usage.shape[1]):
@@ -205,7 +243,11 @@ if os.path.exists(mcl_log):
         ax.legend()
         ax.grid(True, alpha=0.3)
         plt.tight_layout()
-        plt.savefig(os.path.join(OUT_DIR, "expert_usage_training.png"), dpi=150, bbox_inches="tight")
+        plt.savefig(
+            os.path.join(OUT_DIR, "expert_usage_training.png"),
+            dpi=150,
+            bbox_inches="tight",
+        )
         plt.close()
 
 if all_metrics:
@@ -236,12 +278,14 @@ if all_metrics:
     axes[2].set_title("Recall Comparison")
 
     plt.tight_layout()
-    plt.savefig(os.path.join(OUT_DIR, "metrics_comparison.png"), dpi=150, bbox_inches="tight")
+    plt.savefig(
+        os.path.join(OUT_DIR, "metrics_comparison.png"), dpi=150, bbox_inches="tight"
+    )
     plt.close()
 
-print(f"\n{'='*60}")
+print(f"\n{'=' * 60}")
 print(f"  PIPELINE COMPLETE")
 print(f"  Checkpoints:  {CKPT_DIR}/")
 print(f"  Outputs:      {OUT_DIR}/")
 print(f"  Analysis:     {OUT_DIR}/analysis/")
-print(f"{'='*60}")
+print(f"{'=' * 60}")
