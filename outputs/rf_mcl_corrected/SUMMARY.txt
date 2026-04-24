@@ -1,0 +1,33 @@
+Corrected RF-MCL numerical experiments
+Params(d=64, p=512, mu=1.0, sigma0=0.5, seed=0, ridge=1e-06)
+
+A: tau=infty channels
+t=1.15, kappa=6.938, beta_free=0.09087, beta_class=0.1248, beta_trans=0.2166, align=0.6509
+t=1.458, kappa=3.61, beta_free=0.1252, beta_class=0.1471, beta_trans=0.21, align=0.8109
+t=1.767, kappa=1.911, beta_free=0.1247, beta_class=0.1475, beta_trans=0.2535, align=0.8336
+t=2.075, kappa=1.021, beta_free=0.1355, beta_class=0.1747, beta_trans=0.2963, align=0.7615
+t=2.383, kappa=0.5481, beta_free=0.2331, beta_class=0.3093, beta_trans=0.3359, align=0.7299
+t=2.692, kappa=0.2949, beta_free=0.3243, beta_class=0.5871, beta_trans=0.3604, align=0.1977
+t=3, kappa=0.1589, beta_free=0.2643, beta_class=0.6936, beta_trans=0.2696, align=0.03024
+
+B: finite tau channels
+tau=0.001, beta_free=0.00609, beta_class=0.09424, beta_trans=0.006138, align=0.008194
+tau=0.004217, beta_free=0.006149, beta_class=0.1136, beta_trans=0.006204, align=0.009283
+tau=0.01778, beta_free=0.006271, beta_class=0.08889, beta_trans=0.006324, align=0.0088
+tau=0.07499, beta_free=0.006801, beta_class=0.1086, beta_trans=0.006854, align=0.007944
+tau=0.3162, beta_free=0.009397, beta_class=0.1579, beta_trans=0.009457, align=0.006562
+tau=1.334, beta_free=0.03088, beta_class=0.1929, beta_trans=0.0312, align=0.01109
+tau=5.623, beta_free=0.1703, beta_class=0.2318, beta_trans=0.2291, align=0.4018
+tau=23.71, beta_free=0.1985, beta_class=0.2219, beta_trans=0.3197, align=0.8367
+tau=100, beta_free=0.1641, beta_class=0.2443, beta_trans=0.2561, align=0.4421
+
+C: glass fixed beta
+tau=0.001, rho=5.737e-05, beta_g_exact=2.132e+05, H_emp=0.1083, H_exact=0.1083
+tau=0.004217, rho=0.0002419, beta_g_exact=5.056e+04, H_emp=0.1083, H_exact=0.1083
+tau=0.01778, rho=0.00102, beta_g_exact=1.2e+04, H_emp=0.1083, H_exact=0.1083
+tau=0.07499, rho=0.004293, beta_g_exact=2849, H_emp=0.1083, H_exact=0.1083
+tau=0.3162, rho=0.01798, beta_g_exact=680.3, H_emp=0.1082, H_exact=0.1081
+tau=1.334, rho=0.07365, beta_g_exact=166.1, H_emp=0.1061, H_exact=0.1057
+tau=5.623, rho=0.2757, beta_g_exact=44.36, H_emp=0.08537, H_exact=0.08218
+tau=23.71, rho=0.7435, beta_g_exact=16.45, H_emp=0.04631, H_exact=0
+tau=100, rho=0.9968, beta_g_exact=12.27, H_emp=0.03749, H_exact=0

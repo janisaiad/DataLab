@@ -1,0 +1,23 @@
+{
+  "config": {
+    "sigma0": 0.7,
+    "mu": 1.2,
+    "psi_p": 64.0,
+    "alpha": 0.08,
+    "t_min": 0.05,
+    "t_max": 2.2,
+    "n_t": 70,
+    "tau_min": 0.0,
+    "tau_max": 10000.0,
+    "n_tau": 80,
+    "n_mc": 40000,
+    "random_seed": 42
+  },
+  "summary": {
+    "beta_spec_min": 0.47409981060153,
+    "beta_spec_max": 21.343074498528864,
+    "lambda_rf_min": 0.177181654833787,
+    "lambda_rf_max": 1.4001606247137302,
+    "class_alignment_fraction": 1.0
+  }
+}

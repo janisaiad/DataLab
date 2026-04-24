@@ -1,0 +1,30 @@
+{
+  "data_info": {
+    "classes": [
+      "automobile",
+      "horse"
+    ],
+    "raw_dim": 3072,
+    "global_std": 0.5141243934631348,
+    "d_mode": "rp",
+    "d": 128
+  },
+  "channels": {
+    "lambda_free": 82.81370544433594,
+    "lambda_class": 2.8599095344543457,
+    "lambda_trans": 2.783156633377075,
+    "beta_free": 0.00603764796318741,
+    "beta_class": 0.17483070494931222,
+    "beta_trans": 0.17965212378047563,
+    "free_align_m": 0.08050838857889175
+  },
+  "glass": {
+    "alpha": 0.04997601293137614,
+    "r_t": 0.05239569649125595,
+    "v_emp": 0.2155480980873108,
+    "beta_glass_emp": 0.6809632942542221,
+    "E_mean_per_d": 0.1018686443567276
+  },
+  "beta_target": 0.30643348241439994,
+  "no_window_warning": false
+}

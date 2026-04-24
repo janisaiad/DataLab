@@ -1,0 +1,118 @@
+RF-MCL CIFAR expert training v2
+{
+  "data_root": "./data",
+  "classes": [
+    "automobile",
+    "horse"
+  ],
+  "d_mode": "pca",
+  "pca_dim": 512,
+  "rp_dim": 512,
+  "p": 512,
+  "K": 4,
+  "t": 1.5,
+  "n_train": 6000,
+  "n_test": 2000,
+  "batch_size": 192,
+  "steps": 3000,
+  "lr": 0.002,
+  "weight_decay": 0.0,
+  "init_std": 0.001,
+  "seed": 0,
+  "calib_steps": 900,
+  "warmup_steps": 600,
+  "ramp_steps": 900,
+  "eval_every": 200,
+  "power_iters": 20,
+  "ridge": 1e-05,
+  "beta_target_mult": 3.0,
+  "beta_glass_safety": 0.45,
+  "cold_mult_glass": 1.2,
+  "device": "auto",
+  "outdir": "./rf_mcl_cifar_pca",
+  "no_download": false,
+  "beta_grid": false
+}
+
+Data info:
+{
+  "classes": [
+    "automobile",
+    "horse"
+  ],
+  "raw_dim": 3072,
+  "global_std": 0.5098379254341125,
+  "d_mode": "pca",
+  "d": 512
+}
+
+Channels:
+  lambda_free: 172.7288055419922
+  lambda_class: 2.1545116901397705
+  lambda_trans: 2.3518309593200684
+  beta_free: 0.0028947111538870874
+  beta_class: 0.23207114739184695
+  beta_trans: 0.21260031381866296
+  free_align_m: 0.045483365654945374
+
+Glass:
+  alpha: 0.015637436655566887
+  r_t: 0.05239569649125595
+  v_emp: 0.47297659516334534
+  beta_glass_emp: 0.25714492307089903
+  E_mean_per_d: 0.10487639904022217
+
+Chosen beta_target: 0.6962134421755408
+WARNING: class/glass window narrow or absent; target uses class multiplier.
+
+Final metrics by variant:
+
+[uniform]
+  beta: 0.0
+  test_best_mse: 0.3421788811683655
+  test_class_mi_norm: 0.0009837179677560925
+  test_class_purity: 0.033203136816155165
+  test_usage_entropy: 0.9992148876190186
+  test_eff_frac_min: 1.0
+  test_expert_align_m: 0.04523086175322533
+  test_expert_diversity: 0.000317790632834658
+
+[hard_cold]
+  beta: 1.0443201632633112
+  test_best_mse: 0.33721041679382324
+  test_class_mi_norm: 0.0
+  test_class_purity: 0.046875
+  test_usage_entropy: -0.0
+  test_eff_frac_min: 0.0009765625
+  test_expert_align_m: 0.04390304163098335
+  test_expert_diversity: 0.8234187364578247
+
+[fixed_class]
+  beta: 0.27848537687021635
+  test_best_mse: 0.3307521641254425
+  test_class_mi_norm: 0.0
+  test_class_purity: 0.044921875
+  test_usage_entropy: -0.0
+  test_eff_frac_min: 0.0009765625
+  test_expert_align_m: 0.04368682950735092
+  test_expert_diversity: 0.7423891425132751
+
+[fixed_good]
+  beta: 0.6962134421755408
+  test_best_mse: 0.33436885476112366
+  test_class_mi_norm: 0.0
+  test_class_purity: 0.017578125
+  test_usage_entropy: -0.0
+  test_eff_frac_min: 0.0009765625
+  test_expert_align_m: 0.04376531019806862
+  test_expert_diversity: 0.8049576282501221
+
+[theory_anneal]
+  beta: 0.6962134421755408
+  test_best_mse: 0.3204823434352875
+  test_class_mi_norm: 0.0
+  test_class_purity: 0.021484375
+  test_usage_entropy: -0.0
+  test_eff_frac_min: 0.000977285555563867
+  test_expert_align_m: 0.0428081713616848
+  test_expert_diversity: 0.3459501564502716

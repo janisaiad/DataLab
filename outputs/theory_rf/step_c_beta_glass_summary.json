@@ -1,0 +1,24 @@
+{
+  "config": {
+    "sigma0": 0.7,
+    "mu": 1.2,
+    "psi_p": 64.0,
+    "alpha": 0.08,
+    "t_min": 0.05,
+    "t_max": 2.2,
+    "n_t": 70,
+    "tau_min": 0.0,
+    "tau_max": 10000.0,
+    "n_tau": 80,
+    "n_mc": 60000,
+    "random_seed": 42
+  },
+  "summary": {
+    "beta_glass_approx_min": 0.012141562343657092,
+    "beta_glass_approx_max": 80000000000.0,
+    "beta_glass_exact_min": 0.04653249556426528,
+    "beta_glass_exact_max": 867194971522.4386,
+    "tau_mem_min": 6.327687166138347,
+    "tau_mem_max": 65.67707465477663
+  }
+}
