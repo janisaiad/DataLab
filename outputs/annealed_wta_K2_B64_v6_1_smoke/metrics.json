@@ -1,0 +1,52 @@
+{
+  "baseline_euler": {
+    "fid": 437.8709844662038,
+    "precision": 0.75,
+    "recall": 0.671875
+  },
+  "baseline_heun": {
+    "fid": 357.31634489085155,
+    "precision": 0.796875,
+    "recall": 0.890625
+  },
+  "single_expert": {
+    "fid": 3583.0717661385333,
+    "precision": 0.0625,
+    "recall": 0.0
+  },
+  "random_expert": {
+    "fid": 3406.1726326371167,
+    "precision": 0.078125,
+    "recall": 0.0
+  },
+  "best_expert": {
+    "fid": 3521.6047712380832,
+    "precision": 0.078125,
+    "recall": 0.0
+  },
+  "mixture_score": {
+    "fid": 3438.4790871491623,
+    "precision": 0.046875,
+    "recall": 0.0
+  },
+  "gated": {
+    "fid": 3583.0717661385333,
+    "precision": 0.0625,
+    "recall": 0.0
+  },
+  "gated_softmix": {
+    "fid": 3580.89995754061,
+    "precision": 0.0625,
+    "recall": 0.0
+  },
+  "gated_confident": {
+    "fid": 3580.89995754061,
+    "precision": 0.0625,
+    "recall": 0.0
+  },
+  "legacy_single_expert_e0": {
+    "fid": 3583.071760728478,
+    "precision": 0.0625,
+    "recall": 0.0
+  }
+}

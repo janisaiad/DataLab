@@ -1,1 +1,1 @@
-{"loss": [], "expert_usage": [], "variant": "annealed_wta"}
+{"loss": [0.16483267875469768], "expert_usage": [[0.7468649744987488, 0.25313499569892883]], "variant": "annealed_wta"}

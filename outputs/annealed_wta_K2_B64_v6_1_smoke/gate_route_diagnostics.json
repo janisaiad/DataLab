@@ -1,0 +1,7 @@
+  {
+  "gate_usage_max_fraction": 1.0,
+  "gate_usage_entropy": 3.986313709680722e-11,
+  "mean_gate_maxprob": 0.9939060509204865,
+  "fallback_fraction": 1.0,
+  "gate_status_on_generated_traj": "not_collapsed_or_mixed"
+}

@@ -1,0 +1,27 @@
+{
+  "baseline_heun": {
+    "fid": 151.19850767184113,
+    "precision": 0.53125,
+    "recall": 0.91796875
+  },
+  "single_expert": {
+    "fid": 370.12122839628086,
+    "precision": 0.7578125,
+    "recall": 0.765625
+  },
+  "best_expert": {
+    "fid": 315.2247729715124,
+    "precision": 0.49609375,
+    "recall": 0.8828125
+  },
+  "mixture_score": {
+    "fid": 161.3940444811816,
+    "precision": 0.3984375,
+    "recall": 0.8359375
+  },
+  "gated": {
+    "fid": 116.9885931587375,
+    "precision": 0.66015625,
+    "recall": 0.8203125
+  }
+}

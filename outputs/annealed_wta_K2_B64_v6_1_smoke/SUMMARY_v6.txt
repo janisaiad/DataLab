@@ -1,0 +1,32 @@
+V6 MCL diffusion run: annealed_wta_K2_B64_v6_1_smoke
+================================================================================
+
+Gate teacher status: near_uniform_or_low_margin_router_likely_uninformative
+Gate route status on generated traj: not_collapsed_or_mixed
+Confident labels: 512/512 (1.000)
+Margin threshold: 0.000082
+Confident winner usage: [0.482421875, 0.517578125]
+Gate val acc: 0.9608; confident acc: 0.9824; all acc: 0.9824
+
+Metrics:
+  baseline_euler           FID=  437.8710  P=0.7500  R=0.6719
+  baseline_heun            FID=  357.3163  P=0.7969  R=0.8906
+  single_expert            FID= 3583.0718  P=0.0625  R=0.0000
+  random_expert            FID= 3406.1726  P=0.0781  R=0.0000
+  best_expert              FID= 3521.6048  P=0.0781  R=0.0000
+  mixture_score            FID= 3438.4791  P=0.0469  R=0.0000
+  gated                    FID= 3583.0718  P=0.0625  R=0.0000
+  gated_softmix            FID= 3580.9000  P=0.0625  R=0.0000
+  gated_confident          FID= 3580.9000  P=0.0625  R=0.0000
+  legacy_single_expert_e0  FID= 3583.0718  P=0.0625  R=0.0000
+
+Ratio diagnostics:
+  single0_fid_over_gated_confident_fid: 1.0006064979819806
+  baseline_heun_fid_over_gated_confident_fid: 0.09978395071842755
+  legacy_single_e0_fid_over_v6_single_e0_fid: 0.9999999984901068
+  legacy_minus_v6_single_e0_fid: -5.41005556442542e-06
+
+Router trace stats:
+  gated: {'strategy': 'gated', 'gate_fallback': 'softmix', 'gate_conf_threshold': 1.0, 'default_expert': 1, 'num_samples': 64, 'num_steps': 10, 'gate_usage_counts': [640, 0], 'fallback_count': 0, 'total_route_decisions': 640, 'mean_gate_maxprob': 0.9939144134521485, 'gate_usage_fraction': [1.0, 0.0], 'fallback_fraction': 0.0, 'gate_usage_entropy': 3.986313709680722e-11}
+  gated_softmix: {'strategy': 'gated_softmix', 'gate_fallback': 'softmix', 'gate_conf_threshold': 1.0, 'default_expert': 1, 'num_samples': 64, 'num_steps': 10, 'gate_usage_counts': [640, 0], 'fallback_count': 0, 'total_route_decisions': 640, 'mean_gate_maxprob': 0.9939060509204865, 'gate_usage_fraction': [1.0, 0.0], 'fallback_fraction': 0.0, 'gate_usage_entropy': 3.986313709680722e-11}
+  gated_confident: {'strategy': 'gated_confident', 'gate_fallback': 'softmix', 'gate_conf_threshold': 1.0, 'default_expert': 1, 'num_samples': 64, 'num_steps': 10, 'gate_usage_counts': [640, 0], 'fallback_count': 640, 'total_route_decisions': 640, 'mean_gate_maxprob': 0.9939060509204865, 'gate_usage_fraction': [1.0, 0.0], 'fallback_fraction': 1.0, 'gate_usage_entropy': 3.986313709680722e-11}

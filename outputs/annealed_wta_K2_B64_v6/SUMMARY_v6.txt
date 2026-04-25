@@ -3,26 +3,26 @@ V6 MCL diffusion run: annealed_wta_K2_B64_v6
 
 Gate teacher status: usable_margin_signal
 Confident labels: 512/512 (1.000)
-Margin threshold: 0.000082
-Confident winner usage: [0.482421875, 0.517578125]
-Gate val acc: 0.9608; confident acc: 0.9824; all acc: 0.9824
+Margin threshold: 0.001761
+Confident winner usage: [0.51953125, 0.48046875]
+Gate val acc: 1.0000; confident acc: 0.9805; all acc: 0.9805
 
 Metrics:
   baseline_euler           FID=  437.8710  P=0.7500  R=0.6719
   baseline_heun            FID=  357.3163  P=0.7969  R=0.8906
-  single_expert            FID= 3583.0718  P=0.0625  R=0.0000
-  random_expert            FID= 3406.1726  P=0.0781  R=0.0000
-  best_expert              FID= 3521.6048  P=0.0781  R=0.0000
-  mixture_score            FID= 3438.4791  P=0.0469  R=0.0000
-  gated                    FID= 3583.0718  P=0.0625  R=0.0000
-  gated_softmix            FID= 3580.9000  P=0.0625  R=0.0000
-  gated_confident          FID= 3583.0718  P=0.0625  R=0.0000
+  single_expert            FID= 3393.0352  P=0.1094  R=0.0000
+  random_expert            FID= 3368.0910  P=0.0469  R=0.0000
+  best_expert              FID= 3214.5493  P=0.0312  R=0.0000
+  mixture_score            FID= 3348.8981  P=0.0156  R=0.0000
+  gated                    FID= 3393.0352  P=0.1094  R=0.0000
+  gated_softmix            FID= 3406.2983  P=0.1094  R=0.0000
+  gated_confident          FID= 3393.0352  P=0.1094  R=0.0000
 
 Ratio diagnostics:
   single0_fid_over_gated_confident_fid: 1.0
-  baseline_heun_fid_over_gated_confident_fid: 0.09972346863594374
+  baseline_heun_fid_over_gated_confident_fid: 0.10530876308386077
 
 Router trace stats:
-  gated: {'strategy': 'gated', 'gate_fallback': 'softmix', 'gate_conf_threshold': 0.55, 'default_expert': 1, 'num_samples': 64, 'num_steps': 10, 'gate_usage_counts': [640, 0], 'fallback_count': 0, 'total_route_decisions': 640, 'mean_gate_maxprob': 0.9939144134521485, 'gate_usage_fraction': [1.0, 0.0], 'fallback_fraction': 0.0, 'gate_usage_entropy': 3.986313709680722e-11}
-  gated_softmix: {'strategy': 'gated_softmix', 'gate_fallback': 'softmix', 'gate_conf_threshold': 0.55, 'default_expert': 1, 'num_samples': 64, 'num_steps': 10, 'gate_usage_counts': [640, 0], 'fallback_count': 0, 'total_route_decisions': 640, 'mean_gate_maxprob': 0.9939060509204865, 'gate_usage_fraction': [1.0, 0.0], 'fallback_fraction': 0.0, 'gate_usage_entropy': 3.986313709680722e-11}
-  gated_confident: {'strategy': 'gated_confident', 'gate_fallback': 'softmix', 'gate_conf_threshold': 0.55, 'default_expert': 1, 'num_samples': 64, 'num_steps': 10, 'gate_usage_counts': [640, 0], 'fallback_count': 0, 'total_route_decisions': 640, 'mean_gate_maxprob': 0.9939144134521485, 'gate_usage_fraction': [1.0, 0.0], 'fallback_fraction': 0.0, 'gate_usage_entropy': 3.986313709680722e-11}
+  gated: {'strategy': 'gated', 'gate_fallback': 'softmix', 'gate_conf_threshold': 0.55, 'default_expert': 0, 'num_samples': 64, 'num_steps': 10, 'gate_usage_counts': [640, 0], 'fallback_count': 0, 'total_route_decisions': 640, 'mean_gate_maxprob': 0.899192476272583, 'gate_usage_fraction': [1.0, 0.0], 'fallback_fraction': 0.0, 'gate_usage_entropy': 3.986313709680722e-11}
+  gated_softmix: {'strategy': 'gated_softmix', 'gate_fallback': 'softmix', 'gate_conf_threshold': 0.55, 'default_expert': 0, 'num_samples': 64, 'num_steps': 10, 'gate_usage_counts': [640, 0], 'fallback_count': 0, 'total_route_decisions': 640, 'mean_gate_maxprob': 0.9030276834964752, 'gate_usage_fraction': [1.0, 0.0], 'fallback_fraction': 0.0, 'gate_usage_entropy': 3.986313709680722e-11}
+  gated_confident: {'strategy': 'gated_confident', 'gate_fallback': 'softmix', 'gate_conf_threshold': 0.55, 'default_expert': 0, 'num_samples': 64, 'num_steps': 10, 'gate_usage_counts': [640, 0], 'fallback_count': 0, 'total_route_decisions': 640, 'mean_gate_maxprob': 0.899192476272583, 'gate_usage_fraction': [1.0, 0.0], 'fallback_fraction': 0.0, 'gate_usage_entropy': 3.986313709680722e-11}

@@ -318,7 +318,13 @@ def collect_gate_labels_v6(
     }
 
     # A practical status used later by the sampler and the summary.
-    if diagnostics["confident_fraction"] < 0.05 or diagnostics["teacher_entropy_norm_mean"] > 0.98:
+    tiny_margin_threshold = float(threshold) < 1e-3
+    if (
+        diagnostics["confident_fraction"] < 0.05
+        or diagnostics["teacher_entropy_norm_mean"] > 0.98
+        or tiny_margin_threshold
+        or relaxed
+    ):
         diagnostics["teacher_status"] = "near_uniform_or_low_margin_router_likely_uninformative"
     elif diagnostics["winner_usage_entropy_confident"] < 0.25:
         diagnostics["teacher_status"] = "collapsed_or_single_survivor"
@@ -969,6 +975,8 @@ def main(args: argparse.Namespace) -> None:
     conf_usage = torch.tensor(gate_data.diagnostics["winner_usage_confident"]).float()
     default_expert = int(conf_usage.argmax().item()) if float(conf_usage.sum()) > 0 else 0
     gate_data.diagnostics["default_expert"] = default_expert
+    if gate_data.diagnostics.get("teacher_status") != "usable_margin_signal":
+        args.gate_conf_threshold = 1.0
 
     gating, gate_train_diag = train_gating_v6(
         gate_data,
@@ -1025,6 +1033,28 @@ def main(args: argparse.Namespace) -> None:
         route_stats[strat] = st
         save_image_grid(imgs[:64], out_dir / f"mcl_{strat}.png")
 
+    print(f"[{tag}] legacy sampler parity check (single_expert e0)")
+    try:
+        legacy_single = generate_mcl(
+            ema_experts,
+            K,
+            strategy="single_expert",
+            expert_id=0,
+            num_samples=args.n_eval,
+            num_steps=args.num_steps,
+            device=device,
+            sigma_min=args.sigma_min,
+            sigma_max=args.sigma_max,
+            seed=args.seed,
+        )
+        if isinstance(legacy_single, tuple):
+            legacy_single = legacy_single[0]
+        gen["legacy_single_expert_e0"] = legacy_single
+        route_stats["legacy_single_expert_e0"] = {"strategy": "legacy_single_expert_e0"}
+        save_image_grid(legacy_single[:64], out_dir / "legacy_single_expert_e0.png")
+    except Exception as e:
+        print(f"[{tag}] legacy sampler parity check failed: {e}")
+
     if args.eval_each_expert:
         for eid in range(K):
             print(f"[{tag}] single_expert_e{eid}")
@@ -1066,6 +1096,27 @@ def main(args: argparse.Namespace) -> None:
         torch.save(imgs.cpu(), out_dir / f"{name}.pt")
     with open(out_dir / "router_trace_stats.json", "w") as f:
         json.dump(route_stats, f, indent=2)
+    gate_route_diag = {}
+    st_gc = route_stats.get("gated_confident", {})
+    if isinstance(st_gc, dict):
+        usage_frac = st_gc.get("gate_usage_fraction", [])
+        gate_entropy = float(st_gc.get("gate_usage_entropy", 0.0))
+        mean_maxprob = float(st_gc.get("mean_gate_maxprob", 0.0))
+        fallback_fraction = float(st_gc.get("fallback_fraction", 0.0))
+        max_usage = max(usage_frac) if usage_frac else 0.0
+        gate_route_diag = {
+            "gate_usage_max_fraction": float(max_usage),
+            "gate_usage_entropy": gate_entropy,
+            "mean_gate_maxprob": mean_maxprob,
+            "fallback_fraction": fallback_fraction,
+        }
+        gate_route_diag["gate_status_on_generated_traj"] = (
+            "collapsed_to_single_expert_on_generated_traj"
+            if (max_usage > 0.98 and gate_entropy < 0.05 and mean_maxprob > 0.95)
+            else "not_collapsed_or_mixed"
+        )
+    with open(out_dir / "gate_route_diagnostics.json", "w") as f:
+        json.dump(gate_route_diag, f, indent=2)
     print(f"[{tag}] sampling done in {(time.time() - t0) / 60:.1f} min")
 
     # ------------------------------------------------------------------ Stage 5
@@ -1096,6 +1147,9 @@ def main(args: argparse.Namespace) -> None:
             ratio_diag["best_single_fid"] = all_metrics[best_single]["fid"]
             ratio_diag["best_single_key"] = best_single  # type: ignore[assignment]
             ratio_diag["best_single_fid_over_gated_confident_fid"] = all_metrics[best_single]["fid"] / max(all_metrics["gated_confident"]["fid"], 1e-12)
+    if "legacy_single_expert_e0" in all_metrics and "single_expert" in all_metrics:
+        ratio_diag["legacy_single_e0_fid_over_v6_single_e0_fid"] = all_metrics["legacy_single_expert_e0"]["fid"] / max(all_metrics["single_expert"]["fid"], 1e-12)
+        ratio_diag["legacy_minus_v6_single_e0_fid"] = all_metrics["legacy_single_expert_e0"]["fid"] - all_metrics["single_expert"]["fid"]
 
     with open(out_dir / "metrics.json", "w") as f:
         json.dump(all_metrics, f, indent=2)
@@ -1209,6 +1263,8 @@ def main(args: argparse.Namespace) -> None:
         f.write(f"V6 MCL diffusion run: {tag}\n")
         f.write("=" * 80 + "\n\n")
         f.write(f"Gate teacher status: {gate_diag.get('teacher_status')}\n")
+        if gate_route_diag:
+            f.write(f"Gate route status on generated traj: {gate_route_diag.get('gate_status_on_generated_traj')}\n")
         f.write(f"Confident labels: {gate_diag.get('num_labels_confident')}/{gate_diag.get('num_labels_total')} "
                 f"({gate_diag.get('confident_fraction'):.3f})\n")
         f.write(f"Margin threshold: {gate_diag.get('threshold_rel_margin'):.6f}\n")

@@ -1,0 +1,152 @@
+{
+  "single_expert": {
+    "strategy": "single_expert",
+    "gate_fallback": "softmix",
+    "gate_conf_threshold": 1.0,
+    "default_expert": 0,
+    "num_samples": 64,
+    "num_steps": 10,
+    "gate_usage_counts": [
+      0,
+      0
+    ],
+    "fallback_count": 0,
+    "total_route_decisions": 0,
+    "mean_gate_maxprob": 0.0,
+    "gate_usage_fraction": [
+      0.0,
+      0.0
+    ],
+    "fallback_fraction": 0.0,
+    "gate_usage_entropy": 0.0
+  },
+  "random_expert": {
+    "strategy": "random_expert",
+    "gate_fallback": "softmix",
+    "gate_conf_threshold": 1.0,
+    "default_expert": 1,
+    "num_samples": 64,
+    "num_steps": 10,
+    "gate_usage_counts": [
+      0,
+      0
+    ],
+    "fallback_count": 0,
+    "total_route_decisions": 0,
+    "mean_gate_maxprob": 0.0,
+    "gate_usage_fraction": [
+      0.0,
+      0.0
+    ],
+    "fallback_fraction": 0.0,
+    "gate_usage_entropy": 0.0
+  },
+  "best_expert": {
+    "strategy": "best_expert",
+    "gate_fallback": "softmix",
+    "gate_conf_threshold": 1.0,
+    "default_expert": 1,
+    "num_samples": 64,
+    "num_steps": 10,
+    "gate_usage_counts": [
+      0,
+      0
+    ],
+    "fallback_count": 0,
+    "total_route_decisions": 0,
+    "mean_gate_maxprob": 0.0,
+    "gate_usage_fraction": [
+      0.0,
+      0.0
+    ],
+    "fallback_fraction": 0.0,
+    "gate_usage_entropy": 0.0
+  },
+  "mixture_score": {
+    "strategy": "mixture_score",
+    "gate_fallback": "softmix",
+    "gate_conf_threshold": 1.0,
+    "default_expert": 1,
+    "num_samples": 64,
+    "num_steps": 10,
+    "gate_usage_counts": [
+      0,
+      0
+    ],
+    "fallback_count": 0,
+    "total_route_decisions": 0,
+    "mean_gate_maxprob": 0.0,
+    "gate_usage_fraction": [
+      0.0,
+      0.0
+    ],
+    "fallback_fraction": 0.0,
+    "gate_usage_entropy": 0.0
+  },
+  "gated": {
+    "strategy": "gated",
+    "gate_fallback": "softmix",
+    "gate_conf_threshold": 1.0,
+    "default_expert": 1,
+    "num_samples": 64,
+    "num_steps": 10,
+    "gate_usage_counts": [
+      640,
+      0
+    ],
+    "fallback_count": 0,
+    "total_route_decisions": 640,
+    "mean_gate_maxprob": 0.9939144134521485,
+    "gate_usage_fraction": [
+      1.0,
+      0.0
+    ],
+    "fallback_fraction": 0.0,
+    "gate_usage_entropy": 3.986313709680722e-11
+  },
+  "gated_softmix": {
+    "strategy": "gated_softmix",
+    "gate_fallback": "softmix",
+    "gate_conf_threshold": 1.0,
+    "default_expert": 1,
+    "num_samples": 64,
+    "num_steps": 10,
+    "gate_usage_counts": [
+      640,
+      0
+    ],
+    "fallback_count": 0,
+    "total_route_decisions": 640,
+    "mean_gate_maxprob": 0.9939060509204865,
+    "gate_usage_fraction": [
+      1.0,
+      0.0
+    ],
+    "fallback_fraction": 0.0,
+    "gate_usage_entropy": 3.986313709680722e-11
+  },
+  "gated_confident": {
+    "strategy": "gated_confident",
+    "gate_fallback": "softmix",
+    "gate_conf_threshold": 1.0,
+    "default_expert": 1,
+    "num_samples": 64,
+    "num_steps": 10,
+    "gate_usage_counts": [
+      640,
+      0
+    ],
+    "fallback_count": 640,
+    "total_route_decisions": 640,
+    "mean_gate_maxprob": 0.9939060509204865,
+    "gate_usage_fraction": [
+      1.0,
+      0.0
+    ],
+    "fallback_fraction": 1.0,
+    "gate_usage_entropy": 3.986313709680722e-11
+  },
+  "legacy_single_expert_e0": {
+    "strategy": "legacy_single_expert_e0"
+  }
+}

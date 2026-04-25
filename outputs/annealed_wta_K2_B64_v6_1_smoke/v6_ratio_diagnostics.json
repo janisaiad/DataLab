@@ -1,0 +1,6 @@
+{
+  "single0_fid_over_gated_confident_fid": 1.0006064979819806,
+  "baseline_heun_fid_over_gated_confident_fid": 0.09978395071842755,
+  "legacy_single_e0_fid_over_v6_single_e0_fid": 0.9999999984901068,
+  "legacy_minus_v6_single_e0_fid": -5.41005556442542e-06
+}

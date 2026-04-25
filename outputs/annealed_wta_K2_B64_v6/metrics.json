@@ -10,38 +10,38 @@
     "recall": 0.890625
   },
   "single_expert": {
-    "fid": 3583.0717661385333,
-    "precision": 0.0625,
+    "fid": 3393.0352463290164,
+    "precision": 0.109375,
     "recall": 0.0
   },
   "random_expert": {
-    "fid": 3406.1726326371167,
-    "precision": 0.078125,
-    "recall": 0.0
-  },
-  "best_expert": {
-    "fid": 3521.6047712380832,
-    "precision": 0.078125,
-    "recall": 0.0
-  },
-  "mixture_score": {
-    "fid": 3438.4790871491623,
+    "fid": 3368.090960429946,
     "precision": 0.046875,
     "recall": 0.0
   },
+  "best_expert": {
+    "fid": 3214.5492760151847,
+    "precision": 0.03125,
+    "recall": 0.0
+  },
+  "mixture_score": {
+    "fid": 3348.8981149438055,
+    "precision": 0.015625,
+    "recall": 0.0
+  },
   "gated": {
-    "fid": 3583.0717661385333,
-    "precision": 0.0625,
+    "fid": 3393.0352463290164,
+    "precision": 0.109375,
     "recall": 0.0
   },
   "gated_softmix": {
-    "fid": 3580.89995754061,
-    "precision": 0.0625,
+    "fid": 3406.2983055984896,
+    "precision": 0.109375,
     "recall": 0.0
   },
   "gated_confident": {
-    "fid": 3583.0717661385333,
-    "precision": 0.0625,
+    "fid": 3393.0352463290164,
+    "precision": 0.109375,
     "recall": 0.0
   }
 }
