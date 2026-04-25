@@ -1,0 +1,16 @@
+{
+  "classes": [
+    "0",
+    "7"
+  ],
+  "raw_dim": 784,
+  "global_std": 0.32311543822288513,
+  "train_n": 2000,
+  "test_n": 800,
+  "d_mode": "pca",
+  "d_latent": 128,
+  "p": 256,
+  "K": 4,
+  "t": 1.5,
+  "target": "eps"
+}

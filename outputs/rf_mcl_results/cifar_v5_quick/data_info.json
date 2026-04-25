@@ -1,0 +1,16 @@
+{
+  "classes": [
+    "automobile",
+    "horse"
+  ],
+  "raw_dim": 3072,
+  "global_std": 0.2588672935962677,
+  "train_n": 3000,
+  "test_n": 1000,
+  "d_mode": "pca",
+  "d_latent": 256,
+  "p": 256,
+  "K": 4,
+  "t": 1.5,
+  "target": "eps"
+}

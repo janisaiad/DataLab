@@ -1,0 +1,144 @@
+RF-MCL MNIST v1 router (target=eps)
+{
+  "data_root": "./data",
+  "classes": "0,7",
+  "d_mode": "pca",
+  "pca_dim": 128,
+  "rp_dim": 256,
+  "p": 256,
+  "K": 4,
+  "t": 1.5,
+  "n_train": 2000,
+  "n_test": 800,
+  "n_calib": 800,
+  "batch_size": 192,
+  "steps": 1200,
+  "lr": 0.002,
+  "weight_decay": 0.0,
+  "init_std": 0.001,
+  "activation": "erf",
+  "rf_scale": 1.0,
+  "seed": 0,
+  "warmup_steps": 600,
+  "ramp_steps": 900,
+  "eval_every": 150,
+  "power_iters": 12,
+  "ridge": 1e-05,
+  "beta_target_mult": 3.0,
+  "beta_glass_safety": 0.45,
+  "cold_mult_glass": 1.2,
+  "fixed_class_mult": 1.2,
+  "balance_weight_theory": 0.0,
+  "entropy_weight_theory": 0.0,
+  "router_steps": 500,
+  "router_lr": 0.002,
+  "router_hidden": 0,
+  "router_dropout": 0.0,
+  "router_batch_size": 192,
+  "beta_grid": false,
+  "no_download": false,
+  "quick": true,
+  "device": "cuda",
+  "outdir": "./mnist_v1_router_quick"
+}
+
+Data info:
+{
+  "classes": [
+    "0",
+    "7"
+  ],
+  "raw_dim": 784,
+  "global_std": 0.32311543822288513,
+  "train_n": 2000,
+  "test_n": 800,
+  "d_mode": "pca",
+  "d_latent": 128,
+  "p": 256,
+  "K": 4,
+  "t": 1.5,
+  "target": "eps"
+}
+
+Calibration:
+  lambda_free: 0.0442003570497036
+  lambda_class: 0.564019501209259
+  lambda_trans: 0.4113391935825348
+  beta_free: 11.31212581467943
+  beta_class: 0.8864941707299108
+  beta_trans: 1.215541839437373
+  alpha_log_n_over_d: 0.05222352912240568
+  v_emp: 0.00021755318448413163
+  beta_glass_emp: 21.911160692500694
+  beta_target: 2.659482512189732
+  residual_mse: 0.07802361994981766
+  class_basis_rank: 2
+  window_class_before_trans: 1.0
+  window_class_before_glass: 1.0
+
+Final router metrics:
+
+[uniform] beta_eval=0.8864941707299108
+  oracle_best_mse: 0.21403804779052735
+  soft_oracle_mse: 0.2140546226501465
+  router_mix_mse: 0.21405458450317383
+  router_soft_mse: 0.2140546417236328
+  oracle_class_mi_norm: 0.0038901615721602858
+  router_class_mi_norm: 0.002555315271083897
+  oracle_usage_entropy: 0.9920586347579956
+  router_usage_entropy: 0.9861947894096375
+  teacher_entropy_norm: 1.0000001192092896
+  router_vs_teacher_ce: 1.3862946033477783
+  router_vs_teacher_kl: 3.0324815991633614e-09
+
+[fixed_class] beta_eval=1.0637930048758928
+  oracle_best_mse: 0.214093017578125
+  soft_oracle_mse: 0.21411022186279297
+  router_mix_mse: 0.2141101837158203
+  router_soft_mse: 0.21411022186279297
+  oracle_class_mi_norm: 0.0003974509080980062
+  router_class_mi_norm: 0.0010394284235936094
+  oracle_usage_entropy: 0.997501790523529
+  router_usage_entropy: 0.8367881774902344
+  teacher_entropy_norm: 1.0000001192092896
+  router_vs_teacher_ce: 1.3862946033477783
+  router_vs_teacher_kl: 6.617637549055644e-09
+
+[fixed_good] beta_eval=2.659482512189732
+  oracle_best_mse: 0.21411508560180664
+  soft_oracle_mse: 0.21413177490234375
+  router_mix_mse: 0.2141317367553711
+  router_soft_mse: 0.21413175582885743
+  oracle_class_mi_norm: 0.006618923758676708
+  router_class_mi_norm: 0.015275310548294709
+  oracle_usage_entropy: 0.993689239025116
+  router_usage_entropy: 0.8739714622497559
+  teacher_entropy_norm: 1.0000001192092896
+  router_vs_teacher_ce: 1.3862946033477783
+  router_vs_teacher_kl: 1.6714045258936494e-08
+
+[hard_cold] beta_eval=26.293392831000833
+  oracle_best_mse: 0.17724725723266602
+  soft_oracle_mse: 0.19618383407592774
+  router_mix_mse: 0.20428287506103515
+  router_soft_mse: 0.2105096435546875
+  oracle_class_mi_norm: 0.0
+  router_class_mi_norm: 0.0
+  oracle_usage_entropy: 5.979470391048736e-11
+  router_usage_entropy: 5.979470391048736e-11
+  teacher_entropy_norm: 0.7169950604438782
+  router_vs_teacher_ce: 1.0818495750427246
+  router_vs_teacher_kl: 0.08788327872753143
+
+[theory_anneal] beta_eval=2.659482512189732
+  oracle_best_mse: 0.21398977279663087
+  soft_oracle_mse: 0.21400718688964843
+  router_mix_mse: 0.2140071487426758
+  router_soft_mse: 0.21400718688964843
+  oracle_class_mi_norm: 0.0011263438440286355
+  router_class_mi_norm: 0.004737048774809031
+  oracle_usage_entropy: 0.997541069984436
+  router_usage_entropy: 0.9502723217010498
+  teacher_entropy_norm: 1.0000001192092896
+  router_vs_teacher_ce: 1.3862946033477783
+  router_vs_teacher_kl: 1.672919580641974e-08

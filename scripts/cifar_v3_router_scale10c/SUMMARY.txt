@@ -1,0 +1,229 @@
+RF-MCL CIFAR v3 router
+{
+  "data_root": "./data",
+  "classes": "airplane,automobile,bird,cat,deer,dog,frog,horse,ship,truck",
+  "d_mode": "pca",
+  "pca_dim": 512,
+  "rp_dim": 512,
+  "p": 1024,
+  "K": 8,
+  "t": 1.5,
+  "n_train": 20000,
+  "n_test": 5000,
+  "n_calib": 4096,
+  "batch_size": 192,
+  "steps": 4000,
+  "lr": 0.002,
+  "weight_decay": 0.0,
+  "init_std": 0.001,
+  "activation": "erf",
+  "rf_scale": 1.0,
+  "seed": 0,
+  "warmup_steps": 600,
+  "ramp_steps": 900,
+  "eval_every": 200,
+  "power_iters": 20,
+  "ridge": 1e-05,
+  "beta_target_mult": 3.0,
+  "beta_glass_safety": 0.45,
+  "cold_mult_glass": 1.2,
+  "fixed_class_mult": 1.2,
+  "balance_weight_theory": 0.0,
+  "entropy_weight_theory": 0.0,
+  "router_steps": 1000,
+  "router_lr": 0.002,
+  "router_hidden": 0,
+  "router_dropout": 0.0,
+  "router_batch_size": 192,
+  "beta_grid": true,
+  "no_download": false,
+  "device": "cuda",
+  "outdir": "./cifar_v3_router_scale10c"
+}
+
+Data info:
+{
+  "classes": [
+    "airplane",
+    "automobile",
+    "bird",
+    "cat",
+    "deer",
+    "dog",
+    "frog",
+    "horse",
+    "ship",
+    "truck"
+  ],
+  "raw_dim": 3072,
+  "global_std": 0.2509581446647644,
+  "train_n": 20000,
+  "test_n": 5000,
+  "d_mode": "pca",
+  "d_latent": 512,
+  "p": 1024,
+  "K": 8,
+  "t": 1.5
+}
+
+Calibration:
+  lambda_free: 0.23943808674812317
+  lambda_class: 44.10853958129883
+  lambda_trans: 2.4029524326324463
+  beta_free: 2.0882224995640515
+  beta_class: 0.011335673426195013
+  beta_trans: 0.20807736067095076
+  alpha_log_n_over_d: 0.016245637044373717
+  v_emp: 0.017786964774131775
+  beta_glass_emp: 1.3515510317630617
+  beta_target: 0.034007020278585036
+  residual_mse: 0.39191359281539917
+  class_basis_rank: 10
+  window_class_before_trans: 1.0
+  window_class_before_glass: 1.0
+
+Final router metrics:
+
+[uniform] beta_eval=0.011335673426195013
+  oracle_best_mse: 0.5523621826171875
+  soft_oracle_mse: 0.5523845703125
+  router_mix_mse: 0.5523845642089844
+  router_soft_mse: 0.5523845825195313
+  oracle_class_mi_norm: 0.004780798476161048
+  router_class_mi_norm: 0.0055660050607655755
+  oracle_usage_entropy: 0.9993229508399963
+  router_usage_entropy: 0.6464767456054688
+  router_vs_teacher_ce: 2.0794413089752197
+  router_vs_teacher_kl: 1.4060869801824083e-08
+
+[fixed_class] beta_eval=0.013602808111434014
+  oracle_best_mse: 0.5523113525390625
+  soft_oracle_mse: 0.5523336547851563
+  router_mix_mse: 0.5523336303710937
+  router_soft_mse: 0.552333642578125
+  oracle_class_mi_norm: 0.003547668332966927
+  router_class_mi_norm: 0.006436249965264461
+  oracle_usage_entropy: 0.999093770980835
+  router_usage_entropy: 0.664760172367096
+  router_vs_teacher_ce: 2.0794413089752197
+  router_vs_teacher_kl: 2.6655072815628955e-08
+
+[fixed_good] beta_eval=0.034007020278585036
+  oracle_best_mse: 0.5525980773925782
+  soft_oracle_mse: 0.5526203735351563
+  router_mix_mse: 0.552620361328125
+  router_soft_mse: 0.552620361328125
+  oracle_class_mi_norm: 0.002840368176427596
+  router_class_mi_norm: 0.0074424382569134445
+  oracle_usage_entropy: 0.9988174438476562
+  router_usage_entropy: 0.6359027028083801
+  router_vs_teacher_ce: 2.0794413089752197
+  router_vs_teacher_kl: 2.114788877349838e-08
+
+[hard_cold] beta_eval=1.621861238115674
+  oracle_best_mse: 0.5525125854492188
+  soft_oracle_mse: 0.5525360290527344
+  router_mix_mse: 0.5525360107421875
+  router_soft_mse: 0.5525360229492188
+  oracle_class_mi_norm: 0.003009529741080693
+  router_class_mi_norm: 0.007849961988917145
+  oracle_usage_entropy: 0.9993482828140259
+  router_usage_entropy: 0.5753990411758423
+  router_vs_teacher_ce: 2.079442262649536
+  router_vs_teacher_kl: 7.284261300810613e-07
+
+[theory_anneal] beta_eval=0.034007020278585036
+  oracle_best_mse: 0.5523380859375
+  soft_oracle_mse: 0.5523606079101563
+  router_mix_mse: 0.552360595703125
+  router_soft_mse: 0.5523605895996093
+  oracle_class_mi_norm: 0.0023409436803069794
+  router_class_mi_norm: 0.007331921910878633
+  oracle_usage_entropy: 0.9992354512214661
+  router_usage_entropy: 0.6237358450889587
+  router_vs_teacher_ce: 2.0794413089752197
+  router_vs_teacher_kl: 1.6514628953245847e-07
+
+[grid_0.00283392] beta_eval=0.002833918356548753
+  oracle_best_mse: 0.5524607177734375
+  soft_oracle_mse: 0.5524830505371093
+  router_mix_mse: 0.5524830505371093
+  router_soft_mse: 0.5524830505371093
+  oracle_class_mi_norm: 0.0030992831412740077
+  router_class_mi_norm: 0.006644916958954531
+  oracle_usage_entropy: 0.9991813898086548
+  router_usage_entropy: 0.6628617644309998
+  router_vs_teacher_ce: 2.0794413089752197
+  router_vs_teacher_kl: 1.7035036492529798e-08
+
+[grid_0.00850176] beta_eval=0.008501755069646259
+  oracle_best_mse: 0.5523475952148438
+  soft_oracle_mse: 0.5523698852539063
+  router_mix_mse: 0.5523698425292969
+  router_soft_mse: 0.5523698852539063
+  oracle_class_mi_norm: 0.002987650252298089
+  router_class_mi_norm: 0.00911410683957742
+  oracle_usage_entropy: 0.9993702173233032
+  router_usage_entropy: 0.5607020854949951
+  router_vs_teacher_ce: 2.0794413089752197
+  router_vs_teacher_kl: 1.866237475667276e-08
+
+[grid_0.0141696] beta_eval=0.014169591782743766
+  oracle_best_mse: 0.5524182006835937
+  soft_oracle_mse: 0.5524404418945312
+  router_mix_mse: 0.5524404418945312
+  router_soft_mse: 0.5524404418945312
+  oracle_class_mi_norm: 0.0026913265999071244
+  router_class_mi_norm: 0.0045219634065488505
+  oracle_usage_entropy: 0.9991524815559387
+  router_usage_entropy: 0.5024979710578918
+  router_vs_teacher_ce: 2.0794413089752197
+  router_vs_teacher_kl: 1.0890443746802703e-07
+
+[grid_0.034007] beta_eval=0.034007020278585036
+  oracle_best_mse: 0.5524393188476563
+  soft_oracle_mse: 0.5524613586425782
+  router_mix_mse: 0.5524613525390625
+  router_soft_mse: 0.5524613586425782
+  oracle_class_mi_norm: 0.002994061473697586
+  router_class_mi_norm: 0.00809215443858726
+  oracle_usage_entropy: 0.999761164188385
+  router_usage_entropy: 0.6157759428024292
+  router_vs_teacher_ce: 2.0794413089752197
+  router_vs_teacher_kl: 1.9723348287925546e-08
+
+[grid_0.166462] beta_eval=0.1664618885367606
+  oracle_best_mse: 0.5523542236328125
+  soft_oracle_mse: 0.5523766174316406
+  router_mix_mse: 0.5523765991210937
+  router_soft_mse: 0.552376611328125
+  oracle_class_mi_norm: 0.0033071813025501427
+  router_class_mi_norm: 0.008035085512294423
+  oracle_usage_entropy: 0.9991969466209412
+  router_usage_entropy: 0.5370262861251831
+  router_vs_teacher_ce: 2.0794413089752197
+  router_vs_teacher_kl: 6.541406349924728e-08
+
+[grid_0.249693] beta_eval=0.2496928328051409
+  oracle_best_mse: 0.5524355834960938
+  soft_oracle_mse: 0.5524582458496093
+  router_mix_mse: 0.5524582397460938
+  router_soft_mse: 0.5524582580566406
+  oracle_class_mi_norm: 0.0034870092148849446
+  router_class_mi_norm: 0.007324172027099935
+  oracle_usage_entropy: 0.9998197555541992
+  router_usage_entropy: 0.6682183742523193
+  router_vs_teacher_ce: 2.079441785812378
+  router_vs_teacher_kl: 3.3313250469291233e-07
+
+[grid_0.675776] beta_eval=0.6757755158815308
+  oracle_best_mse: 0.5523645629882813
+  soft_oracle_mse: 0.5523872680664063
+  router_mix_mse: 0.552387255859375
+  router_soft_mse: 0.552387255859375
+  oracle_class_mi_norm: 0.004334061923874127
+  router_class_mi_norm: 0.004526070769772573
+  oracle_usage_entropy: 0.9993913173675537
+  router_usage_entropy: 0.7041043639183044
+  router_vs_teacher_ce: 2.079442024230957
+  router_vs_teacher_kl: 4.2841102754209714e-07

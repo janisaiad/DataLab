@@ -1,0 +1,162 @@
+RF-MCL GMM v5 router (target=eps, residualized)
+{
+  "d": 64,
+  "p": 256,
+  "C": 4,
+  "K": 4,
+  "mu": 1.0,
+  "sigma0": 0.5,
+  "t": 2.05,
+  "n_train": 6000,
+  "n_test": 3000,
+  "n_calib": 2500,
+  "batch_size": 256,
+  "steps": 4000,
+  "lr": 0.003,
+  "init_std": 0.001,
+  "activation": "erf",
+  "seed": 0,
+  "warmup_steps": 800,
+  "ramp_steps": 1000,
+  "eval_every": 200,
+  "power_iters": 30,
+  "ridge": 1e-05,
+  "router_steps": 1200,
+  "router_lr": 0.002,
+  "router_batch_size": 256,
+  "beta_grid": true,
+  "quick": false,
+  "device": "cuda",
+  "outdir": "./outputs/rf_mcl_results/gmm_v5_serious"
+}
+
+Calibration:
+  lambda_free: 0.02505200356245041
+  lambda_class: 0.5840945243835449
+  lambda_trans: 0.17778773605823517
+  beta_free: 19.95848351025436
+  beta_class: 0.8560258299419969
+  beta_trans: 2.812342465715536
+  beta_glass_emp: 36.63802155673225
+  alpha_log_n_over_d: 0.12225071891962956
+  residual_mse: 0.042292285710573196
+  v_emp: 0.00018214505689684302
+
+Final router metrics:
+
+[uniform] beta_eval=0.8560258299419969
+  oracle_best_mse: 0.04944416135549545
+  soft_oracle_mse: 0.04944484308362007
+  mean_expert_mse: 0.04944484308362007
+  router_mix_mse: 0.04944484308362007
+  router_soft_mse: 0.04944484308362007
+  oracle_class_mi_norm: 0.0008075687568428219
+  router_class_mi_norm: 0.008158110054111607
+  teacher_entropy_norm: 0.9999998807907104
+  router_vs_teacher_ce: 1.3862942457199097
+  router_vs_teacher_kl: 2.883699390388017e-10
+  teacher_status: near_uniform (router likely uninformative)
+
+[fixed_class] beta_eval=1.0272309959303962
+  oracle_best_mse: 0.04941752925515175
+  soft_oracle_mse: 0.049418188631534576
+  mean_expert_mse: 0.049418188631534576
+  router_mix_mse: 0.049418188631534576
+  router_soft_mse: 0.049418188631534576
+  oracle_class_mi_norm: 0.0006099037146625612
+  router_class_mi_norm: 0.002723298000543769
+  teacher_entropy_norm: 0.9999998807907104
+  router_vs_teacher_ce: 1.3862942457199097
+  router_vs_teacher_kl: 9.540539469554687e-10
+  teacher_status: near_uniform (router likely uninformative)
+
+[fixed_good] beta_eval=2.568077489825991
+  oracle_best_mse: 0.0494086816906929
+  soft_oracle_mse: 0.049409378319978714
+  mean_expert_mse: 0.049409378319978714
+  router_mix_mse: 0.049409378319978714
+  router_soft_mse: 0.049409378319978714
+  oracle_class_mi_norm: 0.0005177632548445532
+  router_class_mi_norm: 0.011563066682020659
+  teacher_entropy_norm: 0.9999998807907104
+  router_vs_teacher_ce: 1.3862942457199097
+  router_vs_teacher_kl: -5.04095487574574e-10
+  teacher_status: near_uniform (router likely uninformative)
+
+[hard_cold] beta_eval=43.965625868078696
+  oracle_best_mse: 0.049453724175691605
+  soft_oracle_mse: 0.04945540428161621
+  mean_expert_mse: 0.04945540428161621
+  router_mix_mse: 0.04945540428161621
+  router_soft_mse: 0.04945540428161621
+  oracle_class_mi_norm: 0.0014963102760007262
+  router_class_mi_norm: 0.011193221607360158
+  teacher_entropy_norm: 0.9999998807907104
+  router_vs_teacher_ce: 1.3862942457199097
+  router_vs_teacher_kl: 1.1210630646019126e-08
+  teacher_status: near_uniform (router likely uninformative)
+
+[theory_anneal] beta_eval=2.568077489825991
+  oracle_best_mse: 0.04940691217780113
+  soft_oracle_mse: 0.049407582730054855
+  mean_expert_mse: 0.049407582730054855
+  router_mix_mse: 0.049407582730054855
+  router_soft_mse: 0.049407582730054855
+  oracle_class_mi_norm: 0.0013911909078354063
+  router_class_mi_norm: 0.009594670834869338
+  teacher_entropy_norm: 0.9999998807907104
+  router_vs_teacher_ce: 1.3862942457199097
+  router_vs_teacher_kl: -2.6401807406983835e-09
+  teacher_status: near_uniform (router likely uninformative)
+
+[grid_0.200] beta_eval=0.2
+  oracle_best_mse: 0.04941989481449127
+  soft_oracle_mse: 0.04942058399319649
+  mean_expert_mse: 0.04942058399319649
+  router_mix_mse: 0.04942058399319649
+  router_soft_mse: 0.04942058399319649
+  oracle_class_mi_norm: 0.0008854982896779873
+  router_class_mi_norm: 0.012021324933539555
+  teacher_entropy_norm: 0.9999998807907104
+  router_vs_teacher_ce: 1.3862942457199097
+  router_vs_teacher_kl: -2.1358133039939275e-09
+  teacher_status: near_uniform (router likely uninformative)
+
+[grid_0.400] beta_eval=0.4
+  oracle_best_mse: 0.04943924397230148
+  soft_oracle_mse: 0.04943990707397461
+  mean_expert_mse: 0.04943990707397461
+  router_mix_mse: 0.04943990707397461
+  router_soft_mse: 0.04943990707397461
+  oracle_class_mi_norm: 0.0015570140528183582
+  router_class_mi_norm: 0.011320026665204916
+  teacher_entropy_norm: 0.9999998807907104
+  router_vs_teacher_ce: 1.3862942457199097
+  router_vs_teacher_kl: -2.493397266434272e-09
+  teacher_status: near_uniform (router likely uninformative)
+
+[grid_0.700] beta_eval=0.7
+  oracle_best_mse: 0.049394164234399796
+  soft_oracle_mse: 0.04939482733607292
+  mean_expert_mse: 0.04939482733607292
+  router_mix_mse: 0.04939482733607292
+  router_soft_mse: 0.04939482733607292
+  oracle_class_mi_norm: 0.001043436089632928
+  router_class_mi_norm: 0.005234640934970383
+  teacher_entropy_norm: 0.9999998807907104
+  router_vs_teacher_ce: 1.3862942457199097
+  router_vs_teacher_kl: -4.369170025775304e-10
+  teacher_status: near_uniform (router likely uninformative)
+
+[grid_1.100] beta_eval=1.1
+  oracle_best_mse: 0.049420975148677826
+  soft_oracle_mse: 0.049421656876802444
+  mean_expert_mse: 0.049421656876802444
+  router_mix_mse: 0.04942164942622185
+  router_soft_mse: 0.049421656876802444
+  oracle_class_mi_norm: 0.0005521806363132509
+  router_class_mi_norm: 0.014672985474924129
+  teacher_entropy_norm: 0.9999998807907104
+  router_vs_teacher_ce: 1.3862942457199097
+  router_vs_teacher_kl: -4.664377772911621e-10
+  teacher_status: near_uniform (router likely uninformative)

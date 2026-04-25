@@ -1,0 +1,137 @@
+RF-MCL CIFAR v3 router
+{
+  "data_root": "./data",
+  "classes": "automobile,horse",
+  "d_mode": "pca",
+  "pca_dim": 512,
+  "rp_dim": 512,
+  "p": 512,
+  "K": 4,
+  "t": 1.5,
+  "n_train": 6000,
+  "n_test": 2000,
+  "n_calib": 2048,
+  "batch_size": 192,
+  "steps": 3000,
+  "lr": 0.002,
+  "weight_decay": 0.0,
+  "init_std": 0.001,
+  "activation": "erf",
+  "rf_scale": 1.0,
+  "seed": 0,
+  "warmup_steps": 600,
+  "ramp_steps": 900,
+  "eval_every": 200,
+  "power_iters": 8,
+  "ridge": 1e-05,
+  "beta_target_mult": 3.0,
+  "beta_glass_safety": 0.45,
+  "cold_mult_glass": 1.2,
+  "fixed_class_mult": 1.2,
+  "balance_weight_theory": 0.0,
+  "entropy_weight_theory": 0.0,
+  "router_steps": 1000,
+  "router_lr": 0.002,
+  "router_hidden": 0,
+  "router_dropout": 0.0,
+  "router_batch_size": 192,
+  "beta_grid": false,
+  "no_download": false,
+  "device": "cuda",
+  "outdir": "./cifar_v3_router_pca"
+}
+
+Data info:
+{
+  "classes": [
+    "automobile",
+    "horse"
+  ],
+  "raw_dim": 3072,
+  "global_std": 0.2590128779411316,
+  "train_n": 6000,
+  "test_n": 2000,
+  "d_mode": "pca",
+  "d_latent": 512,
+  "p": 512,
+  "K": 4,
+  "t": 1.5
+}
+
+Calibration:
+  lambda_free: 0.25127550959587097
+  lambda_class: 58.23163986206055
+  lambda_trans: 2.466350555419922
+  beta_free: 1.9898477205524534
+  beta_class: 0.008586397380949651
+  beta_trans: 0.20272868303381544
+  alpha_log_n_over_d: 0.014891833957342575
+  v_emp: 0.015849776566028595
+  beta_glass_emp: 1.3708108027959474
+  beta_target: 0.025759192142848955
+  residual_mse: 0.43749189376831055
+  class_basis_rank: 2
+  window_class_before_trans: 1.0
+  window_class_before_glass: 1.0
+
+Final router metrics:
+
+[uniform] beta_eval=0.008586397380949651
+  oracle_best_mse: 0.6985814819335937
+  soft_oracle_mse: 0.6986038818359375
+  router_mix_mse: 0.6986039123535156
+  router_soft_mse: 0.6986038818359375
+  oracle_class_mi_norm: 0.0008908977355251125
+  router_class_mi_norm: 0.0006509777258505778
+  oracle_usage_entropy: 0.9992967844009399
+  router_usage_entropy: 0.9693902134895325
+  router_vs_teacher_ce: 1.3862944841384888
+  router_vs_teacher_kl: -6.556178377969957e-10
+
+[fixed_class] beta_eval=0.010303676857139581
+  oracle_best_mse: 0.6985604858398438
+  soft_oracle_mse: 0.6985835266113282
+  router_mix_mse: 0.6985835266113282
+  router_soft_mse: 0.6985835266113282
+  oracle_class_mi_norm: 0.00260189223266152
+  router_class_mi_norm: 0.0004950453395678587
+  oracle_usage_entropy: 0.99899822473526
+  router_usage_entropy: 0.9944069385528564
+  router_vs_teacher_ce: 1.3862944841384888
+  router_vs_teacher_kl: -4.023264388308689e-09
+
+[fixed_good] beta_eval=0.025759192142848955
+  oracle_best_mse: 0.6987976379394532
+  soft_oracle_mse: 0.6988199768066407
+  router_mix_mse: 0.6988199768066407
+  router_soft_mse: 0.6988199768066407
+  oracle_class_mi_norm: 0.00229853446306246
+  router_class_mi_norm: 0.0012826758614015255
+  oracle_usage_entropy: 0.9989528656005859
+  router_usage_entropy: 0.977863073348999
+  router_vs_teacher_ce: 1.3862947225570679
+  router_vs_teacher_kl: -1.296137086548299e-09
+
+[hard_cold] beta_eval=1.6449729633551369
+  oracle_best_mse: 0.6985823059082031
+  soft_oracle_mse: 0.6986067810058594
+  router_mix_mse: 0.6986067810058594
+  router_soft_mse: 0.6986067810058594
+  oracle_class_mi_norm: 0.004886109634634085
+  router_class_mi_norm: 0.0004369776507662411
+  oracle_usage_entropy: 0.9987443685531616
+  router_usage_entropy: 0.96122807264328
+  router_vs_teacher_ce: 1.3862944841384888
+  router_vs_teacher_kl: 7.191941486794917e-11
+
+[theory_anneal] beta_eval=0.025759192142848955
+  oracle_best_mse: 0.6988317565917969
+  soft_oracle_mse: 0.6988541870117188
+  router_mix_mse: 0.6988541259765625
+  router_soft_mse: 0.6988541564941406
+  oracle_class_mi_norm: 0.00032747605435537734
+  router_class_mi_norm: 0.0007767687230255831
+  oracle_usage_entropy: 0.9994603991508484
+  router_usage_entropy: 0.9887797832489014
+  router_vs_teacher_ce: 1.3862944841384888
+  router_vs_teacher_kl: -1.7431761589747907e-09

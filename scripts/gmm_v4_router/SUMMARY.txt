@@ -1,0 +1,238 @@
+RF-MCL GMM v4 router
+{
+  "d": 64,
+  "p": 256,
+  "C": 4,
+  "K": 4,
+  "mu": 1.0,
+  "sigma0": 0.5,
+  "t": 2.05,
+  "n_train": 6000,
+  "n_test": 3000,
+  "n_calib": 2500,
+  "batch_size": 256,
+  "steps": 4000,
+  "lr": 0.003,
+  "weight_decay": 0.0,
+  "init_std": 0.001,
+  "activation": "erf",
+  "rf_scale": 1.0,
+  "seed": 0,
+  "warmup_steps": 800,
+  "ramp_steps": 1000,
+  "eval_every": 200,
+  "power_iters": 30,
+  "ridge": 1e-05,
+  "beta_target_mult": 3.0,
+  "beta_glass_safety": 0.45,
+  "cold_mult_glass": 1.3,
+  "fixed_class_mult": 1.2,
+  "balance_weight_theory": 0.0,
+  "entropy_weight_theory": 0.0,
+  "router_steps": 1200,
+  "router_lr": 0.002,
+  "router_hidden": 0,
+  "router_dropout": 0.0,
+  "router_batch_size": 256,
+  "beta_grid": true,
+  "device": "cuda",
+  "outdir": "./gmm_v4_router"
+}
+
+Calibration:
+  lambda_free: 0.5800955295562744
+  lambda_class: 29.045665740966797
+  lambda_trans: 0.7003268003463745
+  beta_free: 0.8619270008552885
+  beta_class: 0.01721427232755028
+  beta_trans: 0.7139524001547636
+  alpha_log_n_over_d: 0.12225071891962956
+  v_emp: 0.17403903603553772
+  beta_glass_emp: 1.1852702234685641
+  beta_target: 0.051642816982650844
+  residual_mse: 0.8844422698020935
+  class_basis_rank: 4
+  window_class_before_trans: 1.0
+  window_class_before_glass: 1.0
+
+Final router metrics:
+
+[uniform] beta_eval=0.01721427232755028
+  oracle_best_mse: 0.9934143676757813
+  soft_oracle_mse: 0.9934388834635417
+  router_mix_mse: 0.9934388834635417
+  bayes_router_mix_mse: 0.9934389241536459
+  oracle_class_mi_norm: 0.0010260157538544365
+  router_class_mi_norm: 0.009622044919838141
+  bayes_class_mi_norm: 0.23023767329956463
+  oracle_usage_entropy: 0.9995879530906677
+  router_usage_entropy: 0.9582656621932983
+  bayes_usage_entropy: 0.9993966817855835
+  router_vs_teacher_ce: 1.3862944841384888
+  router_vs_teacher_kl: 2.652547737014288e-09
+  class_to_expert: [0, 1, 2, 3]
+
+[fixed_class] beta_eval=0.020657126793060337
+  oracle_best_mse: 0.9932715454101563
+  soft_oracle_mse: 0.9932958577473958
+  router_mix_mse: 0.9932958577473958
+  bayes_router_mix_mse: 0.9932959798177083
+  oracle_class_mi_norm: 0.0019672138731137104
+  router_class_mi_norm: 0.008986294791916162
+  bayes_class_mi_norm: 0.23023767329956463
+  oracle_usage_entropy: 0.9999784827232361
+  router_usage_entropy: 0.9593120217323303
+  bayes_usage_entropy: 0.9993966817855835
+  router_vs_teacher_ce: 1.3862944841384888
+  router_vs_teacher_kl: 3.735420861517014e-09
+  class_to_expert: [0, 1, 2, 3]
+
+[fixed_good] beta_eval=0.051642816982650844
+  oracle_best_mse: 0.9930884806315105
+  soft_oracle_mse: 0.9931141357421875
+  router_mix_mse: 0.9931141357421875
+  bayes_router_mix_mse: 0.9931141967773438
+  oracle_class_mi_norm: 0.001098498019323767
+  router_class_mi_norm: 0.012026926823892971
+  bayes_class_mi_norm: 0.23023767329956463
+  oracle_usage_entropy: 0.9996793270111084
+  router_usage_entropy: 0.9644399881362915
+  bayes_usage_entropy: 0.9993966817855835
+  router_vs_teacher_ce: 1.3862944841384888
+  router_vs_teacher_kl: 9.550242818789911e-10
+  class_to_expert: [0, 1, 2, 3]
+
+[hard_cold] beta_eval=1.5408512905091334
+  oracle_best_mse: 0.9923509521484375
+  soft_oracle_mse: 0.9924735514322917
+  router_mix_mse: 0.9924735310872396
+  bayes_router_mix_mse: 0.9924729817708333
+  oracle_class_mi_norm: 0.004081443317206944
+  router_class_mi_norm: 0.005682481324242611
+  bayes_class_mi_norm: 0.23023767329956468
+  oracle_usage_entropy: 0.9841659665107727
+  router_usage_entropy: 0.9591972827911377
+  bayes_usage_entropy: 0.9993967413902283
+  router_vs_teacher_ce: 1.3862944841384888
+  router_vs_teacher_kl: 2.2096141805150182e-08
+  class_to_expert: [3, 2, 0, 1]
+
+[theory_anneal] beta_eval=0.051642816982650844
+  oracle_best_mse: 0.9928033650716146
+  soft_oracle_mse: 0.9928271280924479
+  router_mix_mse: 0.9928271280924479
+  bayes_router_mix_mse: 0.9928270467122395
+  oracle_class_mi_norm: 0.0006996692055789636
+  router_class_mi_norm: 0.01019864619558225
+  bayes_class_mi_norm: 0.23023767329956463
+  oracle_usage_entropy: 0.9998552203178406
+  router_usage_entropy: 0.975568413734436
+  bayes_usage_entropy: 0.9993966817855835
+  router_vs_teacher_ce: 1.3862942457199097
+  router_vs_teacher_kl: -1.2796681769788876e-10
+  class_to_expert: [0, 2, 1, 3]
+
+[grid_0.00430357] beta_eval=0.00430356808188757
+  oracle_best_mse: 0.993113037109375
+  soft_oracle_mse: 0.9931378987630208
+  router_mix_mse: 0.9931378987630208
+  bayes_router_mix_mse: 0.993137715657552
+  oracle_class_mi_norm: 0.00042202301646161673
+  router_class_mi_norm: 0.009964162721960063
+  bayes_class_mi_norm: 0.23023767329956463
+  oracle_usage_entropy: 0.9994320869445801
+  router_usage_entropy: 0.8544719815254211
+  bayes_usage_entropy: 0.9993966817855835
+  router_vs_teacher_ce: 1.3862944841384888
+  router_vs_teacher_kl: 1.9272290430194516e-09
+  class_to_expert: [0, 1, 2, 3]
+
+[grid_0.0129107] beta_eval=0.012910704245662711
+  oracle_best_mse: 0.9924935099283854
+  soft_oracle_mse: 0.9925181070963541
+  router_mix_mse: 0.9925181070963541
+  bayes_router_mix_mse: 0.9925179646809896
+  oracle_class_mi_norm: 0.00028351446165467755
+  router_class_mi_norm: 0.006888632248000381
+  bayes_class_mi_norm: 0.23023767329956463
+  oracle_usage_entropy: 0.999139130115509
+  router_usage_entropy: 0.9490898847579956
+  bayes_usage_entropy: 0.9993966817855835
+  router_vs_teacher_ce: 1.3862944841384888
+  router_vs_teacher_kl: 2.8909059590631614e-09
+  class_to_expert: [0, 1, 2, 3]
+
+[grid_0.0215178] beta_eval=0.02151784040943785
+  oracle_best_mse: 0.9934484049479166
+  soft_oracle_mse: 0.9934722493489583
+  router_mix_mse: 0.9934722493489583
+  bayes_router_mix_mse: 0.9934727172851563
+  oracle_class_mi_norm: 0.001372797971356585
+  router_class_mi_norm: 0.002682710326146936
+  bayes_class_mi_norm: 0.23023767329956463
+  oracle_usage_entropy: 0.999676525592804
+  router_usage_entropy: 0.9556149840354919
+  bayes_usage_entropy: 0.9993966817855835
+  router_vs_teacher_ce: 1.3862944841384888
+  router_vs_teacher_kl: 3.2486593415370635e-09
+  class_to_expert: [0, 1, 2, 3]
+
+[grid_0.0516428] beta_eval=0.051642816982650844
+  oracle_best_mse: 0.993023681640625
+  soft_oracle_mse: 0.9930480753580729
+  router_mix_mse: 0.9930480753580729
+  bayes_router_mix_mse: 0.9930478922526041
+  oracle_class_mi_norm: 0.0003609309404594125
+  router_class_mi_norm: 0.011600192949359487
+  bayes_class_mi_norm: 0.23023767329956463
+  oracle_usage_entropy: 0.9993669390678406
+  router_usage_entropy: 0.975196897983551
+  bayes_usage_entropy: 0.9993967413902283
+  router_vs_teacher_ce: 1.3862942457199097
+  router_vs_teacher_kl: 3.2905542179939573e-10
+  class_to_expert: [1, 2, 3, 0]
+
+[grid_0.571162] beta_eval=0.5711619201238108
+  oracle_best_mse: 0.993445068359375
+  soft_oracle_mse: 0.9934721883138021
+  router_mix_mse: 0.99347216796875
+  bayes_router_mix_mse: 0.9934723103841145
+  oracle_class_mi_norm: 0.001390590846476408
+  router_class_mi_norm: 0.009107567322593999
+  bayes_class_mi_norm: 0.23023767329956463
+  oracle_usage_entropy: 0.9998478889465332
+  router_usage_entropy: 0.9967897534370422
+  bayes_usage_entropy: 0.9993967413902283
+  router_vs_teacher_ce: 1.3862944841384888
+  router_vs_teacher_kl: 1.0152613194591709e-09
+  class_to_expert: [0, 1, 3, 2]
+
+[grid_0.592635] beta_eval=0.5926351117342821
+  oracle_best_mse: 0.9924667358398438
+  soft_oracle_mse: 0.9924947509765625
+  router_mix_mse: 0.9924947509765625
+  bayes_router_mix_mse: 0.9924942016601562
+  oracle_class_mi_norm: 0.0011362761302339706
+  router_class_mi_norm: 0.008114964970482861
+  bayes_class_mi_norm: 0.23023767329956463
+  oracle_usage_entropy: 0.998889684677124
+  router_usage_entropy: 0.9930908679962158
+  bayes_usage_entropy: 0.9993966817855835
+  router_vs_teacher_ce: 1.3862944841384888
+  router_vs_teacher_kl: 4.3777429598046425e-11
+  class_to_expert: [0, 1, 2, 3]
+
+[grid_0.856743] beta_eval=0.8567428801857163
+  oracle_best_mse: 0.9930574544270834
+  soft_oracle_mse: 0.9930874430338542
+  router_mix_mse: 0.9930874430338542
+  bayes_router_mix_mse: 0.9930878295898438
+  oracle_class_mi_norm: 0.0019355903312473987
+  router_class_mi_norm: 0.012107545212692264
+  bayes_class_mi_norm: 0.23023767329956463
+  oracle_usage_entropy: 0.9995228052139282
+  router_usage_entropy: 0.9864484667778015
+  bayes_usage_entropy: 0.9993966817855835
+  router_vs_teacher_ce: 1.3862944841384888
+  router_vs_teacher_kl: -1.3938051823814135e-09
+  class_to_expert: [2, 0, 1, 3]

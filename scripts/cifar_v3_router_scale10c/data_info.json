@@ -1,0 +1,23 @@
+{
+  "classes": [
+    "airplane",
+    "automobile",
+    "bird",
+    "cat",
+    "deer",
+    "dog",
+    "frog",
+    "horse",
+    "ship",
+    "truck"
+  ],
+  "raw_dim": 3072,
+  "global_std": 0.2509581446647644,
+  "train_n": 20000,
+  "test_n": 5000,
+  "d_mode": "pca",
+  "d_latent": 512,
+  "p": 1024,
+  "K": 8,
+  "t": 1.5
+}

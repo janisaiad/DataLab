@@ -1,0 +1,16 @@
+{
+  "lambda_free": 0.23943808674812317,
+  "lambda_class": 44.10853958129883,
+  "lambda_trans": 2.4029524326324463,
+  "beta_free": 2.0882224995640515,
+  "beta_class": 0.011335673426195013,
+  "beta_trans": 0.20807736067095076,
+  "alpha_log_n_over_d": 0.016245637044373717,
+  "v_emp": 0.017786964774131775,
+  "beta_glass_emp": 1.3515510317630617,
+  "beta_target": 0.034007020278585036,
+  "residual_mse": 0.39191359281539917,
+  "class_basis_rank": 10,
+  "window_class_before_trans": 1.0,
+  "window_class_before_glass": 1.0
+}
