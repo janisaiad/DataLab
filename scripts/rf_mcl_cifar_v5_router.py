@@ -262,12 +262,12 @@ def lambda_dir(s, r, v):
 
 
 @torch.no_grad()
-def class_basis(y, labels, c: int):
+def class_basis(target, labels, c: int):
     mats = []
     for ci in range(c):
         m = labels == ci
         if m.sum():
-            mats.append(y[m].mean(0))
+            mats.append(target[m].mean(0))
     m = torch.stack(mats)
     m = m - m.mean(0, keepdim=True)
     _, s, vh = torch.linalg.svd(m, full_matrices=False)
@@ -276,13 +276,14 @@ def class_basis(y, labels, c: int):
 
 
 @torch.no_grad()
-def calibrate(rf, x, y, labels, c: int, ridge: float, power_iters: int):
+def calibrate(rf, x, y, labels, c: int, ridge: float, power_iters: int, class_target=None):
     phi = rf(x)
     a0 = ridge_fit(phi, y, ridge)
     r = y - phi @ a0
     s = whiten(phi, ridge)
     lf = power_free(s, r, power_iters)
-    b = class_basis(y, labels, c).to(x.device)
+    target_for_basis = y if class_target is None else class_target
+    b = class_basis(target_for_basis, labels, c).to(x.device)
     lc = max([lambda_dir(s, r, b[:, j]) for j in range(b.shape[1])] or [0.0])
     d = y.shape[1]
     pmat = b @ b.T if b.numel() else torch.zeros(d, d, device=x.device)
@@ -380,6 +381,8 @@ def train_variant(name: str, beta_final: float, params: Params, rf, data, device
                     "test_oracle_best_mse": float(e_test.min(1).values.mean().item()),
                     "test_soft_oracle_mse": float((q_test * e_test).sum(1).mean().item()),
                     "test_mean_expert_mse": float(e_test.mean(1).mean().item()),
+                    "test_cost_gap_mean": float((e_test.mean(1) - e_test.min(1).values).mean().item()),
+                    "test_beta_gap": float((b * (e_test.mean(1) - e_test.min(1).values)).mean().item()),
                     "test_teacher_entropy_norm": float((-(q_test.clamp_min(1e-12) * q_test.clamp_min(1e-12).log()).sum(1).mean() / math.log(params.K)).item()),
                     "test_oracle_class_mi_norm": mi_norm(e_test.argmin(1), lte, params.K, c),
                 }
@@ -425,6 +428,8 @@ def eval_router(experts, router, phi, y, labels, f0, beta: float, c: int, k: int
         oracle_best_mse=float(e.min(1).values.mean().item()),
         soft_oracle_mse=float((q * e).sum(1).mean().item()),
         mean_expert_mse=float(e.mean(1).mean().item()),
+        cost_gap_mean=float((e.mean(1) - e.min(1).values).mean().item()),
+        beta_gap=float((beta * (e.mean(1) - e.min(1).values)).mean().item()),
         router_mix_mse=float(((mix - y) ** 2).mean(1).mean().item()),
         router_soft_mse=float((rq * e).sum(1).mean().item()),
         oracle_class_mi_norm=mi_norm(e.argmin(1), labels, k, c),
@@ -487,7 +492,17 @@ def run(params: Params):
     f0_tr = phi_tr @ a0
     f0_te = phi_te @ a0
     idx = torch.randperm(xtr.shape[0], device=device)[: min(params.n_calib, xtr.shape[0])]
-    cal = calibrate(rf, xtr[idx], ytr_eps[idx], ltr[idx], c, params.ridge, params.power_iters)
+    idx_cpu = idx.cpu()
+    cal = calibrate(
+        rf,
+        xtr[idx],
+        ytr_eps[idx],
+        ltr[idx],
+        c,
+        params.ridge,
+        params.power_iters,
+        class_target=x0[idx_cpu].to(device),
+    )
     (out / "params.json").write_text(json.dumps(asdict(params), indent=2))
     info.update(d_mode=params.d_mode, d_latent=int(d), p=params.p, K=params.K, t=params.t, target="eps")
     (out / "data_info.json").write_text(json.dumps(info, indent=2))
@@ -537,7 +552,7 @@ def run(params: Params):
     lines.append("\nFinal router metrics:")
     for r in final_rows:
         lines.append(f"\n[{r['variant']}] beta_eval={r['beta_eval']}")
-        for k in ["oracle_best_mse", "soft_oracle_mse", "mean_expert_mse", "router_mix_mse", "router_soft_mse", "oracle_class_mi_norm", "router_class_mi_norm", "teacher_entropy_norm", "router_vs_teacher_ce", "router_vs_teacher_kl"]:
+        for k in ["oracle_best_mse", "soft_oracle_mse", "mean_expert_mse", "cost_gap_mean", "beta_gap", "router_mix_mse", "router_soft_mse", "oracle_class_mi_norm", "router_class_mi_norm", "teacher_entropy_norm", "router_vs_teacher_ce", "router_vs_teacher_kl"]:
             lines.append(f"  {k}: {r[k]}")
         if r["teacher_entropy_norm"] > 0.95:
             lines.append("  teacher_status: near_uniform (router likely uninformative)")

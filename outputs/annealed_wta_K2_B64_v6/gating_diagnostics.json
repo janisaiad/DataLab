@@ -1,0 +1,60 @@
+{
+  "num_labels_total": 512,
+  "num_labels_confident": 512,
+  "confident_fraction": 1.0,
+  "threshold_rel_margin": 8.197805436793715e-05,
+  "threshold_relaxed_due_to_too_few_confident": true,
+  "margin_stats": {
+    "mean": 0.08469095826148987,
+    "q10": 0.03097657673060894,
+    "q25": 0.05807214230298996,
+    "q50": 0.08352543413639069,
+    "q75": 0.11166507005691528,
+    "q90": 0.14025790989398956,
+    "max": 0.1801317185163498
+  },
+  "teacher_entropy_norm_mean": 0.10717666894197464,
+  "teacher_entropy_norm_q50": 0.009281696751713753,
+  "teacher_entropy_norm_q90": 0.36322617530822754,
+  "winner_usage_all": [
+    0.482421875,
+    0.517578125
+  ],
+  "winner_usage_confident": [
+    0.482421875,
+    0.517578125
+  ],
+  "winner_usage_entropy_all": 0.9991082549095154,
+  "winner_usage_entropy_confident": 0.9991082549095154,
+  "winner_digit_mi_norm_all": 0.002020938301118923,
+  "winner_digit_mi_norm_confident": 0.002020938301118923,
+  "teacher_status": "usable_margin_signal",
+  "default_expert": 1,
+  "gate_train_on": "confident",
+  "gate_num_train": 461,
+  "gate_num_val": 51,
+  "gate_train_label_usage": [
+    0.4793926179409027,
+    0.5206073522567749
+  ],
+  "gate_final_train_acc": 0.4967462039045553,
+  "gate_final_val_acc": 0.9607843137254902,
+  "gate_acc_all_labels": 0.982421875,
+  "gate_ce_all_labels": 0.508204460144043,
+  "gate_acc_confident_labels": 0.982421875,
+  "gate_ce_confident_labels": 0.508204460144043,
+  "history": {
+    "train_acc": [
+      0.4967462039045553
+    ],
+    "val_acc": [
+      0.9607843137254902
+    ],
+    "train_loss": [
+      0.7977427244186401
+    ],
+    "val_loss": [
+      0.4923390746116638
+    ]
+  }
+}

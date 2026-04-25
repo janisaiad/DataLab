@@ -323,6 +323,8 @@ def train_variant(name: str, beta_final: float, params: Params, rf, data, device
                     "test_oracle_best_mse": float(e_test.min(1).values.mean().item()),
                     "test_soft_oracle_mse": float((q_test * e_test).sum(1).mean().item()),
                     "test_mean_expert_mse": float(e_test.mean(1).mean().item()),
+                    "test_cost_gap_mean": float((e_test.mean(1) - e_test.min(1).values).mean().item()),
+                    "test_beta_gap": float((b * (e_test.mean(1) - e_test.min(1).values)).mean().item()),
                     "test_teacher_entropy_norm": float((-(q_test.clamp_min(1e-12) * q_test.clamp_min(1e-12).log()).sum(1).mean() / math.log(params.K)).item()),
                     "test_oracle_class_mi_norm": mi_norm(e_test.argmin(1), lte, params.K, params.C),
                 }
@@ -379,6 +381,8 @@ def eval_router(experts, router, phi, y, labels, f0, beta: float, c: int):
         oracle_best_mse=float(e.min(1).values.mean().item()),
         soft_oracle_mse=float((q * e).sum(1).mean().item()),
         mean_expert_mse=float(e.mean(1).mean().item()),
+        cost_gap_mean=float((e.mean(1) - e.min(1).values).mean().item()),
+        beta_gap=float((beta * (e.mean(1) - e.min(1).values)).mean().item()),
         router_mix_mse=float(((mix - y) ** 2).mean(1).mean().item()),
         router_soft_mse=float((rq * e).sum(1).mean().item()),
         oracle_class_mi_norm=mi_norm(e.argmin(1), labels, pred.shape[1], c),
@@ -471,7 +475,7 @@ def run(params: Params):
     lines.append("\nFinal router metrics:")
     for r in final_rows:
         lines.append(f"\n[{r['variant']}] beta_eval={r['beta_eval']}")
-        for k in ["oracle_best_mse", "soft_oracle_mse", "mean_expert_mse", "router_mix_mse", "router_soft_mse", "oracle_class_mi_norm", "router_class_mi_norm", "teacher_entropy_norm", "router_vs_teacher_ce", "router_vs_teacher_kl"]:
+        for k in ["oracle_best_mse", "soft_oracle_mse", "mean_expert_mse", "cost_gap_mean", "beta_gap", "router_mix_mse", "router_soft_mse", "oracle_class_mi_norm", "router_class_mi_norm", "teacher_entropy_norm", "router_vs_teacher_ce", "router_vs_teacher_kl"]:
             lines.append(f"  {k}: {r[k]}")
         if r["teacher_entropy_norm"] > 0.95:
             lines.append("  teacher_status: near_uniform (router likely uninformative)")
