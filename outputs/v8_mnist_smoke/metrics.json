@@ -1,0 +1,79 @@
+{
+  "baseline_heun": {
+    "fid": 1106.299246400186,
+    "precision": 1.0,
+    "recall": 0.0
+  },
+  "mixture_score": {
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 1018.4909265103809,
+    "num_samples": 32.0,
+    "num_steps": 10.0,
+    "precision": 0.96875,
+    "recall": 0.0
+  },
+  "random_expert": {
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 975.7562739992925,
+    "gate_usage_entropy": 1.0,
+    "num_samples": 32.0,
+    "num_steps": 10.0,
+    "precision": 1.0,
+    "recall": 0.0,
+    "usage_frac_0": 0.5,
+    "usage_frac_1": 0.5
+  },
+  "risk_confident": {
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 972.0347785706031,
+    "gate_usage_entropy": 0.8812909722328186,
+    "num_samples": 32.0,
+    "num_steps": 10.0,
+    "precision": 1.0,
+    "recall": 0.0,
+    "risk_margin_mean_over_steps": 0.00016126339905895293,
+    "usage_frac_0": 0.30000001192092896,
+    "usage_frac_1": 0.699999988079071
+  },
+  "risk_gated": {
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 922.5863152430588,
+    "gate_usage_entropy": 0.8812909722328186,
+    "num_samples": 32.0,
+    "num_steps": 10.0,
+    "precision": 0.96875,
+    "recall": 0.03125,
+    "risk_margin_mean_over_steps": 0.00016041864291764795,
+    "usage_frac_0": 0.30000001192092896,
+    "usage_frac_1": 0.699999988079071
+  },
+  "risk_softmix": {
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 965.3352330059568,
+    "gate_usage_entropy": 0.8812909722328186,
+    "num_samples": 32.0,
+    "num_steps": 10.0,
+    "precision": 1.0,
+    "recall": 0.0,
+    "risk_margin_mean_over_steps": 0.00015890604699961842,
+    "usage_frac_0": 0.30000001192092896,
+    "usage_frac_1": 0.699999988079071
+  },
+  "single_expert": {
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 965.5690786018652,
+    "gate_usage_entropy": 3.986313709680722e-11,
+    "num_samples": 32.0,
+    "num_steps": 10.0,
+    "precision": 1.0,
+    "recall": 0.0,
+    "usage_frac_0": 1.0,
+    "usage_frac_1": 0.0
+  }
+}

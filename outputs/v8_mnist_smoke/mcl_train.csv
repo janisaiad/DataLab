@@ -1,0 +1,2 @@
+beta_max,beta_mean,beta_min,loss,mcl_e_best,mcl_e_mean,ramp,step,teacher_entropy_usage,usage_0,usage_1
+0.0,0.0,0.0,0.08946177363395691,0.08895531296730042,0.08946177363395691,0.0,1,1.0,0.5,0.5

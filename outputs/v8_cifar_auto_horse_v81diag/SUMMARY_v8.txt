@@ -1,0 +1,189 @@
+V8 Bayes-risk gated MCL diffusion
+
+Config:
+{
+  "dataset": "cifar10",
+  "data_root": "./data",
+  "classes": "automobile,horse",
+  "image_size": 32,
+  "max_train_items": 0,
+  "max_test_items": 0,
+  "no_download": false,
+  "num_workers": 8,
+  "K": 4,
+  "width": 64,
+  "temb_dim": 128,
+  "batch_size": 192,
+  "baseline_steps": 30000,
+  "mcl_steps": 60000,
+  "lr": 0.0002,
+  "weight_decay": 0.0001,
+  "grad_clip": 1.0,
+  "init_mcl_from_baseline": true,
+  "mcl_init_noise": 0.001,
+  "hard_wta": false,
+  "balance_weight": 0.02,
+  "diversity_weight": 0.0,
+  "mcl_warmup_steps": 2000,
+  "mcl_ramp_steps": 8000,
+  "log_every": 500,
+  "t_min": 0.02,
+  "t_max": 3.0,
+  "beta_rho": 1.0,
+  "beta_min": 0.0,
+  "beta_max": 80.0,
+  "pca_dim_router": 128,
+  "router_stats_items": 12000,
+  "router_t_bins": 24,
+  "router_calib_batches": 64,
+  "risk_soft_temp": 0.0002,
+  "risk_conf_margin": 1e-05,
+  "paired_batches": 5,
+  "num_samples": 2048,
+  "sample_steps": 100,
+  "default_expert": 0,
+  "sample_batch_size": 128,
+  "strategies": "baseline_heun,single_expert,random_expert,mixture_score,risk_gated,risk_softmix,risk_confident",
+  "all": false,
+  "train_baseline": false,
+  "train_mcl": false,
+  "calibrate_router": true,
+  "sample_eval": true,
+  "baseline_ckpt": "outputs/v8_cifar_auto_horse/baseline_final.pt",
+  "mcl_ckpt": "outputs/v8_cifar_auto_horse/mcl_final.pt",
+  "router_ckpt": "",
+  "seed": 0,
+  "device": "cuda",
+  "outdir": "outputs/v8_cifar_auto_horse_v81diag"
+}
+
+Data info:
+{
+  "dataset": "cifar10",
+  "classes": [
+    "automobile",
+    "horse"
+  ],
+  "class_ids": [
+    1,
+    7
+  ],
+  "C": 2,
+  "channels": 3,
+  "image_size": 32,
+  "train_n": 10000,
+  "test_n": 2000,
+  "data_dim": 3072
+}
+
+Beta calibrator:
+  data_dim: 3072
+  v0_image: 0.25591227412223816
+  beta_rho: 1.0
+  beta_min: 0.0
+  beta_max: 80.0
+
+Router calibration aggregate:
+  route_excess_vs_sample_oracle: mean=7.04018e-10, max=3.45819e-09, min=1.35254e-10
+  teacher_entropy_norm: mean=1, max=1, min=1
+  posterior_acc: mean=0.656992, max=0.7348, min=0.5347
+  risk_margin_mean: mean=1.95742e-10, max=1.81682e-09, min=0
+  delta_A_mean_min_interexpert: mean=0, max=0, min=0
+  bayes_decision_entropy_t: mean=0.326412, max=0.685388, min=5.97947e-11
+  A_cond_smax_over_smin: mean=4.29957e+07, max=3.43189e+08, min=9.25916e+06
+
+Generation metrics:
+
+[baseline_heun]
+  fid_diag_fallback: 8.663566589355469
+  precision: nan
+  recall: nan
+  evaluator_warning: evaluate_failed: OutOfMemoryError: CUDA out of memory. Tried to allocate 784.00 MiB (GPU 0; 23.53 GiB total capacity; 208.18 MiB already allocated; 272.69 MiB free; 246.00 MiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+
+[single_expert]
+  fid_diag_fallback: 15.063835144042969
+  precision: nan
+  recall: nan
+  evaluator_warning: evaluate_failed: OutOfMemoryError: CUDA out of memory. Tried to allocate 784.00 MiB (GPU 0; 23.53 GiB total capacity; 208.18 MiB already allocated; 288.69 MiB free; 230.00 MiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+  fallback_count: 0.0
+  fallback_fraction: 0.0
+  gate_usage_entropy: 5.979470391048736e-11
+  num_samples: 128.0
+  num_steps: 100.0
+  usage_frac_0: 1.0
+  usage_frac_1: 0.0
+  usage_frac_2: 0.0
+  usage_frac_3: 0.0
+
+[random_expert]
+  fid_diag_fallback: 15.608318328857422
+  precision: nan
+  recall: nan
+  evaluator_warning: evaluate_failed: OutOfMemoryError: CUDA out of memory. Tried to allocate 784.00 MiB (GPU 0; 23.53 GiB total capacity; 208.18 MiB already allocated; 288.69 MiB free; 230.00 MiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+  fallback_count: 0.0
+  fallback_fraction: 0.0
+  gate_usage_entropy: 0.9926600866019726
+  num_samples: 128.0
+  num_steps: 100.0
+  usage_frac_0: 0.24755859375
+  usage_frac_1: 0.25634765625
+  usage_frac_2: 0.26318359375
+  usage_frac_3: 0.23291015625
+
+[mixture_score]
+  fid_diag_fallback: 19.341476440429688
+  precision: nan
+  recall: nan
+  evaluator_warning: evaluate_failed: OutOfMemoryError: CUDA out of memory. Tried to allocate 784.00 MiB (GPU 0; 23.53 GiB total capacity; 208.18 MiB already allocated; 288.69 MiB free; 230.00 MiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+  fallback_count: 0.0
+  fallback_fraction: 0.0
+  num_samples: 128.0
+  num_steps: 100.0
+
+[risk_gated]
+  fid_diag_fallback: 14.738150596618652
+  precision: nan
+  recall: nan
+  evaluator_warning: evaluate_failed: OutOfMemoryError: CUDA out of memory. Tried to allocate 784.00 MiB (GPU 0; 23.53 GiB total capacity; 208.18 MiB already allocated; 288.69 MiB free; 230.00 MiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+  fallback_count: 0.0
+  fallback_fraction: 0.0
+  gate_usage_entropy: 0.7793223559856415
+  num_samples: 128.0
+  num_steps: 100.0
+  risk_margin_mean_over_steps: 1.9276114926469746e-10
+  usage_frac_0: 0.6016894541680813
+  usage_frac_1: 0.06711914017796516
+  usage_frac_2: 0.14689941331744194
+  usage_frac_3: 0.1842919932678342
+
+[risk_softmix]
+  fid_diag_fallback: 15.138294219970703
+  precision: nan
+  recall: nan
+  evaluator_warning: evaluate_failed: OutOfMemoryError: CUDA out of memory. Tried to allocate 784.00 MiB (GPU 0; 23.53 GiB total capacity; 208.18 MiB already allocated; 288.69 MiB free; 230.00 MiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+  fallback_count: 0.0
+  fallback_fraction: 0.0
+  gate_usage_entropy: 0.7423546835780144
+  num_samples: 128.0
+  num_steps: 100.0
+  risk_margin_mean_over_steps: 1.9246641613790415e-10
+  usage_frac_0: 0.6394287087023258
+  usage_frac_1: 0.06669921893626451
+  usage_frac_2: 0.13520996179431677
+  usage_frac_3: 0.15866210870444775
+
+[risk_confident]
+  fid_diag_fallback: 16.52197265625
+  precision: nan
+  recall: nan
+  evaluator_warning: evaluate_failed: OutOfMemoryError: CUDA out of memory. Tried to allocate 784.00 MiB (GPU 0; 23.53 GiB total capacity; 208.18 MiB already allocated; 288.69 MiB free; 230.00 MiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+  fallback_count: 12800.0
+  fallback_fraction: 1.0
+  gate_usage_entropy: 0.7801681682467461
+  num_samples: 128.0
+  num_steps: 100.0
+  risk_margin_mean_over_steps: 1.9207249124519876e-10
+  usage_frac_0: 0.6011376976966858
+  usage_frac_1: 0.06781250052154064
+  usage_frac_2: 0.14617675822228193
+  usage_frac_3: 0.1848730444908142

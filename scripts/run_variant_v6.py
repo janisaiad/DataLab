@@ -524,6 +524,10 @@ def generate_mcl_v6(
         "fallback_count": 0,
         "total_route_decisions": 0,
         "mean_gate_maxprob": 0.0,
+        "gate_usage_counts_per_step": [[0 for _ in range(K)] for _ in range(num_steps)],
+        "gate_mean_maxprob_per_step_sum": [0.0 for _ in range(num_steps)],
+        "gate_route_count_per_step": [0 for _ in range(num_steps)],
+        "fallback_count_per_step": [0 for _ in range(num_steps)],
     }
 
     for start in range(0, num_samples, sample_batch_size):
@@ -564,6 +568,12 @@ def generate_mcl_v6(
                 maxprob, chosen = probs.max(dim=1)
                 stats["mean_gate_maxprob"] += float(maxprob.sum().cpu())
                 stats["total_route_decisions"] += int(B)
+                stats["gate_mean_maxprob_per_step_sum"][i] += float(maxprob.sum().cpu())
+                stats["gate_route_count_per_step"][i] += int(B)
+                step_counts = torch.bincount(chosen.detach().cpu(), minlength=K).tolist()
+                stats["gate_usage_counts_per_step"][i] = [
+                    int(a + b) for a, b in zip(stats["gate_usage_counts_per_step"][i], step_counts)
+                ]
                 stats["gate_usage_counts"] = [
                     int(a + b)
                     for a, b in zip(
@@ -585,6 +595,7 @@ def generate_mcl_v6(
                             eps_hat = eps_hard
                         else:
                             stats["fallback_count"] += int((~confident).sum().item())
+                            stats["fallback_count_per_step"][i] += int((~confident).sum().item())
                             if gate_fallback in {"softmix", "mixture"}:
                                 eps_fb = torch.einsum("bk,bkchw->bchw", probs, pred_all) if gate_fallback == "softmix" else pred_all.mean(dim=1)
                             elif gate_fallback == "best_live":
@@ -611,10 +622,22 @@ def generate_mcl_v6(
         stats["gate_usage_fraction"] = (torch.tensor(stats["gate_usage_counts"]).float() / max(1, stats["total_route_decisions"])).tolist()
         stats["fallback_fraction"] = float(stats["fallback_count"] / max(1, stats["total_route_decisions"]))
         stats["gate_usage_entropy"] = norm_entropy_from_counts(torch.tensor(stats["gate_usage_counts"]))
+        stats["gate_usage_fraction_per_step"] = []
+        stats["gate_mean_maxprob_per_step"] = []
+        stats["fallback_fraction_per_step"] = []
+        for j in range(num_steps):
+            denom = max(1, int(stats["gate_route_count_per_step"][j]))
+            frac = (torch.tensor(stats["gate_usage_counts_per_step"][j]).float() / denom).tolist()
+            stats["gate_usage_fraction_per_step"].append(frac)
+            stats["gate_mean_maxprob_per_step"].append(float(stats["gate_mean_maxprob_per_step_sum"][j]) / denom)
+            stats["fallback_fraction_per_step"].append(float(stats["fallback_count_per_step"][j]) / denom)
     else:
         stats["gate_usage_fraction"] = [0.0] * K
         stats["fallback_fraction"] = 0.0
         stats["gate_usage_entropy"] = 0.0
+        stats["gate_usage_fraction_per_step"] = [[0.0 for _ in range(K)] for _ in range(num_steps)]
+        stats["gate_mean_maxprob_per_step"] = [0.0 for _ in range(num_steps)]
+        stats["fallback_fraction_per_step"] = [0.0 for _ in range(num_steps)]
 
     return torch.cat(outputs, dim=0)[:num_samples], stats
 

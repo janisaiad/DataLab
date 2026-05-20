@@ -1,0 +1,110 @@
+{
+  "baseline_heun": {
+    "fid": 73.15226674585293,
+    "precision": 0.556640625,
+    "recall": 0.740234375
+  },
+  "mixture_score": {
+    "commit_fraction": 0.0,
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 61.13196953764173,
+    "num_samples": 256.0,
+    "num_steps": 80.0,
+    "precision": 0.62109375,
+    "recall": 0.7958984375
+  },
+  "paired_mixture_vs_risk_softmix": {
+    "fid_diff_mix_minus_soft_ci95_hi": 8.494872671320762e-05,
+    "fid_diff_mix_minus_soft_ci95_lo": 8.236943517658805e-06,
+    "fid_diff_mix_minus_soft_mean": 4.659283511543322e-05,
+    "fid_diff_mix_minus_soft_pvalue_normal_approx": 0.017269892884675654,
+    "fid_diff_mix_minus_soft_std": 2.7675215354328993e-05,
+    "n_pairs": 2.0
+  },
+  "random_expert": {
+    "commit_fraction": 0.0,
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 63.62725776266613,
+    "gate_usage_entropy": 0.9982270449399948,
+    "num_samples": 256.0,
+    "num_steps": 80.0,
+    "precision": 0.623046875,
+    "recall": 0.787109375,
+    "usage_frac_0": 0.5126953125,
+    "usage_frac_1": 0.4873046875
+  },
+  "risk_commit_once": {
+    "commit_fraction": 1.0,
+    "commit_time_max": 0.31800001859664917,
+    "commit_time_mean": 0.31800001859664917,
+    "commit_time_min": 0.31800001859664917,
+    "fallback_count": 18432.0,
+    "fallback_fraction": 0.9,
+    "fid": 59.23601224603614,
+    "gate_usage_entropy": 3.986313709680722e-11,
+    "num_samples": 256.0,
+    "num_steps": 80.0,
+    "precision": 0.64453125,
+    "recall": 0.7890625,
+    "risk_margin_mean_over_steps": 5.079591858248022e-10,
+    "usage_frac_0": 1.0,
+    "usage_frac_1": 0.0
+  },
+  "risk_confident": {
+    "commit_fraction": 0.0,
+    "fallback_count": 20480.0,
+    "fallback_fraction": 1.0,
+    "fid": 62.65539687875588,
+    "gate_usage_entropy": 0.9951467663049698,
+    "num_samples": 256.0,
+    "num_steps": 80.0,
+    "precision": 0.6328125,
+    "recall": 0.80859375,
+    "risk_margin_mean_over_steps": 5.193022900584765e-10,
+    "usage_frac_0": 0.5409423857927322,
+    "usage_frac_1": 0.45905761420726776
+  },
+  "risk_gated": {
+    "commit_fraction": 0.0,
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 58.043868535700796,
+    "gate_usage_entropy": 0.9954096227884293,
+    "num_samples": 256.0,
+    "num_steps": 80.0,
+    "precision": 0.626953125,
+    "recall": 0.7705078125,
+    "risk_margin_mean_over_steps": 5.125308177866828e-10,
+    "usage_frac_0": 0.53985595703125,
+    "usage_frac_1": 0.4601440355181694
+  },
+  "risk_softmix": {
+    "commit_fraction": 0.0,
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 62.13834622494667,
+    "gate_usage_entropy": 0.99407097697258,
+    "num_samples": 256.0,
+    "num_steps": 80.0,
+    "precision": 0.634765625,
+    "recall": 0.794921875,
+    "risk_margin_mean_over_steps": 5.158810267857916e-10,
+    "usage_frac_0": 0.5452880710363388,
+    "usage_frac_1": 0.4547119140625
+  },
+  "single_expert": {
+    "commit_fraction": 0.0,
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 61.83847748797499,
+    "gate_usage_entropy": 3.986313709680722e-11,
+    "num_samples": 256.0,
+    "num_steps": 80.0,
+    "precision": 0.6376953125,
+    "recall": 0.75390625,
+    "usage_frac_0": 1.0,
+    "usage_frac_1": 0.0
+  }
+}

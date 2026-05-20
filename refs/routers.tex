@@ -1,0 +1,204 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\title{Routeurs MCL en diffusion : notation et stratégies de sampling}
+\author{}
+\date{}
+
+\newcommand{\epshat}{\hat{\epsilon}}
+\newcommand{\shat}{\hat{s}}
+\newcommand{\ellk}{\ell_k}
+\newcommand{\Rk}{R_k}
+
+\begin{document}
+\maketitle
+
+\section{Cadre MCL}
+
+On note les experts MCL $\epshat^k(x_t,t)$, $k=1,\ldots,K$.
+Chaque expert prédit le bruit $\epsilon$, ou de façon équivalente un score
+\[
+\shat^k(x_t,t) \propto -\epshat^k(x_t,t).
+\]
+La perte d'un expert est
+\begin{equation}
+\ellk(x_t,\epsilon,t) = \frac{1}{d}\,\|\epsilon - \epshat^k(x_t,t)\|^2.
+\label{eq:loss}
+\end{equation}
+
+Le soft-MCL entraîne les experts avec
+\begin{equation}
+\mathcal{L}_\beta
+= -\frac{1}{\beta}\,
+\mathbb{E}\log\!\left[
+\frac{1}{K}\sum_{k=1}^{K}\exp\bigl(-\beta(t)\,\ellk(x_t,\epsilon,t)\bigr)
+\right].
+\label{eq:softmcl}
+\end{equation}
+
+Le \emph{teacher} oracle, non déployable au sampling car il utilise $\epsilon$, est
+\begin{equation}
+q_\beta^{\epsilon}(k \mid x_t,\epsilon,t)
+= \frac{\exp\bigl(-\beta(t)\,\ellk(x_t,\epsilon,t)\bigr)}
+{\sum_{j=1}^{K}\exp\bigl(-\beta(t)\,\ellj(x_t,\epsilon,t)\bigr)}.
+\label{eq:teacher}
+\end{equation}
+
+Au sampling, $\epsilon$ est inconnu.
+Le routeur déployable repose sur le \textbf{risque conditionnel}
+\begin{equation}
+\Rk(x_t,t) = \mathbb{E}\bigl[\ellk(x_t,\epsilon,t) \mid x_t\bigr],
+\label{eq:risk}
+\end{equation}
+estimé empiriquement par classe et temps ($A_{c,k}(t)$ dans l'implémentation V9).
+
+\section{Tableau MNIST gold (V9, $K=4$)}
+
+Référence : run \texttt{outputs/v9\_suite/mnist\_gold\_K4} (30k baseline, 60k MCL, 2048 échantillons).
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lcc}
+\toprule
+Stratégie & FID $\downarrow$ & Commentaire \\
+\midrule
+\texttt{baseline\_heun} & 57.66 & référence sans MCL \\
+\texttt{random\_expert} & \textbf{27.77} & meilleur FID \\
+\texttt{risk\_confident} & 29.51 & hard si marge crédible \\
+\texttt{mixture\_score} & 30.05 & moyenne uniforme des $\epshat^k$ \\
+\texttt{risk\_gated} & 30.18 & $\arg\min_k \Rk$ \\
+\texttt{risk\_softmix} & 31.41 & mélange Bayes-risk \\
+\texttt{risk\_commit\_once} & 33.09 & commit unique \\
+\texttt{single\_expert} & 34.44 & expert $k{=}0$ fixe \\
+\bottomrule
+\end{tabular}
+\caption{FID sur MNIST gold V9. Le gain MCL vs baseline est clair ; le meilleur n'est pas le routeur Bayes-risk.}
+\label{tab:fid}
+\end{table}
+
+\paragraph{Lecture.}
+MCL améliore la génération, mais \texttt{random\_expert} devance \texttt{risk\_softmix} et \texttt{risk\_gated} :
+les risques $\Rk$ sont quasi indistinguables (marge $\sim 10^{-10}$, teacher entropy $\approx 1$).
+Le routeur optimal sur un $A_{c,k}(t)$ plat ne peut pas créer une décision non triviale.
+
+\section{Stratégies de sampling}
+
+\subsection{\texttt{single\_expert}}
+
+On fixe un expert (souvent $k=0$) pour toute la trajectoire :
+\[
+\epshat(x_t,t) = \epshat^0(x_t,t).
+\]
+Si \texttt{single\_expert} bat déjà largement la baseline Heun (ici 34.44 vs 57.66),
+chaque expert a appris un débruiteur global raisonnable, pas nécessairement un spécialiste pur :
+le gain MCL porte d'abord sur les champs de score, indépendamment du routeur.
+
+\subsection{\texttt{random\_expert}}
+
+On tire $Z \sim \mathrm{Unif}\{1,\ldots,K\}$ puis
+\[
+\epshat(x_t,t) = \epshat^Z(x_t,t).
+\]
+Selon l'implémentation, $Z$ peut être tiré à chaque pas ou \emph{une fois par trajectoire}
+(commit aléatoire au début, puis expert gelé).
+La loi générée est une mixture discrète
+\[
+p_{\mathrm{gen}} = \frac{1}{K}\sum_{k=1}^{K} p_{\mathrm{gen}}^{(k)}.
+\]
+\texttt{random\_expert} injecte de la diversité sans moyenner les champs de score ;
+un FID élevé (27.77) ne prouve pas que le routeur est inutile, mais que les experts sont diversifiés
+et que le FID récompense la diversité marginale.
+
+\subsection{\texttt{mixture\_score}}
+
+Moyenne uniforme des prédictions :
+\[
+\epshat_{\mathrm{mix}}(x_t,t)
+= \frac{1}{K}\sum_{k=1}^{K}\epshat^k(x_t,t),
+\qquad
+\shat_{\mathrm{mix}}(x_t,t)
+= \frac{1}{K}\sum_{k=1}^{K}\shat^k(x_t,t).
+\]
+Ce n'est en général \emph{pas} le score d'une vraie mixture.
+Le score exact d'une mixture serait
+\[
+\nabla_x \log\sum_k w_k\, p_k(x)
+= \sum_k p(k\mid x)\,\nabla_x\log p_k(x),
+\]
+avec des poids postérieurs, pas forcément $1/K$.
+Ici on obtient une moyenne de champs de score : stable, mais susceptible de flouter les modes.
+FID = 30.05 : la moyenne des experts est déjà un champ efficace.
+
+\subsection{\texttt{risk\_softmix}}
+
+Risque conditionnel \eqref{eq:risk} et routeur soft déployable
+\begin{equation}
+q_\beta^{x}(k \mid x_t,t)
+= \frac{\exp\bigl(-\beta(t)\,\Rk(x_t,t)\bigr)}
+{\sum_{j}\exp\bigl(-\beta(t)\,R_j(x_t,t)\bigr)},
+\label{eq:softrouter}
+\end{equation}
+puis mélange
+\[
+\epshat_{\mathrm{risk\_softmix}}(x_t,t)
+= \sum_{k=1}^{K} q_\beta^{x}(k \mid x_t,t)\,\epshat^k(x_t,t).
+\]
+C'est le \emph{Bayes-risk soft routing}.
+FID = 31.41 : correct, mais derrière \texttt{random\_expert} et \texttt{mixture\_score},
+ce qui indique des $\Rk$ trop proches et des poids $q_\beta^{x}$ peu informatifs.
+
+\subsection{\texttt{risk\_gated}}
+
+Version dure du routeur de risque :
+\[
+k^\star(x_t,t) = \arg\min_{k} \Rk(x_t,t),
+\qquad
+\epshat_{\mathrm{risk\_gated}}(x_t,t) = \epshat^{k^\star}(x_t,t).
+\]
+Winner-take-all déployable.
+FID = 30.18, proche de \texttt{mixture\_score} : le hard routing ne détruit pas,
+mais n'apporte pas encore de gain net (faible marge de risque, pas de spéciation nette).
+
+\subsection{\texttt{risk\_confident}}
+
+On ordonne $R_{(1)} \le R_{(2)} \le \cdots$ et on définit la marge
+\[
+\Delta R(x_t,t) = R_{(2)}(x_t,t) - R_{(1)}(x_t,t).
+\]
+Si $\Delta R(x_t,t) > \tau(t)$, on route vers le meilleur expert ;
+sinon fallback (souvent softmix ou mixture) :
+\[
+\epshat_{\mathrm{risk\_confident}}(x_t,t)
+=
+\begin{cases}
+\epshat^{k^\star}(x_t,t), & \Delta R > \tau,\\[4pt]
+\sum_k q_k(x_t,t)\,\epshat^k(x_t,t), & \Delta R \le \tau.
+\end{cases}
+\]
+FID = 29.51 : parmi les meilleures méthodes.
+Router en dur seulement quand la marge est crédible semble préférable à un hard routing systématique.
+
+\subsection{\texttt{risk\_commit\_once} (V9)}
+
+Variante paper-style : diffusion partagée / soft jusqu'à un temps de commit,
+puis un seul expert pour le reste de la trajectoire si
+$R_{(2)} - R_{(1)} > \theta$ (ou commit forcé à $t \le t_{\mathrm{force}}$).
+FID gold = 33.09 : l'hypothèse ``spéciation puis commit unique'' n'est pas encore validée
+tant que $A_{c,k}(t)$ reste quasi plate.
+
+\section{Synthèse}
+
+\begin{itemize}
+  \item \textbf{Formule du routeur} $k^\star = \arg\min_k \sum_c p(c\mid x_t,t)\, A_{c,k}(t)$ est adéquate.
+  \item \textbf{Bottleneck} : rendre $A_{c,k}(t)$ (donc $\Rk$) non dégénérée par la dynamique MCL, pas affiner le routeur.
+  \item Tant que $\Rk \approx R_{k'}$, \texttt{risk\_softmix}, \texttt{risk\_gated} et \texttt{risk\_commit\_once}
+  ne peuvent pas porter l'argument théorique du papier, même si le multi-expert bat la baseline.
+\end{itemize}
+
+\end{document}

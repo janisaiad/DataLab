@@ -1,0 +1,184 @@
+V8 Bayes-risk gated MCL diffusion
+
+Config:
+{
+  "dataset": "mnist",
+  "data_root": "./data",
+  "classes": "all",
+  "image_size": 28,
+  "max_train_items": 0,
+  "max_test_items": 0,
+  "no_download": false,
+  "num_workers": 0,
+  "K": 2,
+  "width": 64,
+  "temb_dim": 128,
+  "batch_size": 64,
+  "baseline_steps": 20,
+  "mcl_steps": 40,
+  "lr": 0.0002,
+  "weight_decay": 0.0001,
+  "grad_clip": 1.0,
+  "init_mcl_from_baseline": true,
+  "mcl_init_noise": 0.001,
+  "hard_wta": false,
+  "balance_weight": 0.02,
+  "diversity_weight": 0.0,
+  "mcl_warmup_steps": 2000,
+  "mcl_ramp_steps": 8000,
+  "log_every": 500,
+  "t_min": 0.02,
+  "t_max": 3.0,
+  "beta_rho": 1.0,
+  "beta_min": 0.0,
+  "beta_max": 80.0,
+  "pca_dim_router": 64,
+  "router_stats_items": 2000,
+  "router_t_bins": 24,
+  "router_calib_batches": 4,
+  "risk_soft_temp": 0.0002,
+  "risk_conf_margin": 1e-05,
+  "num_samples": 32,
+  "sample_steps": 10,
+  "default_expert": 0,
+  "sample_batch_size": 256,
+  "strategies": "baseline_heun,single_expert,random_expert,mixture_score,risk_gated,risk_softmix,risk_confident",
+  "all": true,
+  "train_baseline": true,
+  "train_mcl": true,
+  "calibrate_router": true,
+  "sample_eval": true,
+  "baseline_ckpt": "",
+  "mcl_ckpt": "",
+  "router_ckpt": "",
+  "seed": 0,
+  "device": "cpu",
+  "outdir": "outputs/v8_mnist_smoke"
+}
+
+Data info:
+{
+  "dataset": "mnist",
+  "classes": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9"
+  ],
+  "class_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "C": 10,
+  "channels": 1,
+  "image_size": 28,
+  "train_n": 60000,
+  "test_n": 10000,
+  "data_dim": 784
+}
+
+Beta calibrator:
+  data_dim: 784
+  v0_image: 0.21344733238220215
+  beta_rho: 1.0
+  beta_min: 0.0
+  beta_max: 80.0
+
+Router calibration aggregate:
+  route_excess_vs_sample_oracle: mean=3.42668e-05, max=0.000164767, min=1.38496e-06
+  teacher_entropy_norm: mean=0.999895, max=0.999975, min=0.99929
+  posterior_acc: mean=0.307943, max=0.773438, min=0.113281
+  risk_margin_mean: mean=0.000158746, max=0.000417771, min=2.98765e-05
+
+Generation metrics:
+
+[baseline_heun]
+  fid: 1106.299246400186
+  precision: 1.0
+  recall: 0.0
+
+[single_expert]
+  fid: 965.5690786018652
+  precision: 1.0
+  recall: 0.0
+  fallback_count: 0.0
+  fallback_fraction: 0.0
+  gate_usage_entropy: 3.986313709680722e-11
+  num_samples: 32.0
+  num_steps: 10.0
+  usage_frac_0: 1.0
+  usage_frac_1: 0.0
+
+[random_expert]
+  fid: 975.7562739992925
+  precision: 1.0
+  recall: 0.0
+  fallback_count: 0.0
+  fallback_fraction: 0.0
+  gate_usage_entropy: 1.0
+  num_samples: 32.0
+  num_steps: 10.0
+  usage_frac_0: 0.5
+  usage_frac_1: 0.5
+
+[mixture_score]
+  fid: 1018.4909265103809
+  precision: 0.96875
+  recall: 0.0
+  fallback_count: 0.0
+  fallback_fraction: 0.0
+  num_samples: 32.0
+  num_steps: 10.0
+
+[risk_gated]
+  fid: 922.5863152430588
+  precision: 0.96875
+  recall: 0.03125
+  fallback_count: 0.0
+  fallback_fraction: 0.0
+  gate_usage_entropy: 0.8812909722328186
+  num_samples: 32.0
+  num_steps: 10.0
+  risk_margin_mean_over_steps: 0.00016041864291764795
+  usage_frac_0: 0.30000001192092896
+  usage_frac_1: 0.699999988079071
+
+[risk_softmix]
+  fid: 965.3352330059568
+  precision: 1.0
+  recall: 0.0
+  fallback_count: 0.0
+  fallback_fraction: 0.0
+  gate_usage_entropy: 0.8812909722328186
+  num_samples: 32.0
+  num_steps: 10.0
+  risk_margin_mean_over_steps: 0.00015890604699961842
+  usage_frac_0: 0.30000001192092896
+  usage_frac_1: 0.699999988079071
+
+[risk_confident]
+  fid: 972.0347785706031
+  precision: 1.0
+  recall: 0.0
+  fallback_count: 0.0
+  fallback_fraction: 0.0
+  gate_usage_entropy: 0.8812909722328186
+  num_samples: 32.0
+  num_steps: 10.0
+  risk_margin_mean_over_steps: 0.00016126339905895293
+  usage_frac_0: 0.30000001192092896
+  usage_frac_1: 0.699999988079071

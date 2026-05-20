@@ -1,0 +1,8 @@
+{
+  "fid_diff_mix_minus_soft_ci95_hi": 0.0006651950605296346,
+  "fid_diff_mix_minus_soft_ci95_lo": -0.0006291999020128795,
+  "fid_diff_mix_minus_soft_mean": 1.799757925837753e-05,
+  "fid_diff_mix_minus_soft_pvalue_normal_approx": 0.9565331246782656,
+  "fid_diff_mix_minus_soft_std": 0.0010441929269088468,
+  "n_pairs": 10.0
+}

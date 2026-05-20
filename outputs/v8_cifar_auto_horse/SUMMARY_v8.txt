@@ -1,0 +1,185 @@
+V8 Bayes-risk gated MCL diffusion
+
+Config:
+{
+  "dataset": "cifar10",
+  "data_root": "./data",
+  "classes": "automobile,horse",
+  "image_size": 32,
+  "max_train_items": 0,
+  "max_test_items": 0,
+  "no_download": false,
+  "num_workers": 8,
+  "K": 4,
+  "width": 64,
+  "temb_dim": 128,
+  "batch_size": 192,
+  "baseline_steps": 50000,
+  "mcl_steps": 80000,
+  "lr": 0.0002,
+  "weight_decay": 0.0001,
+  "grad_clip": 1.0,
+  "init_mcl_from_baseline": true,
+  "mcl_init_noise": 0.001,
+  "hard_wta": false,
+  "balance_weight": 0.02,
+  "diversity_weight": 0.0,
+  "mcl_warmup_steps": 2000,
+  "mcl_ramp_steps": 8000,
+  "log_every": 500,
+  "t_min": 0.02,
+  "t_max": 3.0,
+  "beta_rho": 1.0,
+  "beta_min": 0.0,
+  "beta_max": 80.0,
+  "pca_dim_router": 128,
+  "router_stats_items": 12000,
+  "router_t_bins": 24,
+  "router_calib_batches": 64,
+  "risk_soft_temp": 0.0002,
+  "risk_conf_margin": 1e-05,
+  "num_samples": 2048,
+  "sample_steps": 100,
+  "default_expert": 0,
+  "sample_batch_size": 256,
+  "strategies": "baseline_heun,single_expert,random_expert,mixture_score,risk_gated,risk_softmix,risk_confident",
+  "all": true,
+  "train_baseline": true,
+  "train_mcl": true,
+  "calibrate_router": true,
+  "sample_eval": true,
+  "baseline_ckpt": "",
+  "mcl_ckpt": "",
+  "router_ckpt": "",
+  "seed": 0,
+  "device": "cuda",
+  "outdir": "outputs/v8_cifar_auto_horse"
+}
+
+Data info:
+{
+  "dataset": "cifar10",
+  "classes": [
+    "automobile",
+    "horse"
+  ],
+  "class_ids": [
+    1,
+    7
+  ],
+  "C": 2,
+  "channels": 3,
+  "image_size": 32,
+  "train_n": 10000,
+  "test_n": 2000,
+  "data_dim": 3072
+}
+
+Beta calibrator:
+  data_dim: 3072
+  v0_image: 0.25591227412223816
+  beta_rho: 1.0
+  beta_min: 0.0
+  beta_max: 80.0
+
+Router calibration aggregate:
+  route_excess_vs_sample_oracle: mean=7.13934e-10, max=3.53567e-09, min=1.29576e-10
+  teacher_entropy_norm: mean=1, max=1, min=1
+  posterior_acc: mean=0.658029, max=0.7354, min=0.5393
+  risk_margin_mean: mean=7.62824e-11, max=8.1528e-10, min=0
+
+Generation metrics:
+
+[baseline_heun]
+  fid_diag_fallback: 9.318140983581543
+  precision: nan
+  recall: nan
+  evaluator_warning: src.evaluate.evaluate unavailable: RuntimeError: Given groups=1, weight of size [32, 1, 3, 3], expected input[512, 3, 32, 32] to have 1 channels, but got 3 channels instead
+
+[single_expert]
+  fid_diag_fallback: 16.204326629638672
+  precision: nan
+  recall: nan
+  evaluator_warning: src.evaluate.evaluate unavailable: RuntimeError: Given groups=1, weight of size [32, 1, 3, 3], expected input[512, 3, 32, 32] to have 1 channels, but got 3 channels instead
+  fallback_count: 0.0
+  fallback_fraction: 0.0
+  gate_usage_entropy: 5.979470391048736e-11
+  num_samples: 256.0
+  num_steps: 100.0
+  usage_frac_0: 1.0
+  usage_frac_1: 0.0
+  usage_frac_2: 0.0
+  usage_frac_3: 0.0
+
+[random_expert]
+  fid_diag_fallback: 16.71240234375
+  precision: nan
+  recall: nan
+  evaluator_warning: src.evaluate.evaluate unavailable: RuntimeError: Given groups=1, weight of size [32, 1, 3, 3], expected input[512, 3, 32, 32] to have 1 channels, but got 3 channels instead
+  fallback_count: 0.0
+  fallback_fraction: 0.0
+  gate_usage_entropy: 0.9974149614572525
+  num_samples: 256.0
+  num_steps: 100.0
+  usage_frac_0: 0.23388671875
+  usage_frac_1: 0.2490234375
+  usage_frac_2: 0.26220703125
+  usage_frac_3: 0.2548828125
+
+[mixture_score]
+  fid_diag_fallback: 15.135957717895508
+  precision: nan
+  recall: nan
+  evaluator_warning: src.evaluate.evaluate unavailable: RuntimeError: Given groups=1, weight of size [32, 1, 3, 3], expected input[512, 3, 32, 32] to have 1 channels, but got 3 channels instead
+  fallback_count: 0.0
+  fallback_fraction: 0.0
+  num_samples: 256.0
+  num_steps: 100.0
+
+[risk_gated]
+  fid_diag_fallback: 14.776206970214844
+  precision: nan
+  recall: nan
+  evaluator_warning: src.evaluate.evaluate unavailable: RuntimeError: Given groups=1, weight of size [32, 1, 3, 3], expected input[512, 3, 32, 32] to have 1 channels, but got 3 channels instead
+  fallback_count: 0.0
+  fallback_fraction: 0.0
+  gate_usage_entropy: 0.6972503960132599
+  num_samples: 256.0
+  num_steps: 100.0
+  risk_margin_mean_over_steps: 6.779998784622876e-11
+  usage_frac_0: 0.6835351511836052
+  usage_frac_1: 0.0873193359002471
+  usage_frac_2: 0.09674316458404064
+  usage_frac_3: 0.1324023436754942
+
+[risk_softmix]
+  fid_diag_fallback: 17.096071243286133
+  precision: nan
+  recall: nan
+  evaluator_warning: src.evaluate.evaluate unavailable: RuntimeError: Given groups=1, weight of size [32, 1, 3, 3], expected input[512, 3, 32, 32] to have 1 channels, but got 3 channels instead
+  fallback_count: 0.0
+  fallback_fraction: 0.0
+  gate_usage_entropy: 0.6690457761287689
+  num_samples: 256.0
+  num_steps: 100.0
+  risk_margin_mean_over_steps: 6.73520617056056e-11
+  usage_frac_0: 0.7041406333446503
+  usage_frac_1: 0.08261718600988388
+  usage_frac_2: 0.08929687459021807
+  usage_frac_3: 0.12394531350582838
+
+[risk_confident]
+  fid_diag_fallback: 14.190454483032227
+  precision: nan
+  recall: nan
+  evaluator_warning: src.evaluate.evaluate unavailable: RuntimeError: Given groups=1, weight of size [32, 1, 3, 3], expected input[512, 3, 32, 32] to have 1 channels, but got 3 channels instead
+  fallback_count: 25600.0
+  fallback_fraction: 1.0
+  gate_usage_entropy: 0.6976000070571899
+  num_samples: 256.0
+  num_steps: 100.0
+  risk_margin_mean_over_steps: 6.849546707599074e-11
+  usage_frac_0: 0.6833740249276161
+  usage_frac_1: 0.08806152269244194
+  usage_frac_2: 0.09643554594367743
+  usage_frac_3: 0.1321289073675871

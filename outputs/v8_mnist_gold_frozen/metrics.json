@@ -1,0 +1,89 @@
+{
+  "baseline_heun": {
+    "fid": 63.2578819817405,
+    "precision": 0.59716796875,
+    "recall": 0.734375
+  },
+  "mixture_score": {
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 49.7151242364737,
+    "num_samples": 256.0,
+    "num_steps": 100.0,
+    "precision": 0.64404296875,
+    "recall": 0.71630859375
+  },
+  "random_expert": {
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 44.85954364444986,
+    "gate_usage_entropy": 0.9955637753009796,
+    "num_samples": 256.0,
+    "num_steps": 100.0,
+    "precision": 0.65185546875,
+    "recall": 0.7138671875,
+    "usage_frac_0": 0.26220703125,
+    "usage_frac_1": 0.240234375,
+    "usage_frac_2": 0.2509765625,
+    "usage_frac_3": 0.24658203125
+  },
+  "risk_confident": {
+    "fallback_count": 25600.0,
+    "fallback_fraction": 1.0,
+    "fid": 47.161924053671825,
+    "gate_usage_entropy": 0.7298993542790413,
+    "num_samples": 256.0,
+    "num_steps": 100.0,
+    "precision": 0.65087890625,
+    "recall": 0.76513671875,
+    "risk_margin_mean_over_steps": 3.4220050793010156e-10,
+    "usage_frac_0": 0.6415283232927322,
+    "usage_frac_1": 0.10991211142390966,
+    "usage_frac_2": 0.18763183802366257,
+    "usage_frac_3": 0.06092773377895355
+  },
+  "risk_gated": {
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 44.32236078688918,
+    "gate_usage_entropy": 0.728841096162796,
+    "num_samples": 256.0,
+    "num_steps": 100.0,
+    "precision": 0.64013671875,
+    "recall": 0.74365234375,
+    "risk_margin_mean_over_steps": 3.4154396644225927e-10,
+    "usage_frac_0": 0.6426123008131981,
+    "usage_frac_1": 0.11061035189777613,
+    "usage_frac_2": 0.1862939465790987,
+    "usage_frac_3": 0.06048339884728193
+  },
+  "risk_softmix": {
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 41.1478688263509,
+    "gate_usage_entropy": 0.6916384249925613,
+    "num_samples": 256.0,
+    "num_steps": 100.0,
+    "precision": 0.6572265625,
+    "recall": 0.7421875,
+    "risk_margin_mean_over_steps": 3.420936423026433e-10,
+    "usage_frac_0": 0.6744677722454071,
+    "usage_frac_1": 0.10790039040148258,
+    "usage_frac_2": 0.16428710892796516,
+    "usage_frac_3": 0.0533447265625
+  },
+  "single_expert": {
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 43.055062678527996,
+    "gate_usage_entropy": 5.979470391048736e-11,
+    "num_samples": 256.0,
+    "num_steps": 100.0,
+    "precision": 0.66259765625,
+    "recall": 0.7275390625,
+    "usage_frac_0": 1.0,
+    "usage_frac_1": 0.0,
+    "usage_frac_2": 0.0,
+    "usage_frac_3": 0.0
+  }
+}

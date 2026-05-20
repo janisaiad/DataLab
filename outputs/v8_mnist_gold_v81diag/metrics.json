@@ -1,0 +1,97 @@
+{
+  "baseline_heun": {
+    "fid": 65.26504146859182,
+    "precision": 0.6025390625,
+    "recall": 0.796875
+  },
+  "mixture_score": {
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 45.04268070328591,
+    "num_samples": 128.0,
+    "num_steps": 100.0,
+    "precision": 0.6552734375,
+    "recall": 0.73388671875
+  },
+  "paired_mixture_vs_risk_softmix": {
+    "fid_diff_mix_minus_soft_ci95_hi": 0.0006651950605296346,
+    "fid_diff_mix_minus_soft_ci95_lo": -0.0006291999020128795,
+    "fid_diff_mix_minus_soft_mean": 1.799757925837753e-05,
+    "fid_diff_mix_minus_soft_pvalue_normal_approx": 0.9565331246782656,
+    "fid_diff_mix_minus_soft_std": 0.0010441929269088468,
+    "n_pairs": 10.0
+  },
+  "random_expert": {
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 44.22078906086854,
+    "gate_usage_entropy": 0.9911098703742027,
+    "num_samples": 128.0,
+    "num_steps": 100.0,
+    "precision": 0.6611328125,
+    "recall": 0.74755859375,
+    "usage_frac_0": 0.25146484375,
+    "usage_frac_1": 0.26025390625,
+    "usage_frac_2": 0.24560546875,
+    "usage_frac_3": 0.24267578125
+  },
+  "risk_confident": {
+    "fallback_count": 12800.0,
+    "fallback_fraction": 1.0,
+    "fid": 43.42318116452635,
+    "gate_usage_entropy": 0.7360313087701797,
+    "num_samples": 128.0,
+    "num_steps": 100.0,
+    "precision": 0.65869140625,
+    "recall": 0.7587890625,
+    "risk_margin_mean_over_steps": 2.0681085288742907e-10,
+    "usage_frac_0": 0.5837451219558716,
+    "usage_frac_1": 0.2720703147351742,
+    "usage_frac_2": 0.11481933621689677,
+    "usage_frac_3": 0.02936523442622274
+  },
+  "risk_gated": {
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 45.52589721328893,
+    "gate_usage_entropy": 0.7371163591742516,
+    "num_samples": 128.0,
+    "num_steps": 100.0,
+    "precision": 0.658203125,
+    "recall": 0.73291015625,
+    "risk_margin_mean_over_steps": 2.1070462707939442e-10,
+    "usage_frac_0": 0.5807519480586052,
+    "usage_frac_1": 0.2751025352627039,
+    "usage_frac_2": 0.11533691454678774,
+    "usage_frac_3": 0.02880859375
+  },
+  "risk_softmix": {
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 49.08099614321064,
+    "gate_usage_entropy": 0.7036550454795361,
+    "num_samples": 128.0,
+    "num_steps": 100.0,
+    "precision": 0.666015625,
+    "recall": 0.73046875,
+    "risk_margin_mean_over_steps": 2.1051050680398476e-10,
+    "usage_frac_0": 0.6170117221772671,
+    "usage_frac_1": 0.24981445167213678,
+    "usage_frac_2": 0.10927246138453484,
+    "usage_frac_3": 0.023901367094367743
+  },
+  "single_expert": {
+    "fallback_count": 0.0,
+    "fallback_fraction": 0.0,
+    "fid": 45.22873864705966,
+    "gate_usage_entropy": 5.979470391048736e-11,
+    "num_samples": 128.0,
+    "num_steps": 100.0,
+    "precision": 0.634765625,
+    "recall": 0.74609375,
+    "usage_frac_0": 1.0,
+    "usage_frac_1": 0.0,
+    "usage_frac_2": 0.0,
+    "usage_frac_3": 0.0
+  }
+}

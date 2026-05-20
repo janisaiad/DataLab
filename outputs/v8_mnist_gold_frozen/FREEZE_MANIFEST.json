@@ -1,0 +1,26 @@
+{
+  "source_dir": "/Data/janis.aiad/DataLab/outputs/v8_mnist_gold",
+  "frozen_dir": "/Data/janis.aiad/DataLab/outputs/v8_mnist_gold_frozen",
+  "copied_files": [
+    "SUMMARY_v8.txt",
+    "config.json",
+    "data_info.json",
+    "beta_calibrator.json",
+    "metrics.json",
+    "router_calibration_by_t.csv",
+    "baseline_final.pt",
+    "mcl_final.pt",
+    "router_risk_table.pt"
+  ],
+  "checksums_sha256": {
+    "SUMMARY_v8.txt": "474c6dd99f11e71739b102a638651bf4e59d48553b9992536039fff76f0d70e6",
+    "config.json": "e0981bea06b2dfd0774199262ee550a052a75a1ebb4a01ea8cedcbb844da57d3",
+    "data_info.json": "28c9ef00d2a4af73526dbf81f1e1273018078e49b36f45d4b571ad766fdfbe8a",
+    "beta_calibrator.json": "da63f475274c3d44a6172adcf61ef95c6c6913341d2087e461788756c0ecb8df",
+    "metrics.json": "2985dd78ce79ef2865287f147e9f015812b13e6f11376c5b31a7c55941760791",
+    "router_calibration_by_t.csv": "156b237dedd30b45966425990dc92d6561325f95afcb2ba867c989082d684ea7",
+    "baseline_final.pt": "014a2c63f7ca663b630c424a3e036763eb60daf0dd75ff76093f2169eabf6a2a",
+    "mcl_final.pt": "149a0f493bee5ebd4aa14d4e0a0b2f4c3fd1bc7dda4bcbed43e42546ad7858bd",
+    "router_risk_table.pt": "8cf7805251e25a2a4cc1b013d25f78a0aced19379fdaace1dfa9f185dd9259dc"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "C": 2,
+  "channels": 3,
+  "class_ids": [
+    1,
+    7
+  ],
+  "classes": [
+    "automobile",
+    "horse"
+  ],
+  "data_dim": 3072,
+  "dataset": "cifar10",
+  "image_size": 32,
+  "test_n": 2000,
+  "train_n": 10000
+}

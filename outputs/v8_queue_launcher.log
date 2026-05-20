@@ -1,0 +1,76 @@
+[v8-queue] GPU occupée (24088MiB), attente 180s
+[v8-queue] GPU occupée (24088MiB), attente 180s
+[v8-queue] GPU occupée (24088MiB), attente 180s
+[v8-queue] GPU occupée (24088MiB), attente 180s
+[v8-queue] VRAM libre (652MiB), lancement
+Files already downloaded and verified
+Files already downloaded and verified
+[v8] device=cuda outdir=outputs/v8_cifar_auto_horse_v81diag
+[v8] data={'dataset': 'cifar10', 'classes': ['automobile', 'horse'], 'class_ids': [1, 7], 'C': 2, 'channels': 3, 'image_size': 32, 'train_n': 10000, 'test_n': 2000, 'data_dim': 3072}
+[v8] beta_calibrator={'data_dim': 3072, 'v0_image': 0.25591227412223816, 'beta_rho': 1.0, 'beta_min': 0.0, 'beta_max': 80.0}
+[router-calib] t=0.020 beta=80.000 excess=3.60433e-09 post_acc=0.735 ent=1.000
+[router-calib] t=0.150 beta=80.000 excess=1.91744e-09 post_acc=0.734 ent=1.000
+[router-calib] t=0.279 beta=80.000 excess=1.41404e-09 post_acc=0.731 ent=1.000
+[router-calib] t=0.409 beta=80.000 excess=1.19758e-09 post_acc=0.734 ent=1.000
+[router-calib] t=0.538 beta=80.000 excess=1.01585e-09 post_acc=0.734 ent=1.000
+[router-calib] t=0.668 beta=80.000 excess=9.34335e-10 post_acc=0.730 ent=1.000
+[router-calib] t=0.797 beta=80.000 excess=8.14964e-10 post_acc=0.723 ent=1.000
+[router-calib] t=0.927 beta=80.000 excess=7.50902e-10 post_acc=0.724 ent=1.000
+[router-calib] t=1.057 beta=80.000 excess=6.23601e-10 post_acc=0.710 ent=1.000
+[router-calib] t=1.186 beta=80.000 excess=5.73806e-10 post_acc=0.707 ent=1.000
+[router-calib] t=1.316 beta=80.000 excess=5.24551e-10 post_acc=0.696 ent=1.000
+[router-calib] t=1.445 beta=80.000 excess=4.83155e-10 post_acc=0.689 ent=1.000
+[router-calib] t=1.575 beta=80.000 excess=3.7987e-10 post_acc=0.676 ent=1.000
+[router-calib] t=1.704 beta=80.000 excess=4.07468e-10 post_acc=0.652 ent=1.000
+[router-calib] t=1.834 beta=80.000 excess=3.87352e-10 post_acc=0.636 ent=1.000
+[router-calib] t=1.963 beta=80.000 excess=3.43768e-10 post_acc=0.623 ent=1.000
+[router-calib] t=2.093 beta=80.000 excess=3.20647e-10 post_acc=0.607 ent=1.000
+[router-calib] t=2.223 beta=80.000 excess=2.44391e-10 post_acc=0.596 ent=1.000
+[router-calib] t=2.352 beta=80.000 excess=2.60261e-10 post_acc=0.581 ent=1.000
+[router-calib] t=2.482 beta=80.000 excess=1.84471e-10 post_acc=0.571 ent=1.000
+[router-calib] t=2.611 beta=80.000 excess=1.66175e-10 post_acc=0.554 ent=1.000
+[router-calib] t=2.741 beta=80.000 excess=2.02654e-10 post_acc=0.556 ent=1.000
+[router-calib] t=2.870 beta=80.000 excess=1.88956e-10 post_acc=0.545 ent=1.000
+[router-calib] t=3.000 beta=80.000 excess=1.35561e-10 post_acc=0.531 ent=1.000
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torchvision/transforms/functional.py:1603: UserWarning: The default value of the antialias parameter of all the resizing transforms (Resize(), RandomResizedCrop(), etc.) will change from None to True in v0.17, in order to be consistent across the PIL and Tensor backends. To suppress this warning, directly pass antialias=True (recommended, future default), antialias=None (current default, which means False for Tensors and True for PIL), or antialias=False (only works on Tensors - PIL will still use antialiasing). This also applies if you are using the inference transforms from the models weights: update the call to weights.transforms(antialias=True).
+  warnings.warn(
+[eval] baseline_heun: {'fid': 450.0170999483376, 'precision': nan, 'recall': nan, 'evaluator_note': 'cifar_resnet18_features_fid_only'}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torchvision/transforms/functional.py:1603: UserWarning: The default value of the antialias parameter of all the resizing transforms (Resize(), RandomResizedCrop(), etc.) will change from None to True in v0.17, in order to be consistent across the PIL and Tensor backends. To suppress this warning, directly pass antialias=True (recommended, future default), antialias=None (current default, which means False for Tensors and True for PIL), or antialias=False (only works on Tensors - PIL will still use antialiasing). This also applies if you are using the inference transforms from the models weights: update the call to weights.transforms(antialias=True).
+  warnings.warn(
+[eval] single_expert: {'fid': 433.85664811176264, 'precision': nan, 'recall': nan, 'evaluator_note': 'cifar_resnet18_features_fid_only', 'fallback_count': 0.0, 'fallback_fraction': 0.0, 'gate_usage_entropy': 5.979470391048736e-11, 'num_samples': 32.0, 'num_steps': 100.0, 'usage_frac_0': 1.0, 'usage_frac_1': 0.0, 'usage_frac_2': 0.0, 'usage_frac_3': 0.0}
+[eval] random_expert: {'fid': 432.805414468921, 'precision': nan, 'recall': nan, 'evaluator_note': 'cifar_resnet18_features_fid_only', 'fallback_count': 0.0, 'fallback_fraction': 0.0, 'gate_usage_entropy': 0.9603735581040382, 'num_samples': 32.0, 'num_steps': 100.0, 'usage_frac_0': 0.25537109375, 'usage_frac_1': 0.25439453125, 'usage_frac_2': 0.24169921875, 'usage_frac_3': 0.24853515625}
+[eval] mixture_score: {'fid': 428.56002292151123, 'precision': nan, 'recall': nan, 'evaluator_note': 'cifar_resnet18_features_fid_only', 'fallback_count': 0.0, 'fallback_fraction': 0.0, 'num_samples': 32.0, 'num_steps': 100.0}
+[eval] risk_gated: {'fid': 435.2066542415284, 'precision': nan, 'recall': nan, 'evaluator_note': 'cifar_resnet18_features_fid_only', 'fallback_count': 0.0, 'fallback_fraction': 0.0, 'gate_usage_entropy': 0.622306227684021, 'num_samples': 32.0, 'num_steps': 100.0, 'risk_margin_mean_over_steps': 8.963098707681639e-11, 'usage_frac_0': 0.708583983592689, 'usage_frac_1': 0.027109375048894435, 'usage_frac_2': 0.08967285079415888, 'usage_frac_3': 0.17463378957472742}
+[eval] risk_softmix: {'fid': 433.3859096894414, 'precision': nan, 'recall': nan, 'evaluator_note': 'cifar_resnet18_features_fid_only', 'fallback_count': 0.0, 'fallback_fraction': 0.0, 'gate_usage_entropy': 0.5620175683870912, 'num_samples': 32.0, 'num_steps': 100.0, 'risk_margin_mean_over_steps': 8.840544296617735e-11, 'usage_frac_0': 0.7426367150619626, 'usage_frac_1': 0.020034179848153144, 'usage_frac_2': 0.06433593685505912, 'usage_frac_3': 0.17299316404387355}
+[eval] risk_confident: {'fid': 429.6801575052344, 'precision': nan, 'recall': nan, 'evaluator_note': 'cifar_resnet18_features_fid_only', 'fallback_count': 3200.0, 'fallback_fraction': 1.0, 'gate_usage_entropy': 0.6257945895195007, 'num_samples': 32.0, 'num_steps': 100.0, 'risk_margin_mean_over_steps': 8.937121265262248e-11, 'usage_frac_0': 0.7066064430400729, 'usage_frac_1': 0.02777343735215254, 'usage_frac_2': 0.09103027370292693, 'usage_frac_3': 0.17458984325639904}
+Traceback (most recent call last):
+  File "/Data/janis.aiad/DataLab/scripts/run_variantv8.py", line 1528, in <module>
+    run(parse_args())
+  File "/Data/janis.aiad/DataLab/scripts/run_variantv8.py", line 1499, in run
+    paired = paired_strategy_test(params, mcl, router, info, test_ds, device, outdir)
+  File "/Data/janis.aiad/DataLab/scripts/run_variantv8.py", line 1193, in paired_strategy_test
+    mix_chunk, _ = sample_mcl(mcl, params, info, device, nb, "mixture_score", router, init_x=init_x)
+  File "/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/Data/janis.aiad/DataLab/scripts/run_variantv8.py", line 1020, in sample_mcl
+    pred = model(x, t)  # [B,K,C,H,W]
+  File "/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Data/janis.aiad/DataLab/scripts/run_variantv8.py", line 399, in forward
+    h = self.backbone(x, t)
+  File "/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Data/janis.aiad/DataLab/scripts/run_variantv8.py", line 366, in forward
+    h1 = self.rb1(h0, temb)
+  File "/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Data/janis.aiad/DataLab/scripts/run_variantv8.py", line 340, in forward
+    h = self.conv1(F.silu(self.norm1(x)))
+  File "/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/nn/modules/normalization.py", line 273, in forward
+    return F.group_norm(
+  File "/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/nn/functional.py", line 2530, in group_norm
+    return torch.group_norm(input, num_groups, weight, bias, eps, torch.backends.cudnn.enabled)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 20.00 MiB (GPU 0; 23.53 GiB total capacity; 24.75 MiB already allocated; 10.69 MiB free; 28.00 MiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+[v8-queue] exit 1

@@ -1,0 +1,19 @@
+{
+  "dataset": "cifar10",
+  "data_root": "./data",
+  "classes": "all",
+  "feature_mode": "pca",
+  "pca_dim": 256,
+  "rp_dim": 128,
+  "n_train": 50000,
+  "n_test": 10000,
+  "train_for_A": 10000,
+  "times": "0.2,0.5,0.85,1.1,1.5,2.05,2.5,3.0",
+  "beta_grid_mult_min": 0.05,
+  "beta_grid_mult_max": 20.0,
+  "beta_grid_points": 61,
+  "seed": 0,
+  "device": "auto",
+  "no_download": false,
+  "outdir": "/Data/janis.aiad/DataLab/outputs/theory_beta_8h_auto/cifar_all_pca256_heavy"
+}

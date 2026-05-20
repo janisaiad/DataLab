@@ -1,0 +1,7 @@
+{
+  "beta_max": 80.0,
+  "beta_min": 0.0,
+  "beta_rho": 1.0,
+  "data_dim": 784,
+  "v0_image": 0.21304692327976227
+}
