@@ -27,3 +27,9 @@ Thumbs.db
 
 # datasets
 /data/cifar*
+
+# local datasets / generated data
+/data/
+/scripts/data/
+*.tar.gz
+*.zip
