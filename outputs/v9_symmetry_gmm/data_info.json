@@ -1,0 +1,7 @@
+{
+  "dataset": "gmm",
+  "C": 4,
+  "d_latent": 64,
+  "mu": 1.0,
+  "sigma0": 0.5
+}

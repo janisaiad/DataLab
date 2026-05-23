@@ -1,0 +1,10 @@
+{
+  "lambda_between_top": 34.56774139404297,
+  "pca_dim": 128,
+  "search_max": 1.0,
+  "search_min": 0.35,
+  "source": "first_reverse_crossing_beta_lambda",
+  "t_star": 0.9630379676818848,
+  "threshold": 1.0,
+  "v0_z": 5.053045749664307
+}

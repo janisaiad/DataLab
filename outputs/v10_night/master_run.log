@@ -1,0 +1,181 @@
+[v10-night] 2026-05-20T02:21:25+02:00 start
+[v10-night] 2026-05-20T02:21:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:22:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:24:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:25:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:27:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:28:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:30:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:31:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:33:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:34:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:36:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:37:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:39:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:40:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:42:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:43:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:45:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:46:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:48:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:49:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:51:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:52:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:54:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:55:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:57:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T02:58:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:00:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:01:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:03:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:04:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:06:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:07:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:09:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:10:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:12:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:13:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:15:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:16:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:18:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:19:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:21:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:22:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:24:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:25:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:27:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:28:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:30:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:31:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:33:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:34:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:36:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:37:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:39:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:40:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:42:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:43:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:45:25+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:46:55+02:00 waiting: v9 still running
+[v10-night] 2026-05-20T03:48:25+02:00 GPU free (3314 MiB used)
+[v10-night] 2026-05-20T03:48:25+02:00 BEGIN quick -> outputs/v10_night/mnist_quick_K4
+[v10] device=cuda outdir=outputs/v10_night/mnist_quick_K4
+[v10] data={'dataset': 'mnist', 'classes': ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], 'class_ids': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 'C': 10, 'channels': 1, 'image_size': 28, 'train_n': 60000, 'test_n': 10000, 'data_dim': 784}
+[v10] building PCA/Gaussian router stats
+Traceback (most recent call last):
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 2489, in <module>
+    run(parse_args())
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 2317, in run
+    stats = build_router_stats(params, train_ds, info, device)
+  File "/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 753, in build_router_stats
+    class_var_z_diag=class_var_z_diag.detach().cpu(),
+NameError: name 'class_var_z_diag' is not defined
+[v10-night] 2026-05-20T03:48:41+02:00 FAIL quick (exit 0)
+[v10-night] 2026-05-20T03:48:41+02:00 BEGIN gold -> outputs/v10_night/mnist_gold_K4
+[v10] device=cuda outdir=outputs/v10_night/mnist_gold_K4
+[v10] data={'dataset': 'mnist', 'classes': ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], 'class_ids': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 'C': 10, 'channels': 1, 'image_size': 28, 'train_n': 60000, 'test_n': 10000, 'data_dim': 784}
+[v10] building PCA/Gaussian router stats
+Traceback (most recent call last):
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 2489, in <module>
+    run(parse_args())
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 2317, in run
+    stats = build_router_stats(params, train_ds, info, device)
+  File "/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 753, in build_router_stats
+    class_var_z_diag=class_var_z_diag.detach().cpu(),
+NameError: name 'class_var_z_diag' is not defined
+[v10-night] 2026-05-20T03:48:54+02:00 FAIL gold (exit 0)
+[v10-night] 2026-05-20T03:48:54+02:00 BEGIN router_from_v9_gold -> outputs/v10_night/router_from_v9_gold_K4
+[v10] device=cuda outdir=outputs/v10_night/router_from_v9_gold_K4
+[v10] data={'dataset': 'mnist', 'classes': ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], 'class_ids': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 'C': 10, 'channels': 1, 'image_size': 28, 'train_n': 60000, 'test_n': 10000, 'data_dim': 784}
+[v10] building PCA/Gaussian router stats
+Traceback (most recent call last):
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 2489, in <module>
+    run(parse_args())
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 2317, in run
+    stats = build_router_stats(params, train_ds, info, device)
+  File "/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 753, in build_router_stats
+    class_var_z_diag=class_var_z_diag.detach().cpu(),
+NameError: name 'class_var_z_diag' is not defined
+[v10-night] 2026-05-20T03:49:09+02:00 FAIL router_from_v9_gold (exit 0)
+[v10-night] 2026-05-20T03:49:09+02:00 BEGIN beta_rho_0.5 -> outputs/v10_night/mnist_beta_rho_0.5
+[v10] device=cuda outdir=outputs/v10_night/mnist_beta_rho_0.5
+[v10] data={'dataset': 'mnist', 'classes': ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], 'class_ids': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 'C': 10, 'channels': 1, 'image_size': 28, 'train_n': 60000, 'test_n': 10000, 'data_dim': 784}
+[v10] building PCA/Gaussian router stats
+Traceback (most recent call last):
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 2489, in <module>
+    run(parse_args())
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 2317, in run
+    stats = build_router_stats(params, train_ds, info, device)
+  File "/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 753, in build_router_stats
+    class_var_z_diag=class_var_z_diag.detach().cpu(),
+NameError: name 'class_var_z_diag' is not defined
+[v10-night] 2026-05-20T03:49:23+02:00 FAIL beta_rho_0.5 (exit 0)
+[v10-night] 2026-05-20T03:49:23+02:00 BEGIN beta_rho_1.0 -> outputs/v10_night/mnist_beta_rho_1.0
+[v10] device=cuda outdir=outputs/v10_night/mnist_beta_rho_1.0
+[v10] data={'dataset': 'mnist', 'classes': ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], 'class_ids': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 'C': 10, 'channels': 1, 'image_size': 28, 'train_n': 60000, 'test_n': 10000, 'data_dim': 784}
+[v10] building PCA/Gaussian router stats
+Traceback (most recent call last):
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 2489, in <module>
+    run(parse_args())
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 2317, in run
+    stats = build_router_stats(params, train_ds, info, device)
+  File "/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 753, in build_router_stats
+    class_var_z_diag=class_var_z_diag.detach().cpu(),
+NameError: name 'class_var_z_diag' is not defined
+[v10-night] 2026-05-20T03:49:38+02:00 FAIL beta_rho_1.0 (exit 0)
+[v10-night] 2026-05-20T03:49:38+02:00 BEGIN beta_rho_2.0 -> outputs/v10_night/mnist_beta_rho_2.0
+[v10] device=cuda outdir=outputs/v10_night/mnist_beta_rho_2.0
+[v10] data={'dataset': 'mnist', 'classes': ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], 'class_ids': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 'C': 10, 'channels': 1, 'image_size': 28, 'train_n': 60000, 'test_n': 10000, 'data_dim': 784}
+[v10] building PCA/Gaussian router stats
+Traceback (most recent call last):
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 2489, in <module>
+    run(parse_args())
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 2317, in run
+    stats = build_router_stats(params, train_ds, info, device)
+  File "/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 753, in build_router_stats
+    class_var_z_diag=class_var_z_diag.detach().cpu(),
+NameError: name 'class_var_z_diag' is not defined
+[v10-night] 2026-05-20T03:49:53+02:00 FAIL beta_rho_2.0 (exit 0)
+[v10-night] 2026-05-20T03:49:53+02:00 BEGIN beta_rho_4.0 -> outputs/v10_night/mnist_beta_rho_4.0
+[v10] device=cuda outdir=outputs/v10_night/mnist_beta_rho_4.0
+[v10] data={'dataset': 'mnist', 'classes': ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], 'class_ids': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 'C': 10, 'channels': 1, 'image_size': 28, 'train_n': 60000, 'test_n': 10000, 'data_dim': 784}
+[v10] building PCA/Gaussian router stats
+Traceback (most recent call last):
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 2489, in <module>
+    run(parse_args())
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 2317, in run
+    stats = build_router_stats(params, train_ds, info, device)
+  File "/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 753, in build_router_stats
+    class_var_z_diag=class_var_z_diag.detach().cpu(),
+NameError: name 'class_var_z_diag' is not defined
+[v10-night] 2026-05-20T03:50:07+02:00 FAIL beta_rho_4.0 (exit 0)
+[v10-night] 2026-05-20T03:50:07+02:00 BEGIN hard_wta -> outputs/v10_night/mnist_hard_wta_K4
+[v10] device=cuda outdir=outputs/v10_night/mnist_hard_wta_K4
+[v10] data={'dataset': 'mnist', 'classes': ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], 'class_ids': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 'C': 10, 'channels': 1, 'image_size': 28, 'train_n': 60000, 'test_n': 10000, 'data_dim': 784}
+[v10] building PCA/Gaussian router stats
+Traceback (most recent call last):
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 2489, in <module>
+    run(parse_args())
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 2317, in run
+    stats = build_router_stats(params, train_ds, info, device)
+  File "/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/Data/janis.aiad/DataLab/scripts/v10/run_variant_v10_symmetry_router.py", line 753, in build_router_stats
+    class_var_z_diag=class_var_z_diag.detach().cpu(),
+NameError: name 'class_var_z_diag' is not defined
+[v10-night] 2026-05-20T03:50:21+02:00 FAIL hard_wta (exit 0)
+[v10-night] 2026-05-20T03:50:21+02:00 finished

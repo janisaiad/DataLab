@@ -1,0 +1,585 @@
+[v11-scale] 2026-05-21T03:17:46+02:00 start
+[v11-scale] 2026-05-21T03:17:46+02:00 BEGIN mnist_auto_tstar -> outputs/v11_scale/mnist_specwin_K4_auto
+[v11] device=cuda outdir=outputs/v11_scale/mnist_specwin_K4_auto
+[v11] data={'dataset': 'mnist', 'classes': ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], 'class_ids': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 'C': 10, 'channels': 1, 'image_size': 28, 'train_n': 60000, 'test_n': 10000, 'data_dim': 784}
+[v11] building PCA/Gaussian router stats
+[v11] beta_calibrator={'data_dim': 784, 'v0_image': 0.21304692327976227, 'beta_rho': 1.0, 'beta_min': 0.0, 'beta_max': 80.0}
+[v11] t_star=0.8122 source=first_reverse_crossing_beta_lambda commit_t_star=0.8122
+[v11] validating beta_x(t) by empirical CE sweep
+[baseline] step=0000001 loss=1.404925
+[baseline] step=0000500 loss=0.022282
+[baseline] step=0001000 loss=0.018428
+[baseline] step=0001500 loss=0.017059
+[baseline] step=0002000 loss=0.016226
+[baseline] step=0002500 loss=0.016276
+[baseline] step=0003000 loss=0.018652
+[baseline] step=0003500 loss=0.015679
+[baseline] step=0004000 loss=0.013595
+[baseline] step=0004500 loss=0.014420
+[baseline] step=0005000 loss=0.016061
+[baseline] step=0005500 loss=0.014366
+[baseline] step=0006000 loss=0.015296
+[baseline] step=0006500 loss=0.016600
+[baseline] step=0007000 loss=0.014058
+[baseline] step=0007500 loss=0.013066
+[baseline] step=0008000 loss=0.013351
+[baseline] step=0008500 loss=0.013071
+[baseline] step=0009000 loss=0.014177
+[baseline] step=0009500 loss=0.014112
+[baseline] step=0010000 loss=0.015142
+[baseline] step=0010500 loss=0.013150
+[baseline] step=0011000 loss=0.013996
+[baseline] step=0011500 loss=0.014435
+[baseline] step=0012000 loss=0.015434
+[baseline] step=0012500 loss=0.013905
+[baseline] step=0013000 loss=0.013538
+[baseline] step=0013500 loss=0.014327
+[baseline] step=0014000 loss=0.013678
+[baseline] step=0014500 loss=0.013903
+[baseline] step=0015000 loss=0.014432
+[baseline] step=0015500 loss=0.015432
+[baseline] step=0016000 loss=0.015085
+[baseline] step=0016500 loss=0.014721
+[baseline] step=0017000 loss=0.013670
+[baseline] step=0017500 loss=0.012771
+[baseline] step=0018000 loss=0.012812
+[baseline] step=0018500 loss=0.014166
+[baseline] step=0019000 loss=0.014069
+[baseline] step=0019500 loss=0.014799
+[baseline] step=0020000 loss=0.014587
+[baseline] step=0020500 loss=0.013347
+[baseline] step=0021000 loss=0.015147
+[baseline] step=0021500 loss=0.015035
+[baseline] step=0022000 loss=0.013264
+[baseline] step=0022500 loss=0.013660
+[baseline] step=0023000 loss=0.012504
+[baseline] step=0023500 loss=0.013410
+[baseline] step=0024000 loss=0.014256
+[baseline] step=0024500 loss=0.015238
+[baseline] step=0025000 loss=0.011870
+[baseline] step=0025500 loss=0.013403
+[baseline] step=0026000 loss=0.013070
+[baseline] step=0026500 loss=0.014570
+[baseline] step=0027000 loss=0.013206
+[baseline] step=0027500 loss=0.014666
+[baseline] step=0028000 loss=0.012996
+[baseline] step=0028500 loss=0.013606
+[baseline] step=0029000 loss=0.013555
+[baseline] step=0029500 loss=0.013587
+[baseline] step=0030000 loss=0.013943
+[v11:mcl] initialized shared backbone/heads from baseline
+[v11:mcl] step=0000001 loss=0.019813 best=0.019338 mean=0.019578 beta=0.000 t=0.915 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0000001 entropy=0.9998 beta_gap=0.02462 risk_margin=0.0001455
+[v11:mcl] step=0000500 loss=0.020377 best=0.020116 mean=0.020152 beta=0.000 t=0.897 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0001000 loss=0.018342 best=0.018092 mean=0.018119 beta=0.000 t=0.921 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0001500 loss=0.018671 best=0.018426 mean=0.018447 beta=0.000 t=0.920 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0002000 loss=0.019898 best=0.019625 mean=0.019674 beta=0.000 t=0.932 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0002500 loss=0.019028 best=0.018773 mean=0.018804 beta=0.898 t=0.912 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0003000 loss=0.019605 best=0.019331 mean=0.019380 beta=3.438 t=0.875 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0003500 loss=0.020541 best=0.020282 mean=0.020317 beta=7.383 t=0.889 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0004000 loss=0.019876 best=0.019619 mean=0.019652 beta=12.500 t=0.888 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0004500 loss=0.018291 best=0.018038 mean=0.018067 beta=18.555 t=0.921 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0005000 loss=0.018869 best=0.017870 mean=0.018634 beta=25.312 t=0.994 usage=[0.24899999797344208, 0.25099998712539673, 0.24899999797344208, 0.25099998712539673]
+[probe] step=0005000 entropy=0.9987 beta_gap=0.05586 risk_margin=0.0001389
+[v11:mcl] step=0005500 loss=0.018858 best=0.018568 mean=0.018633 beta=32.539 t=0.904 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0006000 loss=0.019448 best=0.019198 mean=0.019224 beta=40.000 t=0.864 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0006500 loss=0.019096 best=0.018844 mean=0.018872 beta=47.461 t=0.925 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0007000 loss=0.018901 best=0.018362 mean=0.018655 beta=54.688 t=0.922 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0007500 loss=0.018079 best=0.017808 mean=0.017854 beta=61.445 t=0.917 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0008000 loss=0.018581 best=0.018335 mean=0.018358 beta=67.500 t=0.931 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0008500 loss=0.018884 best=0.018635 mean=0.018660 beta=72.617 t=0.910 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0009000 loss=0.019312 best=0.018668 mean=0.018859 beta=76.562 t=0.937 usage=[0.25099998712539673, 0.24899999797344208, 0.24899999797344208, 0.25099998712539673]
+[v11:mcl] step=0009500 loss=0.019073 best=0.018822 mean=0.018849 beta=79.102 t=0.936 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0010000 loss=0.019227 best=0.018524 mean=0.018792 beta=80.000 t=0.911 usage=[0.24699999392032623, 0.24899999797344208, 0.25200000405311584, 0.25099998712539673]
+[probe] step=0010000 entropy=0.9997 beta_gap=0.02785 risk_margin=8.228e-05
+[v11:mcl] step=0010500 loss=0.018050 best=0.017801 mean=0.017826 beta=80.000 t=0.916 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0011000 loss=0.018033 best=0.017586 mean=0.017772 beta=80.000 t=0.894 usage=[0.25, 0.24899999797344208, 0.25, 0.25]
+[v11:mcl] step=0011500 loss=0.019459 best=0.019208 mean=0.019235 beta=80.000 t=0.875 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0012000 loss=0.018691 best=0.018404 mean=0.018466 beta=80.000 t=0.909 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0012500 loss=0.018507 best=0.018251 mean=0.018283 beta=80.000 t=0.929 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0013000 loss=0.019006 best=0.018745 mean=0.018780 beta=80.000 t=0.913 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0013500 loss=0.018402 best=0.018146 mean=0.018178 beta=80.000 t=0.918 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0014000 loss=0.018794 best=0.018175 mean=0.018547 beta=80.000 t=0.924 usage=[0.25099998712539673, 0.25099998712539673, 0.24899999797344208, 0.24899999797344208]
+[v11:mcl] step=0014500 loss=0.019154 best=0.018895 mean=0.018930 beta=80.000 t=0.884 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0015000 loss=0.018053 best=0.017806 mean=0.017829 beta=80.000 t=0.912 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0015000 entropy=1.0000 beta_gap=0.002097 risk_margin=5.144e-06
+[v11:mcl] step=0015500 loss=0.019270 best=0.018975 mean=0.019045 beta=80.000 t=0.912 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0016000 loss=0.018888 best=0.018631 mean=0.018664 beta=80.000 t=0.934 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0016500 loss=0.019529 best=0.019279 mean=0.019305 beta=80.000 t=0.891 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0017000 loss=0.018825 best=0.018444 mean=0.018595 beta=80.000 t=0.903 usage=[0.25099998712539673, 0.25, 0.25, 0.25]
+[v11:mcl] step=0017500 loss=0.018300 best=0.018055 mean=0.018076 beta=80.000 t=0.889 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0018000 loss=0.018775 best=0.018532 mean=0.018551 beta=80.000 t=0.918 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0018500 loss=0.018887 best=0.018642 mean=0.018664 beta=80.000 t=0.886 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0019000 loss=0.018674 best=0.018415 mean=0.018450 beta=80.000 t=0.899 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0019500 loss=0.018170 best=0.017893 mean=0.017945 beta=80.000 t=0.923 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0020000 loss=0.019150 best=0.018902 mean=0.018927 beta=80.000 t=0.966 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0020000 entropy=1.0000 beta_gap=0.001958 risk_margin=4.945e-06
+[v11:mcl] step=0020500 loss=0.020239 best=0.019972 mean=0.020015 beta=80.000 t=0.900 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0021000 loss=0.018253 best=0.017784 mean=0.018013 beta=80.000 t=0.902 usage=[0.25, 0.25, 0.25099998712539673, 0.24899999797344208]
+[v11:mcl] step=0021500 loss=0.018479 best=0.017982 mean=0.018028 beta=80.000 t=0.913 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0022000 loss=0.018659 best=0.018404 mean=0.018435 beta=80.000 t=0.921 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0022500 loss=0.018484 best=0.018235 mean=0.018260 beta=80.000 t=0.929 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0023000 loss=0.018768 best=0.018501 mean=0.018544 beta=80.000 t=0.871 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0023500 loss=0.020205 best=0.019902 mean=0.019980 beta=80.000 t=0.864 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0024000 loss=0.017851 best=0.017568 mean=0.017627 beta=80.000 t=0.878 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0024500 loss=0.018312 best=0.018062 mean=0.018088 beta=80.000 t=0.907 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0025000 loss=0.016976 best=0.016611 mean=0.016746 beta=80.000 t=0.896 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0025000 entropy=0.9999 beta_gap=0.01125 risk_margin=1.416e-05
+[v11:mcl] step=0025500 loss=0.018324 best=0.018059 mean=0.018100 beta=80.000 t=0.926 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0026000 loss=0.017388 best=0.017012 mean=0.017156 beta=80.000 t=0.861 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0026500 loss=0.018562 best=0.018286 mean=0.018337 beta=80.000 t=0.895 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0027000 loss=0.017613 best=0.017351 mean=0.017389 beta=80.000 t=0.953 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0027500 loss=0.019526 best=0.018908 mean=0.019284 beta=80.000 t=0.879 usage=[0.24799999594688416, 0.25099998712539673, 0.25099998712539673, 0.25099998712539673]
+[v11:mcl] step=0028000 loss=0.018730 best=0.018449 mean=0.018505 beta=80.000 t=0.929 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0028500 loss=0.018282 best=0.017997 mean=0.018057 beta=80.000 t=0.950 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0029000 loss=0.019072 best=0.018809 mean=0.018848 beta=80.000 t=0.886 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0029500 loss=0.018259 best=0.017981 mean=0.018034 beta=80.000 t=0.879 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0030000 loss=0.018882 best=0.018465 mean=0.018652 beta=80.000 t=0.897 usage=[0.25, 0.25, 0.25, 0.24899999797344208]
+[probe] step=0030000 entropy=0.9999 beta_gap=0.01353 risk_margin=4.869e-05
+[v11:mcl] step=0030500 loss=0.018857 best=0.018577 mean=0.018632 beta=80.000 t=0.889 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0031000 loss=0.017431 best=0.017157 mean=0.017193 beta=80.000 t=0.902 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0031500 loss=0.017295 best=0.017036 mean=0.017071 beta=80.000 t=0.942 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0032000 loss=0.018455 best=0.018199 mean=0.018231 beta=80.000 t=0.940 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0032500 loss=0.018072 best=0.017819 mean=0.017848 beta=80.000 t=0.917 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0033000 loss=0.018987 best=0.018269 mean=0.018639 beta=80.000 t=0.890 usage=[0.25, 0.25, 0.25099998712539673, 0.24899999797344208]
+[v11:mcl] step=0033500 loss=0.018523 best=0.018259 mean=0.018299 beta=80.000 t=0.905 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0034000 loss=0.017939 best=0.017689 mean=0.017716 beta=80.000 t=0.882 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0034500 loss=0.018972 best=0.018675 mean=0.018745 beta=80.000 t=0.907 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0035000 loss=0.016575 best=0.016318 mean=0.016351 beta=80.000 t=0.941 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0035000 entropy=1.0000 beta_gap=0.002792 risk_margin=4.615e-06
+[v11:mcl] step=0035500 loss=0.019042 best=0.018750 mean=0.018817 beta=80.000 t=0.897 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0036000 loss=0.018857 best=0.018609 mean=0.018633 beta=80.000 t=0.906 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0036500 loss=0.018628 best=0.018351 mean=0.018404 beta=80.000 t=0.913 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0037000 loss=0.017905 best=0.017494 mean=0.017671 beta=80.000 t=0.896 usage=[0.25, 0.24899999797344208, 0.25, 0.25]
+[v11:mcl] step=0037500 loss=0.017509 best=0.017203 mean=0.017283 beta=80.000 t=0.946 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0038000 loss=0.018781 best=0.018515 mean=0.018557 beta=80.000 t=0.876 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0038500 loss=0.018382 best=0.018125 mean=0.018158 beta=80.000 t=0.907 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0039000 loss=0.018440 best=0.018188 mean=0.018216 beta=80.000 t=0.918 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0039500 loss=0.017344 best=0.017084 mean=0.017120 beta=80.000 t=0.953 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0040000 loss=0.017480 best=0.017221 mean=0.017256 beta=80.000 t=0.922 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0040000 entropy=1.0000 beta_gap=0.002734 risk_margin=6.325e-06
+[v11:mcl] step=0040500 loss=0.019710 best=0.018051 mean=0.018128 beta=80.000 t=0.883 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0041000 loss=0.017660 best=0.017325 mean=0.017434 beta=80.000 t=0.903 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0041500 loss=0.017776 best=0.017303 mean=0.017536 beta=80.000 t=0.902 usage=[0.25, 0.24899999797344208, 0.25099998712539673, 0.25]
+[v11:mcl] step=0042000 loss=0.018270 best=0.018005 mean=0.018046 beta=80.000 t=0.917 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0042500 loss=0.019318 best=0.018767 mean=0.019045 beta=80.000 t=0.887 usage=[0.25, 0.25099998712539673, 0.25, 0.24899999797344208]
+[v11:mcl] step=0043000 loss=0.018598 best=0.018355 mean=0.018374 beta=80.000 t=0.883 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0043500 loss=0.018512 best=0.018262 mean=0.018288 beta=80.000 t=0.893 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0044000 loss=0.018683 best=0.018333 mean=0.018452 beta=80.000 t=0.868 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0044500 loss=0.019083 best=0.018840 mean=0.018859 beta=80.000 t=0.935 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0045000 loss=0.017503 best=0.017244 mean=0.017280 beta=80.000 t=0.952 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0045000 entropy=1.0000 beta_gap=0.003056 risk_margin=6.213e-06
+[v11:mcl] step=0045500 loss=0.018227 best=0.017977 mean=0.018004 beta=80.000 t=0.878 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0046000 loss=0.017848 best=0.017581 mean=0.017624 beta=80.000 t=0.957 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0046500 loss=0.017209 best=0.016895 mean=0.016983 beta=80.000 t=0.906 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0047000 loss=0.017852 best=0.017591 mean=0.017628 beta=80.000 t=0.926 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0047500 loss=0.018779 best=0.018524 mean=0.018555 beta=80.000 t=0.906 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0048000 loss=0.017402 best=0.017134 mean=0.017178 beta=80.000 t=0.958 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0048500 loss=0.018853 best=0.018534 mean=0.018626 beta=80.000 t=0.924 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0049000 loss=0.017975 best=0.017621 mean=0.017748 beta=80.000 t=0.939 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0049500 loss=0.017857 best=0.017609 mean=0.017634 beta=80.000 t=0.939 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0050000 loss=0.017693 best=0.017440 mean=0.017469 beta=80.000 t=0.940 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0050000 entropy=1.0000 beta_gap=0.002284 risk_margin=2.739e-06
+[v11:mcl] step=0050500 loss=0.018419 best=0.017983 mean=0.018187 beta=80.000 t=0.921 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0051000 loss=0.018001 best=0.017746 mean=0.017777 beta=80.000 t=0.930 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0051500 loss=0.018482 best=0.018218 mean=0.018257 beta=80.000 t=0.881 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0052000 loss=0.018165 best=0.017879 mean=0.017939 beta=80.000 t=0.890 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0052500 loss=0.018101 best=0.017797 mean=0.017874 beta=80.000 t=0.955 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0053000 loss=0.018012 best=0.017755 mean=0.017788 beta=80.000 t=0.924 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0053500 loss=0.018006 best=0.017745 mean=0.017782 beta=80.000 t=0.937 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0054000 loss=0.017626 best=0.017368 mean=0.017402 beta=80.000 t=0.929 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0054500 loss=0.017459 best=0.017080 mean=0.017227 beta=80.000 t=0.960 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0055000 loss=0.016958 best=0.016703 mean=0.016735 beta=80.000 t=0.909 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0055000 entropy=1.0000 beta_gap=0.002681 risk_margin=3.132e-06
+[v11:mcl] step=0055500 loss=0.017093 best=0.016834 mean=0.016869 beta=80.000 t=0.910 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0056000 loss=0.019139 best=0.018294 mean=0.018855 beta=80.000 t=0.907 usage=[0.25600001215934753, 0.24799999594688416, 0.24699999392032623, 0.24899999797344208]
+[v11:mcl] step=0056500 loss=0.017460 best=0.017214 mean=0.017237 beta=80.000 t=0.932 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0057000 loss=0.016918 best=0.016673 mean=0.016694 beta=80.000 t=0.936 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0057500 loss=0.017994 best=0.017747 mean=0.017771 beta=80.000 t=0.923 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0058000 loss=0.018065 best=0.017811 mean=0.017842 beta=80.000 t=0.883 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0058500 loss=0.017342 best=0.017094 mean=0.017118 beta=80.000 t=0.911 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0059000 loss=0.017448 best=0.017191 mean=0.017225 beta=80.000 t=0.959 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0059500 loss=0.018312 best=0.017973 mean=0.018084 beta=80.000 t=0.910 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0060000 loss=0.018686 best=0.018441 mean=0.018463 beta=80.000 t=0.888 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0060000 entropy=1.0000 beta_gap=0.001843 risk_margin=4.722e-06
+[router-calib] t=0.020 beta=80.000 excess=5.90893e-05 post_acc=0.805 ent=1.000
+[router-calib] t=0.150 beta=80.000 excess=4.83195e-05 post_acc=0.796 ent=1.000
+[router-calib] t=0.279 beta=80.000 excess=3.59693e-05 post_acc=0.774 ent=1.000
+[router-calib] t=0.409 beta=80.000 excess=3.10918e-05 post_acc=0.735 ent=1.000
+[router-calib] t=0.538 beta=80.000 excess=2.64425e-05 post_acc=0.662 ent=1.000
+[router-calib] t=0.668 beta=80.000 excess=2.48712e-05 post_acc=0.556 ent=1.000
+[router-calib] t=0.797 beta=80.000 excess=2.21797e-05 post_acc=0.434 ent=1.000
+[router-calib] t=0.927 beta=80.000 excess=1.96654e-05 post_acc=0.331 ent=1.000
+[router-calib] t=1.057 beta=80.000 excess=1.83827e-05 post_acc=0.253 ent=1.000
+[router-calib] t=1.186 beta=80.000 excess=1.73255e-05 post_acc=0.196 ent=1.000
+[router-calib] t=1.316 beta=80.000 excess=1.57902e-05 post_acc=0.162 ent=1.000
+[router-calib] t=1.445 beta=80.000 excess=1.46482e-05 post_acc=0.136 ent=1.000
+[router-calib] t=1.575 beta=80.000 excess=1.34823e-05 post_acc=0.125 ent=1.000
+[router-calib] t=1.704 beta=80.000 excess=1.19243e-05 post_acc=0.116 ent=1.000
+[router-calib] t=1.834 beta=80.000 excess=1.02089e-05 post_acc=0.110 ent=1.000
+[router-calib] t=1.963 beta=80.000 excess=9.08854e-06 post_acc=0.106 ent=1.000
+[router-calib] t=2.093 beta=80.000 excess=7.8966e-06 post_acc=0.103 ent=1.000
+[router-calib] t=2.223 beta=80.000 excess=6.94528e-06 post_acc=0.103 ent=1.000
+[router-calib] t=2.352 beta=80.000 excess=5.75789e-06 post_acc=0.101 ent=1.000
+[router-calib] t=2.482 beta=80.000 excess=5.5543e-06 post_acc=0.100 ent=1.000
+[router-calib] t=2.611 beta=80.000 excess=4.99051e-06 post_acc=0.099 ent=1.000
+[router-calib] t=2.741 beta=80.000 excess=4.30231e-06 post_acc=0.099 ent=1.000
+[router-calib] t=2.870 beta=80.000 excess=4.17017e-06 post_acc=0.097 ent=1.000
+[router-calib] t=3.000 beta=80.000 excess=3.04249e-06 post_acc=0.098 ent=1.000
+[linear-router] t=0.150 acc=0.8206 ent=nan
+[linear-router] t=0.279 acc=0.9810 ent=nan
+[linear-router] t=0.409 acc=0.9744 ent=nan
+[linear-router] t=0.538 acc=0.9854 ent=nan
+[linear-router] t=0.668 acc=0.8785 ent=nan
+[linear-router] t=0.797 acc=0.8616 ent=nan
+[linear-router] t=0.927 acc=0.9528 ent=nan
+[linear-router] t=1.057 acc=0.8830 ent=nan
+[linear-router] t=1.186 acc=0.9239 ent=nan
+[linear-router] t=1.316 acc=0.9676 ent=nan
+[linear-router] t=1.445 acc=0.9540 ent=nan
+[linear-router] t=1.575 acc=0.9493 ent=nan
+[linear-router] t=1.704 acc=0.9584 ent=nan
+[linear-router] t=1.834 acc=0.9179 ent=nan
+[linear-router] t=1.963 acc=0.9987 ent=nan
+[linear-router] t=2.093 acc=0.9999 ent=nan
+[linear-router] t=2.223 acc=0.9999 ent=nan
+[linear-router] t=2.611 acc=0.9997 ent=nan
+[linear-router] t=2.741 acc=0.9825 ent=nan
+[linear-router] t=2.870 acc=0.9625 ent=nan
+[linear-router] t=3.000 acc=0.8996 ent=nan
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[eval] baseline_heun: {'fid': 54.88066665537547, 'precision': 0.57421875, 'recall': 0.7646484375}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[eval] random_expert: {'fid': 42.94099969710103, 'precision': 0.658203125, 'recall': 0.75830078125, 'commit_fraction': 0.0, 'fallback_count': 0.0, 'fallback_fraction': 0.0, 'gate_usage_entropy': 0.995641864836216, 'num_samples': 256.0, 'num_steps': 100.0, 'usage_frac_0': 0.26318359375, 'usage_frac_1': 0.2333984375, 'usage_frac_2': 0.25244140625, 'usage_frac_3': 0.2509765625}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[eval] mixture_score: {'fid': 45.18923608223764, 'precision': 0.642578125, 'recall': 0.77294921875, 'commit_fraction': 0.0, 'fallback_count': 0.0, 'fallback_fraction': 0.0, 'num_samples': 256.0, 'num_steps': 100.0}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[eval] risk_commit_tstar: {'fid': 44.4933447112421, 'precision': 0.63818359375, 'recall': 0.734375, 'commit_fraction': 1.0, 'commit_time_max': 0.7947999835014343, 'commit_time_mean': 0.7947999835014343, 'commit_time_min': 0.7947999835014343, 'fallback_count': 18944.0, 'fallback_fraction': 0.74, 'gate_usage_entropy': 0.3616176377981901, 'num_samples': 256.0, 'num_steps': 100.0, 'risk_margin_mean_over_steps': 2.5994362925985113e-06, 'usage_frac_0': 0.8330078125, 'usage_frac_1': 0.00146484375, 'usage_frac_2': 0.0146484375, 'usage_frac_3': 0.15087890625}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[eval] linear_commit_once: {'fid': 43.18291864924142, 'precision': 0.662109375, 'recall': 0.75732421875, 'commit_fraction': 1.0, 'commit_time_max': 0.7947999835014343, 'commit_time_mean': 0.7947999835014343, 'commit_time_min': 0.7947999835014343, 'fallback_count': 18944.0, 'fallback_fraction': 0.74, 'gate_usage_entropy': 0.3216996565461159, 'num_samples': 256.0, 'num_steps': 100.0, 'risk_margin_mean_over_steps': 8.661143046915532, 'usage_frac_0': 0.83837890625, 'usage_frac_1': 0.0, 'usage_frac_2': 0.0009765625, 'usage_frac_3': 0.16064453125}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[eval] baseline_then_risk_commit_tstar: {'fid': 54.136930748756306, 'precision': 0.59423828125, 'recall': 0.71923828125, 'commit_fraction': 1.0, 'commit_time_max': 0.7947999835014343, 'commit_time_mean': 0.7947999835014343, 'commit_time_min': 0.7947999835014343, 'fallback_fraction': 0.0, 'gate_usage_entropy': 0.34973839297890663, 'num_samples': 256.0, 'num_steps': 100.0, 'risk_margin_mean_over_steps': 2.6026789498700962e-06, 't_star': 0.8121519088745117, 'usage_frac_0': 0.83642578125, 'usage_frac_1': 0.00244140625, 'usage_frac_2': 0.00830078125, 'usage_frac_3': 0.15283203125}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[eval] mixture_then_risk_commit_tstar: {'fid': 47.35288772251321, 'precision': 0.65087890625, 'recall': 0.7265625, 'commit_fraction': 1.0, 'commit_time_max': 0.7947999835014343, 'commit_time_mean': 0.7947999835014343, 'commit_time_min': 0.7947999835014343, 'fallback_fraction': 0.0, 'gate_usage_entropy': 0.38156455382704735, 'num_samples': 256.0, 'num_steps': 100.0, 'risk_margin_mean_over_steps': 2.6017600544037124e-06, 't_star': 0.8121519088745117, 'usage_frac_0': 0.81103515625, 'usage_frac_1': 0.0, 'usage_frac_2': 0.01318359375, 'usage_frac_3': 0.17578125}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[eval] baseline_then_linear_commit_tstar: {'fid': 57.91523427769607, 'precision': 0.6357421875, 'recall': 0.7724609375, 'commit_fraction': 1.0, 'commit_time_max': 0.7947999835014343, 'commit_time_mean': 0.7947999835014343, 'commit_time_min': 0.7947999835014343, 'fallback_fraction': 0.0, 'gate_usage_entropy': 0.2857063151896, 'num_samples': 256.0, 'num_steps': 100.0, 'risk_margin_mean_over_steps': 8.8340886233747, 't_star': 0.8121519088745117, 'usage_frac_0': 0.87109375, 'usage_frac_1': 0.0009765625, 'usage_frac_2': 0.001953125, 'usage_frac_3': 0.1259765625}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[eval] mixture_then_linear_commit_tstar: {'fid': 48.61505227916141, 'precision': 0.66162109375, 'recall': 0.7373046875, 'commit_fraction': 1.0, 'commit_time_max': 0.7947999835014343, 'commit_time_mean': 0.7947999835014343, 'commit_time_min': 0.7947999835014343, 'fallback_fraction': 0.0, 'gate_usage_entropy': 0.2926885839551687, 'num_samples': 256.0, 'num_steps': 100.0, 'risk_margin_mean_over_steps': 8.734427842646836, 't_star': 0.8121519088745117, 'usage_frac_0': 0.86181640625, 'usage_frac_1': 0.0, 'usage_frac_2': 0.00146484375, 'usage_frac_3': 0.13671875}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[paired] mixture_score vs risk_softmix: {'n_pairs': 4.0, 'fid_diff_mix_minus_soft_mean': 0.0051294092310918415, 'fid_diff_mix_minus_soft_std': 0.0010351866104420608, 'fid_diff_mix_minus_soft_ci95_lo': 0.004114926352858622, 'fid_diff_mix_minus_soft_ci95_hi': 0.006143892109325061, 'fid_diff_mix_minus_soft_pvalue_normal_approx': 3.762125044081978e-23}
+[v11] done. Summary: outputs/v11_scale/mnist_specwin_K4_auto/SUMMARY_v11.txt
+[v11] report: outputs/v11_scale/mnist_specwin_K4_auto/RESULTS_V11.md
+[v11-scale] 2026-05-21T08:06:23+02:00 OK mnist_auto_tstar
+[v11-scale] 2026-05-21T08:06:23+02:00 BEGIN mnist_fixed_t06 -> outputs/v11_scale/mnist_specwin_K4_t06
+[v11] device=cuda outdir=outputs/v11_scale/mnist_specwin_K4_t06
+[v11] data={'dataset': 'mnist', 'classes': ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], 'class_ids': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 'C': 10, 'channels': 1, 'image_size': 28, 'train_n': 60000, 'test_n': 10000, 'data_dim': 784}
+[v11] building PCA/Gaussian router stats
+[v11] beta_calibrator={'data_dim': 784, 'v0_image': 0.21304692327976227, 'beta_rho': 1.0, 'beta_min': 0.0, 'beta_max': 80.0}
+[v11] t_star=0.6000 source=manual commit_t_star=0.6000
+[v11] validating beta_x(t) by empirical CE sweep
+[baseline] step=0000001 loss=1.404925
+[baseline] step=0000500 loss=0.022420
+[baseline] step=0001000 loss=0.018390
+[baseline] step=0001500 loss=0.017100
+[baseline] step=0002000 loss=0.016215
+[baseline] step=0002500 loss=0.016429
+[baseline] step=0003000 loss=0.018749
+[baseline] step=0003500 loss=0.015591
+[baseline] step=0004000 loss=0.013570
+[baseline] step=0004500 loss=0.014499
+[baseline] step=0005000 loss=0.016058
+[baseline] step=0005500 loss=0.014328
+[baseline] step=0006000 loss=0.015230
+[baseline] step=0006500 loss=0.016601
+[baseline] step=0007000 loss=0.014022
+[baseline] step=0007500 loss=0.013081
+[baseline] step=0008000 loss=0.013275
+[baseline] step=0008500 loss=0.013117
+[baseline] step=0009000 loss=0.014194
+[baseline] step=0009500 loss=0.014152
+[baseline] step=0010000 loss=0.015118
+[baseline] step=0010500 loss=0.013228
+[baseline] step=0011000 loss=0.013893
+[baseline] step=0011500 loss=0.014374
+[baseline] step=0012000 loss=0.015419
+[baseline] step=0012500 loss=0.013915
+[baseline] step=0013000 loss=0.013484
+[baseline] step=0013500 loss=0.014217
+[baseline] step=0014000 loss=0.013681
+[baseline] step=0014500 loss=0.013931
+[baseline] step=0015000 loss=0.014375
+[baseline] step=0015500 loss=0.015513
+[baseline] step=0016000 loss=0.015058
+[baseline] step=0016500 loss=0.014692
+[baseline] step=0017000 loss=0.013683
+[baseline] step=0017500 loss=0.012845
+[baseline] step=0018000 loss=0.012800
+[baseline] step=0018500 loss=0.014194
+[baseline] step=0019000 loss=0.014188
+[baseline] step=0019500 loss=0.014886
+[baseline] step=0020000 loss=0.014485
+[baseline] step=0020500 loss=0.013333
+[baseline] step=0021000 loss=0.015072
+[baseline] step=0021500 loss=0.015055
+[baseline] step=0022000 loss=0.013168
+[baseline] step=0022500 loss=0.013639
+[baseline] step=0023000 loss=0.012494
+[baseline] step=0023500 loss=0.013425
+[baseline] step=0024000 loss=0.014313
+[baseline] step=0024500 loss=0.015201
+[baseline] step=0025000 loss=0.011853
+[baseline] step=0025500 loss=0.013391
+[baseline] step=0026000 loss=0.013074
+[baseline] step=0026500 loss=0.014612
+[baseline] step=0027000 loss=0.013148
+[baseline] step=0027500 loss=0.014645
+[baseline] step=0028000 loss=0.012924
+[baseline] step=0028500 loss=0.013606
+[baseline] step=0029000 loss=0.013565
+[baseline] step=0029500 loss=0.013609
+[baseline] step=0030000 loss=0.014016
+[v11:mcl] initialized shared backbone/heads from baseline
+[v11:mcl] step=0000001 loss=0.022558 best=0.022049 mean=0.022325 beta=0.000 t=0.730 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0000001 entropy=0.9997 beta_gap=0.02472 risk_margin=9.031e-05
+[v11:mcl] step=0000500 loss=0.022902 best=0.022632 mean=0.022677 beta=0.000 t=0.719 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0001000 loss=0.020930 best=0.020590 mean=0.020701 beta=0.000 t=0.740 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0001500 loss=0.020904 best=0.020648 mean=0.020679 beta=0.000 t=0.740 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0002000 loss=0.022439 best=0.022025 mean=0.022194 beta=0.000 t=0.759 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0002500 loss=0.021805 best=0.021512 mean=0.021579 beta=0.898 t=0.726 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0003000 loss=0.021682 best=0.021432 mean=0.021458 beta=3.438 t=0.690 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0003500 loss=0.022824 best=0.022576 mean=0.022600 beta=7.383 t=0.708 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0004000 loss=0.022457 best=0.022208 mean=0.022233 beta=12.500 t=0.703 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0004500 loss=0.020804 best=0.020431 mean=0.020573 beta=18.555 t=0.740 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0005000 loss=0.020139 best=0.019874 mean=0.019915 beta=25.312 t=0.818 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0005000 entropy=1.0000 beta_gap=0.003105 risk_margin=9.803e-06
+[v11:mcl] step=0005500 loss=0.023049 best=0.021933 mean=0.022484 beta=32.539 t=0.715 usage=[0.24699999392032623, 0.24899999797344208, 0.2529999911785126, 0.25200000405311584]
+[v11:mcl] step=0006000 loss=0.022301 best=0.022044 mean=0.022077 beta=40.000 t=0.680 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0006500 loss=0.021342 best=0.021094 mean=0.021118 beta=47.461 t=0.743 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0007000 loss=0.020973 best=0.020630 mean=0.020745 beta=54.688 t=0.744 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0007500 loss=0.020387 best=0.019798 mean=0.020132 beta=61.445 t=0.741 usage=[0.24899999797344208, 0.25, 0.25099998712539673, 0.24899999797344208]
+[v11:mcl] step=0008000 loss=0.021278 best=0.021006 mean=0.021054 beta=67.500 t=0.754 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0008500 loss=0.021471 best=0.021204 mean=0.021246 beta=72.617 t=0.729 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0009000 loss=0.021045 best=0.020780 mean=0.020821 beta=76.562 t=0.756 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0009500 loss=0.021353 best=0.021104 mean=0.021129 beta=79.102 t=0.757 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0010000 loss=0.021022 best=0.020769 mean=0.020798 beta=80.000 t=0.737 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0010000 entropy=1.0000 beta_gap=0.00223 risk_margin=4.693e-06
+[v11:mcl] step=0010500 loss=0.020665 best=0.020354 mean=0.020439 beta=80.000 t=0.731 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0011000 loss=0.020248 best=0.019976 mean=0.020024 beta=80.000 t=0.708 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0011500 loss=0.022343 best=0.022038 mean=0.022117 beta=80.000 t=0.691 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0012000 loss=0.020925 best=0.020652 mean=0.020699 beta=80.000 t=0.730 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0012500 loss=0.020954 best=0.020489 mean=0.020718 beta=80.000 t=0.743 usage=[0.25, 0.25099998712539673, 0.25, 0.25]
+[v11:mcl] step=0013000 loss=0.021461 best=0.021196 mean=0.021237 beta=80.000 t=0.732 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0013500 loss=0.021285 best=0.021010 mean=0.021061 beta=80.000 t=0.737 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0014000 loss=0.020969 best=0.020719 mean=0.020745 beta=80.000 t=0.746 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0014500 loss=0.021820 best=0.021567 mean=0.021596 beta=80.000 t=0.700 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0015000 loss=0.020561 best=0.020304 mean=0.020337 beta=80.000 t=0.733 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0015000 entropy=1.0000 beta_gap=0.002701 risk_margin=5.136e-06
+[v11:mcl] step=0015500 loss=0.022292 best=0.022039 mean=0.022068 beta=80.000 t=0.727 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0016000 loss=0.021437 best=0.021188 mean=0.021213 beta=80.000 t=0.756 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0016500 loss=0.021821 best=0.021521 mean=0.021596 beta=80.000 t=0.714 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0017000 loss=0.021340 best=0.020862 mean=0.021109 beta=80.000 t=0.723 usage=[0.24899999797344208, 0.25, 0.25099998712539673, 0.25]
+[v11:mcl] step=0017500 loss=0.020705 best=0.020449 mean=0.020481 beta=80.000 t=0.703 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0018000 loss=0.020853 best=0.020606 mean=0.020629 beta=80.000 t=0.739 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0018500 loss=0.021174 best=0.020904 mean=0.020949 beta=80.000 t=0.701 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0019000 loss=0.021234 best=0.020974 mean=0.021010 beta=80.000 t=0.718 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0019500 loss=0.020660 best=0.020410 mean=0.020436 beta=80.000 t=0.753 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0020000 loss=0.022059 best=0.021323 mean=0.021811 beta=80.000 t=0.797 usage=[0.24899999797344208, 0.25, 0.25200000405311584, 0.24899999797344208]
+[probe] step=0020000 entropy=0.9996 beta_gap=0.03393 risk_margin=0.0001271
+[v11:mcl] step=0020500 loss=0.022918 best=0.022655 mean=0.022694 beta=80.000 t=0.725 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0021000 loss=0.021351 best=0.021099 mean=0.021127 beta=80.000 t=0.714 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0021500 loss=0.021172 best=0.020573 mean=0.020919 beta=80.000 t=0.729 usage=[0.24899999797344208, 0.24899999797344208, 0.25, 0.25099998712539673]
+[v11:mcl] step=0022000 loss=0.021695 best=0.021369 mean=0.021469 beta=80.000 t=0.745 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0022500 loss=0.020909 best=0.020646 mean=0.020685 beta=80.000 t=0.750 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0023000 loss=0.020923 best=0.020651 mean=0.020698 beta=80.000 t=0.689 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0023500 loss=0.022784 best=0.022528 mean=0.022559 beta=80.000 t=0.679 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0024000 loss=0.020207 best=0.019957 mean=0.019983 beta=80.000 t=0.689 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0024500 loss=0.020812 best=0.020539 mean=0.020587 beta=80.000 t=0.736 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0025000 loss=0.019222 best=0.018970 mean=0.018998 beta=80.000 t=0.709 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0025000 entropy=1.0000 beta_gap=0.002076 risk_margin=2.77e-06
+[v11:mcl] step=0025500 loss=0.020776 best=0.020504 mean=0.020551 beta=80.000 t=0.744 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0026000 loss=0.020310 best=0.020056 mean=0.020085 beta=80.000 t=0.671 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0026500 loss=0.021639 best=0.021253 mean=0.021411 beta=80.000 t=0.707 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0027000 loss=0.020132 best=0.019857 mean=0.019907 beta=80.000 t=0.774 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0027500 loss=0.021947 best=0.021675 mean=0.021723 beta=80.000 t=0.699 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0028000 loss=0.021502 best=0.021232 mean=0.021277 beta=80.000 t=0.747 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0028500 loss=0.020810 best=0.020557 mean=0.020586 beta=80.000 t=0.770 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0029000 loss=0.021386 best=0.021119 mean=0.021162 beta=80.000 t=0.704 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0029500 loss=0.021248 best=0.020919 mean=0.021022 beta=80.000 t=0.692 usage=[0.25, 0.24899999797344208, 0.25, 0.25]
+[v11:mcl] step=0030000 loss=0.021507 best=0.021247 mean=0.021283 beta=80.000 t=0.715 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0030000 entropy=1.0000 beta_gap=0.002748 risk_margin=6.769e-06
+[v11:mcl] step=0030500 loss=0.021489 best=0.021235 mean=0.021264 beta=80.000 t=0.710 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0031000 loss=0.020260 best=0.019957 mean=0.020034 beta=80.000 t=0.722 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0031500 loss=0.019573 best=0.019309 mean=0.019349 beta=80.000 t=0.768 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0032000 loss=0.021381 best=0.020602 mean=0.021096 beta=80.000 t=0.771 usage=[0.24500000476837158, 0.2540000081062317, 0.25, 0.25200000405311584]
+[v11:mcl] step=0032500 loss=0.020668 best=0.020417 mean=0.020444 beta=80.000 t=0.740 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0033000 loss=0.020776 best=0.020525 mean=0.020552 beta=80.000 t=0.705 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0033500 loss=0.020794 best=0.020538 mean=0.020570 beta=80.000 t=0.727 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0034000 loss=0.020640 best=0.020385 mean=0.020416 beta=80.000 t=0.699 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0034500 loss=0.021767 best=0.021172 mean=0.021525 beta=80.000 t=0.727 usage=[0.24899999797344208, 0.25, 0.25, 0.25]
+[v11:mcl] step=0035000 loss=0.018964 best=0.018698 mean=0.018740 beta=80.000 t=0.761 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0035000 entropy=1.0000 beta_gap=0.002776 risk_margin=6.227e-06
+[v11:mcl] step=0035500 loss=0.020994 best=0.020734 mean=0.020770 beta=80.000 t=0.718 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0036000 loss=0.020931 best=0.020660 mean=0.020707 beta=80.000 t=0.725 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0036500 loss=0.021403 best=0.021138 mean=0.021179 beta=80.000 t=0.725 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0037000 loss=0.020610 best=0.019921 mean=0.020248 beta=80.000 t=0.711 usage=[0.25200000405311584, 0.24899999797344208, 0.24899999797344208, 0.25]
+[v11:mcl] step=0037500 loss=0.019636 best=0.019382 mean=0.019413 beta=80.000 t=0.768 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0038000 loss=0.021282 best=0.021031 mean=0.021059 beta=80.000 t=0.692 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0038500 loss=0.020597 best=0.020298 mean=0.020370 beta=80.000 t=0.728 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0039000 loss=0.021636 best=0.020772 mean=0.021384 beta=80.000 t=0.736 usage=[0.24799999594688416, 0.25, 0.24899999797344208, 0.2529999911785126]
+[v11:mcl] step=0039500 loss=0.019714 best=0.019304 mean=0.019474 beta=80.000 t=0.773 usage=[0.24899999797344208, 0.25, 0.25, 0.25]
+[v11:mcl] step=0040000 loss=0.019772 best=0.019522 mean=0.019549 beta=80.000 t=0.740 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0040000 entropy=1.0000 beta_gap=0.001904 risk_margin=7.978e-06
+[v11:mcl] step=0040500 loss=0.020784 best=0.020535 mean=0.020560 beta=80.000 t=0.696 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0041000 loss=0.020256 best=0.020008 mean=0.020033 beta=80.000 t=0.727 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0041500 loss=0.019933 best=0.019685 mean=0.019710 beta=80.000 t=0.719 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0042000 loss=0.020966 best=0.020699 mean=0.020742 beta=80.000 t=0.736 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0042500 loss=0.021457 best=0.021121 mean=0.021230 beta=80.000 t=0.702 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0043000 loss=0.021691 best=0.021445 mean=0.021467 beta=80.000 t=0.699 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0043500 loss=0.020441 best=0.020195 mean=0.020218 beta=80.000 t=0.718 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0044000 loss=0.021311 best=0.021057 mean=0.021087 beta=80.000 t=0.677 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0044500 loss=0.021514 best=0.021120 mean=0.021280 beta=80.000 t=0.762 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0045000 loss=0.019753 best=0.019226 mean=0.019515 beta=80.000 t=0.772 usage=[0.25, 0.25, 0.25, 0.25099998712539673]
+[probe] step=0045000 entropy=0.9999 beta_gap=0.0186 risk_margin=6.296e-05
+[v11:mcl] step=0045500 loss=0.021355 best=0.021103 mean=0.021132 beta=80.000 t=0.696 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0046000 loss=0.020155 best=0.019907 mean=0.019932 beta=80.000 t=0.785 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0046500 loss=0.019995 best=0.019713 mean=0.019770 beta=80.000 t=0.714 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0047000 loss=0.020352 best=0.020094 mean=0.020128 beta=80.000 t=0.747 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0047500 loss=0.021380 best=0.021005 mean=0.021151 beta=80.000 t=0.720 usage=[0.25099998712539673, 0.25, 0.25, 0.25]
+[v11:mcl] step=0048000 loss=0.019798 best=0.019349 mean=0.019553 beta=80.000 t=0.782 usage=[0.25, 0.25, 0.25, 0.24899999797344208]
+[v11:mcl] step=0048500 loss=0.021014 best=0.020762 mean=0.020791 beta=80.000 t=0.746 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0049000 loss=0.020204 best=0.019954 mean=0.019980 beta=80.000 t=0.760 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0049500 loss=0.020406 best=0.020157 mean=0.020182 beta=80.000 t=0.760 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0050000 loss=0.019752 best=0.019488 mean=0.019528 beta=80.000 t=0.759 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0050000 entropy=1.0000 beta_gap=0.002635 risk_margin=6.863e-06
+[v11:mcl] step=0050500 loss=0.020802 best=0.020536 mean=0.020578 beta=80.000 t=0.741 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0051000 loss=0.020100 best=0.019816 mean=0.019876 beta=80.000 t=0.751 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0051500 loss=0.020986 best=0.020736 mean=0.020762 beta=80.000 t=0.692 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0052000 loss=0.021090 best=0.020837 mean=0.020866 beta=80.000 t=0.700 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0052500 loss=0.020373 best=0.020106 mean=0.020149 beta=80.000 t=0.786 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0053000 loss=0.020448 best=0.020200 mean=0.020225 beta=80.000 t=0.746 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0053500 loss=0.020319 best=0.020067 mean=0.020096 beta=80.000 t=0.756 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0054000 loss=0.019905 best=0.019649 mean=0.019681 beta=80.000 t=0.752 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0054500 loss=0.019800 best=0.019354 mean=0.019561 beta=80.000 t=0.781 usage=[0.25099998712539673, 0.24899999797344208, 0.25, 0.25]
+[v11:mcl] step=0055000 loss=0.019211 best=0.018955 mean=0.018987 beta=80.000 t=0.724 usage=[0.25, 0.25, 0.25, 0.25]
+[probe] step=0055000 entropy=1.0000 beta_gap=0.002356 risk_margin=5.527e-06
+[v11:mcl] step=0055500 loss=0.019605 best=0.019342 mean=0.019381 beta=80.000 t=0.733 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0056000 loss=0.020488 best=0.020236 mean=0.020264 beta=80.000 t=0.723 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0056500 loss=0.019732 best=0.019474 mean=0.019509 beta=80.000 t=0.750 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0057000 loss=0.019573 best=0.019327 mean=0.019350 beta=80.000 t=0.754 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0057500 loss=0.020657 best=0.020397 mean=0.020433 beta=80.000 t=0.742 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0058000 loss=0.020826 best=0.020573 mean=0.020603 beta=80.000 t=0.701 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0058500 loss=0.020457 best=0.020206 mean=0.020233 beta=80.000 t=0.724 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0059000 loss=0.019697 best=0.019402 mean=0.019472 beta=80.000 t=0.778 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0059500 loss=0.021013 best=0.020759 mean=0.020789 beta=80.000 t=0.731 usage=[0.25, 0.25, 0.25, 0.25]
+[v11:mcl] step=0060000 loss=0.021077 best=0.020722 mean=0.020850 beta=80.000 t=0.705 usage=[0.25, 0.25099998712539673, 0.24899999797344208, 0.25]
+[probe] step=0060000 entropy=1.0000 beta_gap=0.008905 risk_margin=2.335e-05
+[router-calib] t=0.020 beta=80.000 excess=0.000294243 post_acc=0.805 ent=1.000
+[router-calib] t=0.150 beta=80.000 excess=0.000158259 post_acc=0.796 ent=1.000
+[router-calib] t=0.279 beta=80.000 excess=0.0001457 post_acc=0.774 ent=1.000
+[router-calib] t=0.409 beta=80.000 excess=0.000131338 post_acc=0.735 ent=1.000
+[router-calib] t=0.538 beta=80.000 excess=0.000122256 post_acc=0.662 ent=1.000
+[router-calib] t=0.668 beta=80.000 excess=0.000118567 post_acc=0.556 ent=1.000
+[router-calib] t=0.797 beta=80.000 excess=0.000114671 post_acc=0.434 ent=1.000
+[router-calib] t=0.927 beta=80.000 excess=0.000110805 post_acc=0.331 ent=1.000
+[router-calib] t=1.057 beta=80.000 excess=0.000104519 post_acc=0.253 ent=1.000
+[router-calib] t=1.186 beta=80.000 excess=9.58533e-05 post_acc=0.196 ent=1.000
+[router-calib] t=1.316 beta=80.000 excess=8.46015e-05 post_acc=0.162 ent=1.000
+[router-calib] t=1.445 beta=80.000 excess=7.49176e-05 post_acc=0.136 ent=1.000
+[router-calib] t=1.575 beta=80.000 excess=6.6444e-05 post_acc=0.125 ent=1.000
+[router-calib] t=1.704 beta=80.000 excess=5.42752e-05 post_acc=0.116 ent=1.000
+[router-calib] t=1.834 beta=80.000 excess=4.24671e-05 post_acc=0.110 ent=1.000
+[router-calib] t=1.963 beta=80.000 excess=3.79308e-05 post_acc=0.106 ent=1.000
+[router-calib] t=2.093 beta=80.000 excess=4.82824e-05 post_acc=0.103 ent=1.000
+[router-calib] t=2.223 beta=80.000 excess=2.21919e-05 post_acc=0.103 ent=1.000
+[router-calib] t=2.352 beta=80.000 excess=4.27948e-05 post_acc=0.101 ent=1.000
+[router-calib] t=2.482 beta=80.000 excess=1.27789e-05 post_acc=0.100 ent=1.000
+[router-calib] t=2.611 beta=80.000 excess=9.53855e-06 post_acc=0.099 ent=1.000
+[router-calib] t=2.741 beta=80.000 excess=6.55202e-06 post_acc=0.099 ent=1.000
+[router-calib] t=2.870 beta=80.000 excess=3.02668e-06 post_acc=0.097 ent=1.000
+[router-calib] t=3.000 beta=80.000 excess=4.30766e-07 post_acc=0.098 ent=1.000
+[linear-router] t=0.020 acc=0.9719 ent=nan
+[linear-router] t=0.279 acc=0.9054 ent=nan
+[linear-router] t=0.409 acc=0.9088 ent=nan
+[linear-router] t=0.538 acc=0.9501 ent=nan
+[linear-router] t=0.668 acc=0.8650 ent=nan
+[linear-router] t=0.797 acc=0.9197 ent=nan
+[linear-router] t=0.927 acc=0.9664 ent=nan
+[linear-router] t=1.057 acc=0.9733 ent=nan
+[linear-router] t=1.186 acc=0.9868 ent=nan
+[linear-router] t=1.316 acc=0.9974 ent=nan
+[linear-router] t=1.445 acc=0.9980 ent=nan
+[linear-router] t=1.575 acc=0.9982 ent=nan
+[linear-router] t=2.093 acc=0.9047 ent=nan
+[linear-router] t=2.352 acc=0.9448 ent=nan
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[eval] baseline_heun: {'fid': 55.029489844287795, 'precision': 0.56982421875, 'recall': 0.75390625}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[eval] random_expert: {'fid': 48.90212018120958, 'precision': 0.6630859375, 'recall': 0.75732421875, 'commit_fraction': 0.0, 'fallback_count': 0.0, 'fallback_fraction': 0.0, 'gate_usage_entropy': 0.9978479444980621, 'num_samples': 256.0, 'num_steps': 100.0, 'usage_frac_0': 0.2431640625, 'usage_frac_1': 0.25048828125, 'usage_frac_2': 0.25439453125, 'usage_frac_3': 0.251953125}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[eval] mixture_score: {'fid': 48.573384663423006, 'precision': 0.65380859375, 'recall': 0.759765625, 'commit_fraction': 0.0, 'fallback_count': 0.0, 'fallback_fraction': 0.0, 'num_samples': 256.0, 'num_steps': 100.0}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[eval] risk_commit_tstar: {'fid': 46.76392291729622, 'precision': 0.65234375, 'recall': 0.73095703125, 'commit_fraction': 1.0, 'commit_time_max': 0.5861999988555908, 'commit_time_mean': 0.5861999988555908, 'commit_time_min': 0.5861999988555908, 'fallback_count': 20736.0, 'fallback_fraction': 0.81, 'gate_usage_entropy': 0.15467693842947483, 'num_samples': 256.0, 'num_steps': 100.0, 'risk_margin_mean_over_steps': 2.0425649668140975e-05, 'usage_frac_0': 0.0166015625, 'usage_frac_1': 0.0302734375, 'usage_frac_2': 0.0, 'usage_frac_3': 0.953125}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[eval] linear_commit_once: {'fid': 48.13933493228804, 'precision': 0.64111328125, 'recall': 0.76171875, 'commit_fraction': 1.0, 'commit_time_max': 0.5861999988555908, 'commit_time_mean': 0.5861999988555908, 'commit_time_min': 0.5861999988555908, 'fallback_count': 20736.0, 'fallback_fraction': 0.81, 'gate_usage_entropy': 0.06442166352644563, 'num_samples': 256.0, 'num_steps': 100.0, 'risk_margin_mean_over_steps': 12.105067939162254, 'usage_frac_0': 0.01220703125, 'usage_frac_1': 0.00439453125, 'usage_frac_2': 0.0, 'usage_frac_3': 0.9833984375}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[eval] baseline_then_risk_commit_tstar: {'fid': 56.725604636803666, 'precision': 0.609375, 'recall': 0.76220703125, 'commit_fraction': 1.0, 'commit_time_max': 0.5861999988555908, 'commit_time_mean': 0.5861999988555908, 'commit_time_min': 0.5861999988555908, 'fallback_fraction': 0.0, 'gate_usage_entropy': 0.1441477993503213, 'num_samples': 256.0, 'num_steps': 100.0, 'risk_margin_mean_over_steps': 2.043617000708764e-05, 't_star': 0.6, 'usage_frac_0': 0.0146484375, 'usage_frac_1': 0.02783203125, 'usage_frac_2': 0.0, 'usage_frac_3': 0.95751953125}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[eval] mixture_then_risk_commit_tstar: {'fid': 50.00619794307036, 'precision': 0.63134765625, 'recall': 0.75634765625, 'commit_fraction': 1.0, 'commit_time_max': 0.5861999988555908, 'commit_time_mean': 0.5861999988555908, 'commit_time_min': 0.5861999988555908, 'fallback_fraction': 0.0, 'gate_usage_entropy': 0.18230408150702715, 'num_samples': 256.0, 'num_steps': 100.0, 'risk_margin_mean_over_steps': 2.0453490035379217e-05, 't_star': 0.6, 'usage_frac_0': 0.01708984375, 'usage_frac_1': 0.04052734375, 'usage_frac_2': 0.0, 'usage_frac_3': 0.9423828125}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[eval] baseline_then_linear_commit_tstar: {'fid': 55.00117382595645, 'precision': 0.609375, 'recall': 0.771484375, 'commit_fraction': 1.0, 'commit_time_max': 0.5861999988555908, 'commit_time_mean': 0.5861999988555908, 'commit_time_min': 0.5861999988555908, 'fallback_fraction': 0.0, 'gate_usage_entropy': 0.049686632592254795, 'num_samples': 256.0, 'num_steps': 100.0, 'risk_margin_mean_over_steps': 12.139268173277378, 't_star': 0.6, 'usage_frac_0': 0.00439453125, 'usage_frac_1': 0.0078125, 'usage_frac_2': 0.0, 'usage_frac_3': 0.98779296875}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[eval] mixture_then_linear_commit_tstar: {'fid': 49.92005680731153, 'precision': 0.654296875, 'recall': 0.7607421875, 'commit_fraction': 1.0, 'commit_time_max': 0.5861999988555908, 'commit_time_mean': 0.5861999988555908, 'commit_time_min': 0.5861999988555908, 'fallback_fraction': 0.0, 'gate_usage_entropy': 0.06577943614684045, 'num_samples': 256.0, 'num_steps': 100.0, 'risk_margin_mean_over_steps': 12.098944306373596, 't_star': 0.6, 'usage_frac_0': 0.009765625, 'usage_frac_1': 0.0068359375, 'usage_frac_2': 0.0, 'usage_frac_3': 0.9833984375}
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+/users/eleves-a/2022/janis.aiad/.local/lib/python3.9/site-packages/torch/_utils.py:776: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+[paired] mixture_score vs risk_softmix: {'n_pairs': 4.0, 'fid_diff_mix_minus_soft_mean': 0.17688219122545057, 'fid_diff_mix_minus_soft_std': 0.05562656245395383, 'fid_diff_mix_minus_soft_ci95_lo': 0.12236816002057582, 'fid_diff_mix_minus_soft_ci95_hi': 0.23139622243032532, 'fid_diff_mix_minus_soft_pvalue_normal_approx': 2.0223966570980596e-10}
+[v11] done. Summary: outputs/v11_scale/mnist_specwin_K4_t06/SUMMARY_v11.txt
+[v11] report: outputs/v11_scale/mnist_specwin_K4_t06/RESULTS_V11.md
+[v11-scale] 2026-05-21T11:14:23+02:00 OK mnist_fixed_t06
+[v11-scale] 2026-05-21T11:14:23+02:00 finished

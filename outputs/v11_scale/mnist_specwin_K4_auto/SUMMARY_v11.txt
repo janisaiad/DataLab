@@ -1,0 +1,317 @@
+V11 speciation-window + commit-once MCL diffusion
+
+Core change vs V10:
+- infer or force a theoretical speciation time t_star;
+- train MCL mostly in [t_star-delta, t_star+delta];
+- add anti-collapse regularizers;
+- test baseline/mixture-before-t_star then one-shot expert commitment.
+
+Config:
+{
+  "K": 4,
+  "a_variance_weight": 0.005,
+  "all": true,
+  "balance_weight": 0.05,
+  "baseline_ckpt": "",
+  "baseline_steps": 30000,
+  "batch_size": 256,
+  "beta_max": 80.0,
+  "beta_min": 0.0,
+  "beta_rho": 1.0,
+  "beta_sweep_max_mult": 5.0,
+  "beta_sweep_min_mult": 0.2,
+  "beta_sweep_points": 41,
+  "beta_validation_batches": 32,
+  "beta_validation_t_bins": 24,
+  "calibrate_router": true,
+  "classes": "all",
+  "commit_force_t": 0.35,
+  "commit_margin": 1e-05,
+  "commit_soft_before": true,
+  "commit_t_star": 0.8121519088745117,
+  "data_root": "./data",
+  "dataset": "mnist",
+  "default_expert": 0,
+  "device": "cuda",
+  "diversity_weight": 0.01,
+  "geodesic_tau": 1.0,
+  "grad_clip": 1.0,
+  "hard_wta": false,
+  "image_size": 28,
+  "init_mcl_from_baseline": true,
+  "linear_router_batch_size": 1024,
+  "linear_router_batches": 64,
+  "linear_router_ckpt": "",
+  "linear_router_lr": 0.02,
+  "linear_router_steps": 200,
+  "linear_router_target": "risk",
+  "linear_router_temp": 1.0,
+  "linear_router_weight_decay": 0.0001,
+  "log_every": 500,
+  "lr": 0.0002,
+  "max_test_items": 0,
+  "max_train_items": 0,
+  "mcl_ckpt": "",
+  "mcl_init_noise": 0.001,
+  "mcl_ramp_steps": 8000,
+  "mcl_steps": 60000,
+  "mcl_warmup_steps": 2000,
+  "no_download": false,
+  "num_classes_hint": 10,
+  "num_samples": 2048,
+  "num_workers": 4,
+  "orthogonal_output_weight": 0.002,
+  "outdir": "outputs/v11_scale/mnist_specwin_K4_auto",
+  "paired_batches": 4,
+  "pca_dim_router": 64,
+  "probe_batches": 8,
+  "probe_every": 5000,
+  "probe_t_bins": 16,
+  "risk_conf_margin": 1e-05,
+  "risk_soft_temp": 0.0002,
+  "router_calib_batches": 64,
+  "router_ckpt": "",
+  "router_stats_items": 12000,
+  "router_t_bins": 24,
+  "sample_batch_size": 256,
+  "sample_eval": true,
+  "sample_steps": 100,
+  "seed": 0,
+  "spec_beta_mult": 1.0,
+  "spec_delta": 0.2,
+  "spec_search_max": 1.0,
+  "spec_search_min": 0.35,
+  "spec_t_bins": 80,
+  "spec_t_star": 0.8121519088745117,
+  "spec_t_star_prior": 0.6,
+  "spec_threshold": 1.0,
+  "spec_window": true,
+  "spec_window_frac": 0.85,
+  "strategies": "baseline_heun,random_expert,mixture_score,risk_commit_tstar,linear_commit_once,baseline_then_risk_commit_tstar,mixture_then_risk_commit_tstar,baseline_then_linear_commit_tstar,mixture_then_linear_commit_tstar",
+  "t_max": 3.0,
+  "t_min": 0.02,
+  "temb_dim": 128,
+  "train_baseline": true,
+  "train_linear_router": true,
+  "train_mcl": true,
+  "validate_beta": true,
+  "weight_decay": 0.0001,
+  "width": 64
+}
+
+Data info:
+{
+  "dataset": "mnist",
+  "classes": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9"
+  ],
+  "class_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "C": 10,
+  "channels": 1,
+  "image_size": 28,
+  "train_n": 60000,
+  "test_n": 10000,
+  "data_dim": 784
+}
+
+V11 t_star:
+{
+  "lambda_between_top": 12.778247833251953,
+  "pca_dim": 64,
+  "search_max": 1.0,
+  "search_min": 0.35,
+  "source": "first_reverse_crossing_beta_lambda",
+  "t_star": 0.8121519088745117,
+  "threshold": 1.0,
+  "v0_z": 2.1721529960632324
+}
+
+Beta calibrator:
+  data_dim: 784
+  v0_image: 0.21304692327976227
+  beta_rho: 1.0
+  beta_min: 0.0
+  beta_max: 80.0
+
+Router calibration aggregate:
+  route_excess_vs_sample_oracle: mean=1.75475e-05, max=5.90893e-05, min=3.04249e-06
+  teacher_entropy_norm: mean=0.999998, max=1, min=0.999974
+  posterior_acc: mean=0.295733, max=0.80481, min=0.0974121
+  risk_margin_mean: mean=3.61645e-06, max=4.95852e-05, min=1.48744e-07
+  delta_A_mean_min_interexpert: mean=1.06983e-06, max=1.04144e-05, min=2.00886e-07
+  bayes_decision_entropy_t: mean=0.242965, max=0.639, min=5.97947e-11
+  A_cond_smax_over_smin: mean=22571.8, max=60144.2, min=3063.36
+
+Generation metrics:
+
+[baseline_heun]
+  fid: 54.88066665537547
+  precision: 0.57421875
+  recall: 0.7646484375
+
+[random_expert]
+  fid: 42.94099969710103
+  precision: 0.658203125
+  recall: 0.75830078125
+  commit_fraction: 0.0
+  fallback_count: 0.0
+  fallback_fraction: 0.0
+  gate_usage_entropy: 0.995641864836216
+  num_samples: 256.0
+  num_steps: 100.0
+  usage_frac_0: 0.26318359375
+  usage_frac_1: 0.2333984375
+  usage_frac_2: 0.25244140625
+  usage_frac_3: 0.2509765625
+
+[mixture_score]
+  fid: 45.18923608223764
+  precision: 0.642578125
+  recall: 0.77294921875
+  commit_fraction: 0.0
+  fallback_count: 0.0
+  fallback_fraction: 0.0
+  num_samples: 256.0
+  num_steps: 100.0
+
+[risk_commit_tstar]
+  fid: 44.4933447112421
+  precision: 0.63818359375
+  recall: 0.734375
+  commit_fraction: 1.0
+  commit_time_max: 0.7947999835014343
+  commit_time_mean: 0.7947999835014343
+  commit_time_min: 0.7947999835014343
+  fallback_count: 18944.0
+  fallback_fraction: 0.74
+  gate_usage_entropy: 0.3616176377981901
+  num_samples: 256.0
+  num_steps: 100.0
+  risk_margin_mean_over_steps: 2.5994362925985113e-06
+  usage_frac_0: 0.8330078125
+  usage_frac_1: 0.00146484375
+  usage_frac_2: 0.0146484375
+  usage_frac_3: 0.15087890625
+
+[linear_commit_once]
+  fid: 43.18291864924142
+  precision: 0.662109375
+  recall: 0.75732421875
+  commit_fraction: 1.0
+  commit_time_max: 0.7947999835014343
+  commit_time_mean: 0.7947999835014343
+  commit_time_min: 0.7947999835014343
+  fallback_count: 18944.0
+  fallback_fraction: 0.74
+  gate_usage_entropy: 0.3216996565461159
+  num_samples: 256.0
+  num_steps: 100.0
+  risk_margin_mean_over_steps: 8.661143046915532
+  usage_frac_0: 0.83837890625
+  usage_frac_1: 0.0
+  usage_frac_2: 0.0009765625
+  usage_frac_3: 0.16064453125
+
+[baseline_then_risk_commit_tstar]
+  fid: 54.136930748756306
+  precision: 0.59423828125
+  recall: 0.71923828125
+  commit_fraction: 1.0
+  commit_time_max: 0.7947999835014343
+  commit_time_mean: 0.7947999835014343
+  commit_time_min: 0.7947999835014343
+  fallback_fraction: 0.0
+  gate_usage_entropy: 0.34973839297890663
+  num_samples: 256.0
+  num_steps: 100.0
+  risk_margin_mean_over_steps: 2.6026789498700962e-06
+  t_star: 0.8121519088745117
+  usage_frac_0: 0.83642578125
+  usage_frac_1: 0.00244140625
+  usage_frac_2: 0.00830078125
+  usage_frac_3: 0.15283203125
+
+[mixture_then_risk_commit_tstar]
+  fid: 47.35288772251321
+  precision: 0.65087890625
+  recall: 0.7265625
+  commit_fraction: 1.0
+  commit_time_max: 0.7947999835014343
+  commit_time_mean: 0.7947999835014343
+  commit_time_min: 0.7947999835014343
+  fallback_fraction: 0.0
+  gate_usage_entropy: 0.38156455382704735
+  num_samples: 256.0
+  num_steps: 100.0
+  risk_margin_mean_over_steps: 2.6017600544037124e-06
+  t_star: 0.8121519088745117
+  usage_frac_0: 0.81103515625
+  usage_frac_1: 0.0
+  usage_frac_2: 0.01318359375
+  usage_frac_3: 0.17578125
+
+[baseline_then_linear_commit_tstar]
+  fid: 57.91523427769607
+  precision: 0.6357421875
+  recall: 0.7724609375
+  commit_fraction: 1.0
+  commit_time_max: 0.7947999835014343
+  commit_time_mean: 0.7947999835014343
+  commit_time_min: 0.7947999835014343
+  fallback_fraction: 0.0
+  gate_usage_entropy: 0.2857063151896
+  num_samples: 256.0
+  num_steps: 100.0
+  risk_margin_mean_over_steps: 8.8340886233747
+  t_star: 0.8121519088745117
+  usage_frac_0: 0.87109375
+  usage_frac_1: 0.0009765625
+  usage_frac_2: 0.001953125
+  usage_frac_3: 0.1259765625
+
+[mixture_then_linear_commit_tstar]
+  fid: 48.61505227916141
+  precision: 0.66162109375
+  recall: 0.7373046875
+  commit_fraction: 1.0
+  commit_time_max: 0.7947999835014343
+  commit_time_mean: 0.7947999835014343
+  commit_time_min: 0.7947999835014343
+  fallback_fraction: 0.0
+  gate_usage_entropy: 0.2926885839551687
+  num_samples: 256.0
+  num_steps: 100.0
+  risk_margin_mean_over_steps: 8.734427842646836
+  t_star: 0.8121519088745117
+  usage_frac_0: 0.86181640625
+  usage_frac_1: 0.0
+  usage_frac_2: 0.00146484375
+  usage_frac_3: 0.13671875
+
+[paired_mixture_vs_risk_softmix]
+  n_pairs: 4.0
+  fid_diff_mix_minus_soft_mean: 0.0051294092310918415
+  fid_diff_mix_minus_soft_std: 0.0010351866104420608
+  fid_diff_mix_minus_soft_ci95_lo: 0.004114926352858622
+  fid_diff_mix_minus_soft_ci95_hi: 0.006143892109325061
+  fid_diff_mix_minus_soft_pvalue_normal_approx: 3.762125044081978e-23

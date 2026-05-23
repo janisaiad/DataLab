@@ -1,0 +1,132 @@
+[sym-probe] 2026-05-20T19:35:59+02:00 start
+[sym-probe] 2026-05-20T19:36:00+02:00 BEGIN gmm
+
+=== t=0.5 ===
+  rho=0.5, beta=13.1121, beta*lambda_class=0.25
+  rho=1, beta=26.2241, beta*lambda_class=0.5
+  rho=2, beta=52.4482, beta*lambda_class=1
+
+=== t=0.8 ===
+  rho=0.5, beta=14.0048, beta*lambda_class=0.25
+  rho=1, beta=28.0096, beta*lambda_class=0.5
+  rho=2, beta=56.0192, beta*lambda_class=1
+
+=== t=1.1 ===
+  rho=0.5, beta=16.0538, beta*lambda_class=0.25
+  rho=1, beta=32.1076, beta*lambda_class=0.5
+  rho=2, beta=64.2152, beta*lambda_class=1
+
+=== t=1.4 ===
+  rho=0.5, beta=19.6077, beta*lambda_class=0.25
+  rho=1, beta=39.2154, beta*lambda_class=0.5
+  rho=2, beta=78.4309, beta*lambda_class=1
+
+=== t=1.7 ===
+  rho=0.5, beta=26.5444, beta*lambda_class=0.25
+  rho=1, beta=53.0888, beta*lambda_class=0.5
+  rho=2, beta=106.178, beta*lambda_class=1
+
+=== t=2 ===
+  rho=0.5, beta=39.1884, beta*lambda_class=0.25
+  rho=1, beta=78.3768, beta*lambda_class=0.5
+  rho=2, beta=156.754, beta*lambda_class=1
+
+=== t=2.3 ===
+  rho=0.5, beta=64.5175, beta*lambda_class=0.25
+  rho=1, beta=129.035, beta*lambda_class=0.5
+  rho=2, beta=258.07, beta*lambda_class=1
+
+=== t=2.6 ===
+  rho=0.5, beta=111.3, beta*lambda_class=0.25
+  rho=1, beta=222.601, beta*lambda_class=0.5
+  rho=2, beta=445.201, beta*lambda_class=1
+
+=== t=3 ===
+  rho=0.5, beta=248.508, beta*lambda_class=0.25
+  rho=1, beta=497.016, beta*lambda_class=0.5
+  rho=2, beta=994.032, beta*lambda_class=1
+
+Done. Summary: outputs/v9_symmetry_gmm/README_SUMMARY.md
+[sym-probe] 2026-05-20T19:37:48+02:00 OK gmm
+[sym-probe] 2026-05-20T19:37:48+02:00 BEGIN mnist
+
+=== t=0.6 ===
+  rho=0.5, beta=25.6473, beta*lambda_class=0.25
+  rho=1, beta=51.2947, beta*lambda_class=0.5
+  rho=2, beta=102.589, beta*lambda_class=1
+
+=== t=1 ===
+  rho=0.5, beta=28.411, beta*lambda_class=0.25
+  rho=1, beta=56.822, beta*lambda_class=0.5
+  rho=2, beta=113.644, beta*lambda_class=1
+
+=== t=1.4 ===
+  rho=0.5, beta=39.4726, beta*lambda_class=0.25
+  rho=1, beta=78.9451, beta*lambda_class=0.5
+  rho=2, beta=157.89, beta*lambda_class=1
+
+=== t=1.8 ===
+  rho=0.5, beta=71.4949, beta*lambda_class=0.25
+  rho=1, beta=142.99, beta*lambda_class=0.5
+  rho=2, beta=285.979, beta*lambda_class=1
+
+=== t=2.2 ===
+  rho=0.5, beta=153.147, beta*lambda_class=0.25
+  rho=1, beta=306.294, beta*lambda_class=0.5
+  rho=2, beta=612.588, beta*lambda_class=1
+
+=== t=2.6 ===
+  rho=0.5, beta=346.91, beta*lambda_class=0.25
+  rho=1, beta=693.821, beta*lambda_class=0.5
+  rho=2, beta=1387.64, beta*lambda_class=1
+
+=== t=3 ===
+  rho=0.5, beta=762.399, beta*lambda_class=0.25
+  rho=1, beta=1524.8, beta*lambda_class=0.5
+  rho=2, beta=3049.6, beta*lambda_class=1
+
+Done. Summary: outputs/v9_symmetry_mnist/README_SUMMARY.md
+[sym-probe] 2026-05-20T19:39:10+02:00 OK mnist
+[sym-probe] 2026-05-20T19:39:10+02:00 BEGIN cifar
+Files already downloaded and verified
+Files already downloaded and verified
+
+=== t=0.6 ===
+  rho=0.5, beta=31.0394, beta*lambda_class=0.25
+  rho=1, beta=62.0789, beta*lambda_class=0.5
+  rho=2, beta=124.158, beta*lambda_class=1
+
+=== t=1 ===
+  rho=0.5, beta=43.3723, beta*lambda_class=0.25
+  rho=1, beta=86.7447, beta*lambda_class=0.5
+  rho=2, beta=173.489, beta*lambda_class=1
+
+=== t=1.4 ===
+  rho=0.5, beta=66.0583, beta*lambda_class=0.25
+  rho=1, beta=132.117, beta*lambda_class=0.5
+  rho=2, beta=264.233, beta*lambda_class=1
+
+=== t=1.8 ===
+  rho=0.5, beta=119.337, beta*lambda_class=0.25
+  rho=1, beta=238.674, beta*lambda_class=0.5
+  rho=2, beta=477.348, beta*lambda_class=1
+
+=== t=2.2 ===
+  rho=0.5, beta=236.043, beta*lambda_class=0.25
+  rho=1, beta=472.087, beta*lambda_class=0.5
+  rho=2, beta=944.173, beta*lambda_class=1
+
+=== t=2.6 ===
+  rho=0.5, beta=496.362, beta*lambda_class=0.25
+  rho=1, beta=992.723, beta*lambda_class=0.5
+  rho=2, beta=1985.45, beta*lambda_class=1
+
+=== t=3 ===
+  rho=0.5, beta=1081.42, beta*lambda_class=0.25
+  rho=1, beta=2162.84, beta*lambda_class=0.5
+  rho=2, beta=4325.69, beta*lambda_class=1
+
+Done. Summary: outputs/v9_symmetry_cifar_auto_horse/README_SUMMARY.md
+[sym-probe] 2026-05-20T19:40:37+02:00 OK cifar
+Wrote outputs/V9_SYMMETRY_PROBE_REPORT.md
+[sym-probe] 2026-05-20T19:40:39+02:00 finished

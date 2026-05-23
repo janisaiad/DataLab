@@ -1,0 +1,12 @@
+{
+  "dataset": "cifar10",
+  "classes": [
+    "automobile",
+    "horse"
+  ],
+  "raw_dim": 3072,
+  "d_latent": 128,
+  "pca_dim": 128,
+  "n_train": 8000,
+  "n_test": 2000
+}
