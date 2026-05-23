@@ -1,0 +1,1021 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{geometry}
+\usepackage{booktabs,longtable,array,multirow}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{microtype}
+\geometry{margin=2.4cm}
+\hypersetup{colorlinks=true,linkcolor=blue!55!black,citecolor=blue!55!black,urlcolor=blue!55!black}
+
+\newtheorem{theorem}{Théorème}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemme}
+\newtheorem{definition}{Définition}
+\newtheorem{remark}{Remarque}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Pp}{\mathbb{P}}
+\newcommand{\KL}{\mathrm{KL}}
+\newcommand{\softmax}{\operatorname{softmax}}
+\newcommand{\argmin}{\operatorname*{arg\,min}}
+\newcommand{\argmax}{\operatorname*{arg\,max}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\1}{\mathbf{1}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\xt}{x_t}
+\newcommand{\xzero}{x_0}
+\newcommand{\ttstar}{t_\star}
+\newcommand{\A}{A}
+\newcommand{\bbeta}{\beta}
+\newcommand{\loss}{\mathcal{L}}
+\newcommand{\mse}{\mathrm{MSE}}
+\newcommand{\fid}{\mathrm{FID}}
+\newcommand{\sgn}{\mathrm{sgn}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\blue}[1]{\textcolor{blue!55!black}{#1}}
+\newcommand{\red}[1]{\textcolor{red!65!black}{#1}}
+\newcommand{\green}[1]{\textcolor{green!45!black}{#1}}
+
+\title{RF--MCL Diffusion: dérivations théoriques, routeurs et interprétation expérimentale V8--V11}
+\author{Synthèse technique}
+\date{Mai 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Ce document rassemble les dérivations théoriques construites autour de RF--MCL et des routeurs pour diffusion: objectif soft--MCL, température bayésienne $\beta(t)$, routeur Bayes-risk déployable, routeurs soft/hard/commit, routeurs linéaires/logistiques, proxy géodésique, et transition de brisure de symétrie de type BBP. Il interprète ensuite les résultats expérimentaux V8, V9, V10 et V11. La conclusion principale est la suivante: les expériences contrôlées en latent/RF soutiennent la théorie locale de spéciation et montrent qu'un routeur linéaire suffit une fois $A_{c,k}(t)$ non dégénérée; mais les runs diffusion complets V8--V11 n'ont pas encore réalisé une spéciation saine et routeable. Les gains de génération observés viennent donc surtout d'un effet multi-experts, pas encore d'un routeur Bayes-risk validé comme mécanisme causal.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{Résumé exécutif}
+
+Le programme a évolué en trois étapes conceptuelles.
+
+\paragraph{1. De MCL sample-wise à routeur déployable.}
+Le teacher MCL naturel est
+\[
+q_\beta(k\mid \xt,\eps,t)=\frac{\exp\{-\beta(t)e_k(\xt,\eps,t)\}}{\sum_j\exp\{-\beta(t)e_j(\xt,\eps,t)\}},
+\]
+avec $e_k=\|f_k(\xt,t)-\eps\|^2/d$. Ce teacher dépend de $\eps$, donc il est informatif pendant l'entraînement mais non déployable pendant le sampling. La première correction théorique est donc de remplacer l'imitation de $q(k\mid \xt,\eps,t)$ par une décision de risque conditionnel dépendant seulement de $\xt$.
+
+\paragraph{2. Routeur Bayes-risk.}
+Le routeur déployable proposé est
+\[
+\hat k(\xt,t)=\argmin_k R_k(\xt,t),\qquad
+R_k(\xt,t)=\sum_c p(c\mid \xt,t)A_{c,k}(t),
+\]
+où
+\[
+A_{c,k}(t)=\E\left[e_k(\xt,\eps,t)\mid c,t\right].
+\]
+Cette formule est optimale parmi les routeurs qui ne voient que $\xt$ si l'on approxime le risque conditionnel par une table classe--expert $A_{c,k}(t)$.
+
+\paragraph{3. Le vrai bottleneck: brisure de symétrie.}
+Si $A_{c,k}(t)$ est quasi constant en $k$, alors tous les routeurs rationnels sont équivalents: il n'y a rien à router. Le théorème naturel n'est donc pas d'abord un théorème sur le routeur, mais sur l'instabilité de la branche symétrique
+\[
+f_1=\cdots=f_K.
+\]
+Dans le modèle linéarisé, la branche symétrique est stable si
+\[
+\beta(t)\lambda_{\rm signal}(t)<\lambda_{\rm damp},
+\]
+et instable si
+\[
+\beta(t)\lambda_{\rm signal}(t)>\lambda_{\rm damp}.
+\]
+Lorsqu'elle devient instable, les experts se séparent selon les directions latentes dominantes; alors $A_{c,k}(t)$ devient non dégénérée et le routeur devient utile.
+
+\paragraph{Verdict expérimental V8--V11.}
+Les runs confirment que MCL peut améliorer la génération par rapport à une baseline Heun. En revanche, les diagnostics finaux montrent très souvent
+\[
+\texttt{teacher\_entropy}\simeq 1,
+\qquad
+\texttt{risk\_margin}\simeq 0,
+\qquad
+A_{c,k}(t)\ \text{quasi plat}.
+\]
+Donc le routeur Bayes-risk n'est pas encore le mécanisme causal du gain en diffusion complète. Les probes contrôlés GMM/MNIST/PCA valident la théorie locale, mais le réseau diffusion complet ne réalise pas encore une spéciation saine.
+
+% ============================================================
+\section{Notation et diffusion forward}
+
+On utilise une diffusion VP simplifiée
+\begin{equation}
+\xt=\alpha_t\xzero+\sigma_t\eps,
+\qquad
+\eps\sim\mathcal N(0,I_d),
+\qquad
+\alpha_t=e^{-t},
+\qquad
+\sigma_t^2=1-e^{-2t}.
+\label{eq:vp}
+\end{equation}
+Le réseau prédit l'epsilon:
+\[
+f(\xt,t)\approx \eps.
+\]
+La loss standard est une MSE
+\[
+\ell(f;\xt,\eps,t)=\frac1d\|f(\xt,t)-\eps\|^2.
+\]
+Les experts MCL sont notés $f_k$, $k=1,\dots,K$, et les coûts
+\begin{equation}
+ e_k(\xt,\eps,t)=\frac1d\|f_k(\xt,t)-\eps\|^2.
+\label{eq:ek}
+\end{equation}
+
+\paragraph{Mélange gaussien latent.}
+Pour les dérivations exactes on suppose
+\begin{equation}
+ c\sim \pi,
+\qquad
+ \xzero\mid c\sim\mathcal N(\mu_c,\sigma_0^2 I_d).
+\label{eq:gmm}
+\end{equation}
+Alors
+\begin{equation}
+ \xt\mid c\sim \mathcal N(\alpha_t\mu_c,v_t I_d),
+ \qquad
+ v_t=\alpha_t^2\sigma_0^2+\sigma_t^2.
+\label{eq:xt_given_c}
+\end{equation}
+Le posterior de classe exact est
+\begin{equation}
+ p(c\mid \xt,t)=\frac{\pi_c\,v_t^{-d/2}\exp\left[-\frac{\|\xt-\alpha_t\mu_c\|^2}{2v_t}\right]}
+ {\sum_{c'}\pi_{c'}\,v_t^{-d/2}\exp\left[-\frac{\|\xt-\alpha_t\mu_{c'}\|^2}{2v_t}\right]}.
+\label{eq:gmm_posterior}
+\end{equation}
+Quand les covariances sont communes, les log-ratios sont linéaires en $\xt$:
+\begin{equation}
+\log\frac{p(c\mid\xt,t)}{p(c'\mid\xt,t)}
+=\log\frac{\pi_c}{\pi_{c'}}+\frac{\alpha_t}{v_t}\langle \xt,\mu_c-\mu_{c'}\rangle
+-\frac{\alpha_t^2}{2v_t}\bigl(\|\mu_c\|^2-\|\mu_{c'}\|^2\bigr).
+\label{eq:linear_posterior}
+\end{equation}
+C'est une des raisons pour lesquelles un routeur linéaire/logistique est théoriquement suffisant une fois la spéciation alignée avec les classes ou modes latents.
+
+\paragraph{Epsilon optimal conditionnel.}
+Dans le mélange gaussien, pour une classe fixée $c$,
+\begin{equation}
+ \E[\eps\mid \xt,c,t]
+ =\frac{\sigma_t}{v_t}\left(\xt-\alpha_t\mu_c\right).
+\label{eq:eps_cond_c}
+\end{equation}
+En mélangeant sur les classes:
+\begin{equation}
+ f_\star(\xt,t)=\E[\eps\mid \xt,t]
+ =\sum_c p(c\mid\xt,t)\frac{\sigma_t}{v_t}(\xt-\alpha_t\mu_c).
+\label{eq:eps_bayes}
+\end{equation}
+Cette formule relie explicitement le score de diffusion au posterior latent.
+
+% ============================================================
+\section{Objectif soft--MCL et teacher non déployable}
+
+\subsection{Objectif soft--MCL}
+
+L'objectif soft--MCL est le free energy
+\begin{equation}
+\mathcal L_\beta(f_1,\dots,f_K)
+=\E_{\xt,\eps,t}\left[-\frac1{\beta(t)}\log\left(\frac1K\sum_{k=1}^K e^{-\beta(t)e_k(\xt,\eps,t)}\right)\right].
+\label{eq:softmcl}
+\end{equation}
+Deux limites sont importantes:
+\begin{align}
+\beta\to 0:
+&&
+\mathcal L_\beta&\to \E\left[\frac1K\sum_k e_k\right],
+\label{eq:beta0}\\
+\beta\to\infty:
+&&
+\mathcal L_\beta&\to \E\left[\min_k e_k\right].
+\label{eq:betainf}
+\end{align}
+Donc $\beta$ contrôle l'intensité de compétition entre experts.
+
+\subsection{Teacher MCL}
+
+La dérivée de \eqref{eq:softmcl} donne les responsabilités
+\begin{equation}
+q_\beta(k\mid \xt,\eps,t)
+=\frac{e^{-\beta(t)e_k(\xt,\eps,t)}}{\sum_j e^{-\beta(t)e_j(\xt,\eps,t)}}.
+\label{eq:mcl_teacher}
+\end{equation}
+Le gradient vaut
+\begin{equation}
+\nabla_{\theta_k}\mathcal L_\beta
+=\E\left[q_\beta(k\mid\xt,\eps,t)\,\nabla_{\theta_k}e_k(\xt,\eps,t)\right].
+\label{eq:mcl_grad}
+\end{equation}
+
+\paragraph{Point critique.}
+Le teacher \eqref{eq:mcl_teacher} dépend de $\eps$, qui n'est pas observé pendant le sampling. Il est donc un bon teacher d'entraînement, mais pas un routeur déployable. Cela explique l'échec conceptuel des versions où l'on entraînait un routeur à imiter $q(k\mid\xt,\eps,t)$: il apprend une règle qui utilise implicitement une variable absente à l'inférence.
+
+% ============================================================
+\section{Température bayésienne $\beta(t)$}
+
+\subsection{Dérivation de base}
+
+Supposons qu'un coût quadratique résiduel soit associé à une vraisemblance gaussienne
+\begin{equation}
+ p(r\mid k,t)\propto\exp\left[-\frac{\|r_k\|^2}{2v_t}\right],
+\qquad
+r_k=f_k(\xt,t)-\eps.
+\label{eq:gauss_likelihood_r}
+\end{equation}
+Si le coût utilisé dans le code est une MSE moyenne
+\begin{equation}
+ e_k=\frac1d\|r_k\|^2,
+\end{equation}
+alors
+\begin{equation}
+\exp\left[-\frac{\|r_k\|^2}{2v_t}\right]
+=\exp\left[-\frac{d}{2v_t}e_k\right].
+\end{equation}
+La température bayésienne naturelle est donc
+\begin{equation}
+\boxed{
+\beta_x(t)=\frac{d}{2v_t}.
+}
+\label{eq:beta_x}
+\end{equation}
+En PCA de dimension $q$, si le coût est $q^{-1}\|z-\mu\|^2$, la formule devient
+\begin{equation}
+\boxed{
+\beta_z(t)=\frac{q}{2v_z(t)}.
+}
+\label{eq:beta_z}
+\end{equation}
+
+\subsection{Quel $v_t$?}
+
+Dans le GMM isotrope exact,
+\begin{equation}
+ v_t=\alpha_t^2\sigma_0^2+\sigma_t^2.
+\end{equation}
+Dans les données réelles, plusieurs variantes apparaissent:
+\begin{enumerate}[leftmargin=2em]
+\item $v_t$ image-space: variance moyenne intra-classe en pixels propagée par le canal de diffusion;
+\item $v_t$ PCA: variance moyenne dans les coordonnées latentes;
+\item $v_t$ empirique résiduel: variance des erreurs $\eps-f_0(\xt,t)$ autour d'une baseline;
+\item $v_t$ anisotrope: covariance diagonale ou complète, auquel cas la température scalaire devient une approximation d'un poids quadratique matriciel.
+\end{enumerate}
+
+\subsection{Interprétation des ratios empiriques}
+
+Les premiers probes contrôlés ont donné des ratios $\beta_{\rm emp}/\beta_{\rm theory}$ proches de $1$ dans plusieurs setups PCA/RF. Cela soutient la forme \eqref{eq:beta_x}--\eqref{eq:beta_z} comme loi de normalisation.
+
+Dans V9 gold diffusion, le ratio moyen observé était plutôt proche de $0.25$. Cette divergence ne falsifie pas nécessairement le principe bayésien; elle indique plutôt que le modèle scalaire isotrope est mal calibré dans le pipeline complet. Les causes plausibles sont:
+\begin{enumerate}[leftmargin=2em]
+\item anisotropie PCA/image: une seule variance $v_t$ remplace une matrice de covariance;
+\item plafonnement $\beta_{\max}$;
+\item différence entre la température de classification CE-min et la température MCL des erreurs d'epsilon;
+\item normalisation effective de la loss et de la dimension;
+\item erreur de modèle due au réseau imparfait et à la distribution générée, qui n'est pas exactement le forward noising $q(\xt\mid\xzero)$.
+\end{enumerate}
+
+La bonne conclusion est donc: la forme $d/(2v_t)$ donne l'échelle bayésienne de départ, mais le réseau diffusion complet demande une calibration empirique ou matricielle plus fine.
+
+% ============================================================
+\section{Routeur Bayes-risk et variantes de sampling}
+
+\subsection{Oracle sample-wise}
+
+L'oracle idéal si l'on connaissait $\eps$ serait
+\begin{equation}
+ k_{\rm oracle}(\xt,\eps,t)=\argmin_k e_k(\xt,\eps,t).
+\label{eq:sample_oracle}
+\end{equation}
+Il est utile pour les diagnostics, mais non déployable.
+
+\subsection{Risque conditionnel déployable}
+
+Un routeur déployable doit choisir $k$ en observant seulement $(\xt,t)$. Le risque optimal est
+\begin{equation}
+ R_k(\xt,t)=\E[e_k(\xt,\eps,t)\mid \xt,t].
+\label{eq:cond_risk_exact}
+\end{equation}
+En introduisant une variable latente de classe/mode $c$,
+\begin{equation}
+R_k(\xt,t)=\sum_c p(c\mid\xt,t)\,\E[e_k(\xt,\eps,t)\mid \xt,c,t].
+\label{eq:risk_exact_class}
+\end{equation}
+L'approximation utilisée est de remplacer le risque intra-classe conditionnel par une table calibrée
+\begin{equation}
+A_{c,k}(t)=\E[e_k(\xt,\eps,t)\mid c,t].
+\label{eq:A_ck}
+\end{equation}
+On obtient alors le routeur Bayes-risk
+\begin{equation}
+\boxed{
+\hat k_{\rm risk}(\xt,t)=\argmin_k \sum_c p(c\mid\xt,t)A_{c,k}(t).
+}
+\label{eq:bayes_risk_router}
+\end{equation}
+
+\paragraph{Pourquoi cette formule autorise $K<C$.}
+Le routeur ne cherche pas à reconstruire la classe. Il cherche l'expert qui minimise le risque conditionnel. Plusieurs classes peuvent donc être envoyées vers le même expert si leurs lignes $A_{c,\cdot}$ ont le même minimiseur. Cela formalise l'idée que les chiffres $1$ et $7$, ou deux classes visuellement proches, peuvent partager un même expert.
+
+\subsection{Formules des stratégies de génération}
+
+On note $\hat\eps(\xt,t)$ le champ d'epsilon utilisé dans le step de sampling.
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.2cm} p{11.2cm}}
+\toprule
+Méthode & Formulation mathématique \\
+\midrule
+\endhead
+\texttt{baseline\_heun} & Un unique réseau $f_0$ est utilisé: $\hat\eps=f_0(\xt,t)$, avec solveur Heun. C'est la baseline diffusion classique. \\
+\addlinespace
+\texttt{single\_expert} & On fixe un expert $k_0$: $\hat\eps=f_{k_0}(\xt,t)$. Cela teste la qualité intrinsèque d'une branche. \\
+\addlinespace
+\texttt{random\_expert} & Pour chaque sample on tire $K_0\sim\mathrm{Unif}\{1,\dots,K\}$, souvent une seule fois au début, puis $\hat\eps=f_{K_0}(\xt,t)$. C'est un contrôle fort: si random gagne, le gain vient possiblement d'une diversité multi-experts et pas d'un routage intelligent. \\
+\addlinespace
+\texttt{best\_expert} & Oracle diagnostic: $\hat\eps=f_{k_{\rm oracle}}$ avec $k_{\rm oracle}$ défini par \eqref{eq:sample_oracle}. Non déployable si l'oracle utilise $\eps$. \\
+\addlinespace
+\texttt{mixture\_score} & Moyenne des experts: $\hat\eps=K^{-1}\sum_k f_k(\xt,t)$. Utile quand les experts ne sont pas nettement spécialisés ou quand la moyenne réduit le bruit. \\
+\addlinespace
+\texttt{risk\_gated} & Routeur dur à chaque temps: $\hat k=\argmin_k R_k(\xt,t)$, $\hat\eps=f_{\hat k}(\xt,t)$. \\
+\addlinespace
+\texttt{risk\_softmix} & Pondération soft par risque: $w_k\propto\exp[-R_k(\xt,t)/\tau]$ puis $\hat\eps=\sum_k w_kf_k(\xt,t)$. Ce mode est robuste quand les marges de risque sont petites. \\
+\addlinespace
+\texttt{risk\_confident} & On calcule la marge $m=R_{(2)}-R_{(1)}$. Si $m\ge\theta$, on route dur; sinon on fallback vers softmix. \\
+\addlinespace
+\texttt{risk\_commit\_once} & On attend une marge suffisante ou un temps forcé, puis on fixe $\hat k$ pour le reste de la trajectoire. Avant commit: softmix ou mixture. Après commit: $\hat\eps=f_{\hat k}$. \\
+\addlinespace
+\texttt{risk\_commit\_tstar} & Variante V10/V11: on route une seule fois au temps de spéciation $t_\star$ par \eqref{eq:bayes_risk_router}, puis on garde l'expert choisi pour $t<t_\star$. \\
+\addlinespace
+\texttt{posterior\_map} & On définit $k_c(t)=\argmin_k A_{c,k}(t)$ puis on convertit $p(c\mid\xt,t)$ en poids experts, par exemple $w_k=\sum_{c:k_c=k}p(c\mid\xt,t)$. \\
+\addlinespace
+\texttt{geodesic\_map} & Même principe que posterior-map, mais $p(c\mid\xt,t)$ est calculé avec une métrique interpolant Euclidien à grand $t$ et Mahalanobis/local-manifold à petit $t$. \\
+\addlinespace
+\texttt{linear/logistic} & On entraîne un routeur $g_\phi(k\mid z_t,t)=\softmax(W_tz_t+b_t)$ à imiter les labels de risque $\argmin_k R_k$ ou l'oracle calibré. Il est suffisant dans le GMM à covariance commune et testable après spéciation. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Marge de risque et fallback}
+
+La marge
+\begin{equation}
+ m(\xt,t)=R_{(2)}(\xt,t)-R_{(1)}(\xt,t)
+\label{eq:risk_margin}
+\end{equation}
+mesure la confiance du routeur. Si $m\approx 0$, alors un choix dur est arbitraire. Dans ce régime, \texttt{risk\_softmix} ou \texttt{mixture\_score} est plus rationnel que \texttt{risk\_gated}.
+
+% ============================================================
+\section{Routeurs linéaires, covariance et géodésique interpolée}
+
+\subsection{Pourquoi un routeur linéaire peut suffire}
+
+Dans le GMM à covariance commune, \eqref{eq:linear_posterior} montre que les frontières de classe sont linéaires. Si, après spéciation, chaque expert correspond à un groupe de classes ou à une direction latente dominante, alors la décision de risque
+\[
+\argmin_k\sum_c p(c\mid\xt,t)A_{c,k}(t)
+\]
+est une fonction simple du posterior. Si le posterior lui-même a des logits linéaires en $\xt$, alors un routeur logistique multinomial est suffisant.
+
+\subsection{Quand le linéaire ne suffit pas}
+
+Si les classes ont des covariances différentes,
+\begin{equation}
+\xt\mid c\sim\mathcal N(m_c(t),\Sigma_c(t)),
+\end{equation}
+le posterior contient des termes quadratiques
+\begin{equation}
+-\frac12(\xt-m_c)^\top\Sigma_c^{-1}(\xt-m_c)-\frac12\log\det\Sigma_c.
+\end{equation}
+Le routeur linéaire devient alors une approximation. Il peut rester bon si la projection PCA rend les classes presque linéairement séparables au temps $t_\star$.
+
+\subsection{Idée de distance géodésique interpolée}
+
+L'idée proposée est que la distance euclidienne n'est pas toujours la bonne mesure: à grand bruit, l'espace est isotrope et Euclidien; à petit bruit, les données vivent près d'une variété, et une distance géodésique sur la distribution est plus pertinente. Un proxy simple est
+\begin{equation}
+D_t(x,c)=(1-\rho_t)D_{\rm Euc}(x,c)+\rho_tD_{\rm loc}(x,c),
+\qquad
+\rho_t=e^{-t/\tau},
+\label{eq:geodesic_proxy}
+\end{equation}
+où $D_{\rm loc}$ est par exemple une distance Mahalanobis diagonale locale en PCA. Alors
+\begin{equation}
+ p_{\rm geo}(c\mid\xt,t)\propto \pi_c\exp[-D_t(\xt,c)].
+\end{equation}
+Cette construction est une approximation testable d'un posterior géodésique. Elle est cohérente avec l'intuition: Euclidien à $t$ grand, local/manifold à $t$ petit. Mais elle n'a pas encore été validée comme améliorant les FID dans les runs complets.
+
+% ============================================================
+\section{Théorie de brisure de symétrie}
+
+\subsection{Branche symétrique}
+
+L'objectif soft--MCL est invariant par permutation des experts. Par conséquent, la branche
+\begin{equation}
+f_1=\cdots=f_K=f_\star
+\label{eq:symmetric_branch}
+\end{equation}
+est une branche stationnaire dès que $f_\star$ est un minimiseur de la loss moyenne.
+
+On étudie des perturbations transverses
+\begin{equation}
+f_k=f_\star+u_k,
+\qquad
+\sum_{k=1}^K u_k=0.
+\label{eq:transverse_pert}
+\end{equation}
+La contrainte retire la direction commune, qui correspond juste à améliorer ou dégrader tous les experts de la même manière.
+
+\subsection{Expansion du softmin}
+
+Posons $e_k=e_\star+\delta_k$. Pour $\delta$ petit,
+\begin{align}
+-\frac1\beta\log\left(\frac1K\sum_k e^{-\beta(e_\star+\delta_k)}\right)
+&=e_\star-\frac1\beta\log\left(\frac1K\sum_k e^{-\beta\delta_k}\right)\\
+&=e_\star+\bar\delta-\frac\beta2\left(\overline{\delta^2}-\bar\delta^2\right)+O(\|\delta\|^3),
+\label{eq:softmin_expansion}
+\end{align}
+où $\bar\delta=K^{-1}\sum_k\delta_k$. Dans le sous-espace transverse, le premier ordre s'annule en moyenne, et le terme négatif
+\[
+-\frac\beta2\Var_k(\delta_k)
+\]
+récompense la séparation des experts: si un expert devient meilleur que les autres sur certains samples, le softmin baisse.
+
+\subsection{Signal et damping}
+
+Pour une perturbation $u_k$, le coût quadratique donne
+\begin{equation}
+\delta_k
+=\frac2d\langle f_\star(\xt,t)-\eps,u_k(\xt,t)\rangle
++\frac1d\|u_k(\xt,t)\|^2.
+\end{equation}
+Le terme quadratique direct $d^{-1}\|u_k\|^2$ est un damping positif. Le terme linéaire dans le résidu, injecté dans la variance du softmin, produit un gain négatif proportionnel à $\beta$.
+
+On définit schématiquement
+\begin{align}
+D_t(u)&=\E\left[\frac1d\|u(\xt,t)\|^2\right],\\
+Q_t(u)&=\E\left[\frac1{d^2}\langle r_\star(\xt,\eps,t),u(\xt,t)\rangle^2\right],
+\end{align}
+où $r_\star=f_\star-\eps$. Le rapport signal est
+\begin{equation}
+\lambda_{\rm signal}(t)=\sup_{u\ne 0}\frac{Q_t(u)}{D_t(u)}.
+\label{eq:lambda_signal}
+\end{equation}
+
+\begin{theorem}[Brisure locale de symétrie, version linéarisée]
+Dans le modèle linéarisé autour de la branche symétrique, la seconde variation transverse de la loss soft--MCL a la forme
+\begin{equation}
+\delta^2\mathcal L_\beta[u]
+=D_t(u)-\beta(t)Q_t(u)+O(\|u\|^3),
+\label{eq:second_var}
+\end{equation}
+à constante de normalisation près. La branche symétrique est localement stable si
+\begin{equation}
+\beta(t)\lambda_{\rm signal}(t)<\lambda_{\rm damp},
+\end{equation}
+et instable si
+\begin{equation}
+\beta(t)\lambda_{\rm signal}(t)>\lambda_{\rm damp}.
+\end{equation}
+Dans la normalisation $e_k=d^{-1}\|f_k-\eps\|^2$ utilisée dans les probes RF, le critère opérationnel est souvent reporté sous la forme
+\begin{equation}
+\beta(t)\lambda_{\rm signal,scaled}(t)>\frac12.
+\end{equation}
+\end{theorem}
+
+\begin{proof}[Preuve]
+La stationnarité de la branche symétrique vient de l'invariance par permutation et de la stationnarité de $f_\star$ pour la loss moyenne. L'expansion \eqref{eq:softmin_expansion} montre que la partie compétitive de la loss est négative et proportionnelle à $\beta\Var_k(\delta_k)$. En remplaçant $\delta_k$ par son terme linéaire principal en $u_k$, on obtient $-\beta Q_t(u)$. Le terme quadratique direct de la MSE donne $D_t(u)$. La stabilité est donc déterminée par le signe de $D_t(u)-\beta Q_t(u)$ uniformément sur les directions transverses. En maximisant $Q_t(u)/D_t(u)$, on obtient le seuil. Les constantes changent selon que la loss est $\|\cdot\|^2$, $\frac12\|\cdot\|^2$ ou la MSE moyenne, mais la forme du critère est inchangée.
+\end{proof}
+
+\subsection{Analogie BBP}
+
+Dans une transition BBP, un spike latent sort du bulk isotrope lorsque son intensité dépasse un seuil spectral. Ici, le spike est le canal latent/classe du mélange. Tant que
+\[
+\beta(t)\lambda_{\rm signal}(t)<\lambda_{\rm damp},
+\]
+les experts restent dans le bulk symétrique. Lorsque le seuil est franchi, une direction latente devient instable: les experts peuvent se spécialiser. Les diagnostics attendus sont:
+\begin{align}
+\texttt{teacher\_entropy} &<1,\\
+\texttt{beta\_gap} &>0,\\
+\texttt{risk\_margin} &>0,\\
+\|H_C A(t)H_K\| &>0,\\
+I(c;k)&>0,
+\end{align}
+où $H_C,H_K$ centrent les lignes/colonnes de la matrice $A$.
+
+% ============================================================
+\section{Temps de spéciation et commit once}
+
+On définit un temps de spéciation théorique par
+\begin{equation}
+ t_\star=\argmax_t \lambda_{\rm class}(t)
+\label{eq:tstar_argmax}
+\end{equation}
+ou plus opérationnellement comme le premier temps, en reverse diffusion, tel que
+\begin{equation}
+\beta(t)\lambda_{\rm class}(t)\gtrsim \lambda_{\rm damp}.
+\label{eq:tstar_crossing}
+\end{equation}
+Les probes MNIST suggéraient une zone autour de $t\simeq 0.5$--$0.7$.
+
+La stratégie commit-once est alors:
+\begin{equation}
+\hat k=\argmin_k\sum_c p(c\mid x_{t_\star},t_\star)A_{c,k}(t_\star),
+\label{eq:commit_choice}
+\end{equation}
+puis
+\begin{equation}
+\hat\eps(\xt,t)=
+\begin{cases}
+\hat\eps_{\rm shared}(\xt,t), & t>t_\star,\\
+f_{\hat k}(\xt,t), & t\le t_\star.
+\end{cases}
+\label{eq:commit_sampling}
+\end{equation}
+La version $\hat\eps_{\rm shared}$ peut être la baseline ou la mixture $K^{-1}\sum_k f_k$.
+
+\paragraph{Condition de succès.}
+Cette stratégie n'est justifiée que si $A_{c,k}(t_\star)$ est non dégénérée et si le modèle est entraîné à continuer des trajectoires provenant de la phase pré-commit. Si $A$ est plat, le commit est arbitraire. Si les experts ne sont pas robustes à la distribution des états générés avant $t_\star$, le switch peut dégrader le FID.
+
+% ============================================================
+\section{Diagnostics expérimentaux}
+
+Les diagnostics centraux sont les suivants.
+
+\begin{longtable}{p{4.2cm}p{10.3cm}}
+\toprule
+Diagnostic & Interprétation \\
+\midrule
+\endhead
+\texttt{teacher\_entropy\_sample\_norm} & Entropie normalisée de $q_\beta(k\mid\xt,\eps,t)$. Proche de $1$: teacher uniforme, pas d'assignation nette. Proche de $0$: compétition dure/spéciation ou collapse. \\
+\texttt{beta\_gap\_mean} & Approximation empirique de $\beta$ fois l'écart entre expert moyen et meilleur expert. Si proche de $0$, la température n'induit pas de compétition effective. \\
+\texttt{risk\_margin\_mean} & Marge entre meilleur et second risque Bayes. Si proche de $0$, le routeur dur n'a pas de décision fiable. \\
+\texttt{route\_excess\_vs\_sample\_oracle} & Surcoût du routeur déployable par rapport à l'oracle sample-wise. Peut être petit même si le problème est dégénéré, car tous les experts sont presque identiques. \\
+\texttt{oracle\_class\_mi\_norm} & Information mutuelle entre l'assignation oracle expert et la classe. Mesure si les experts s'alignent avec des structures sémantiques. \\
+\texttt{A\_ck\_std}, spectre de $A$ & Mesure directe de non-dégénérescence de la matrice classe--expert. \\
+\texttt{usage\_entropy} & Balance d'utilisation des experts. Faible: collapse ou domination d'un expert. \\
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section{Résultats V8}
+
+\subsection{But de V8}
+
+V8 a introduit le routeur Bayes-risk après l'échec du teacher sample-wise. Le principe était de calibrer $A_{c,k}(t)$, d'estimer $p(c\mid\xt,t)$, puis de comparer \texttt{risk\_gated}, \texttt{risk\_softmix}, \texttt{risk\_confident} aux baselines \texttt{baseline\_heun}, \texttt{single\_expert}, \texttt{random\_expert} et \texttt{mixture\_score}.
+
+\subsection{MNIST quick}
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Stratégie & FID & Precision & Recall\\
+\midrule
+baseline\_heun & 129.28 & 0.582 & 0.805\\
+single\_expert & 105.92 & 0.606 & 0.856\\
+random\_expert & 128.03 & 0.629 & 0.852\\
+mixture\_score & 109.67 & 0.586 & 0.879\\
+risk\_gated & 111.84 & 0.656 & 0.781\\
+risk\_softmix & 109.72 & 0.598 & 0.797\\
+risk\_confident & 128.91 & 0.606 & 0.875\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Lecture: MCL améliore la baseline, mais les routeurs ne dominent pas clairement la mixture ou le single expert. Le fallback total de \texttt{risk\_confident} indique que les marges étaient trop faibles.
+
+\subsection{MNIST gold}
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Stratégie & FID & Precision & Recall\\
+\midrule
+baseline\_heun & 63.26 & 0.597 & 0.734\\
+single\_expert & 43.06 & 0.663 & 0.728\\
+random\_expert & 44.86 & 0.652 & 0.714\\
+mixture\_score & 49.72 & 0.644 & 0.716\\
+risk\_gated & 44.32 & 0.640 & 0.744\\
+\textbf{risk\_softmix} & \textbf{41.15} & 0.657 & 0.742\\
+risk\_confident & 47.16 & 0.651 & 0.765\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+V8 gold donnait un signal encourageant: \texttt{risk\_softmix} est meilleur FID. Mais les diagnostics rapportés étaient
+\[
+\texttt{teacher\_entropy}\simeq 1,
+\qquad
+\texttt{route\_excess}\simeq 10^{-9},
+\qquad
+\texttt{risk\_margin}\simeq 3\cdot10^{-10}.
+\]
+Donc le gain de \texttt{risk\_softmix} ne prouve pas encore un routage sémantique; il peut être une forme de moyenne adaptative très proche d'une mixture.
+
+\subsection{CIFAR auto/horse}
+
+L'évaluation standard FID/P/R a échoué car l'évaluateur attendait un canal alors que CIFAR a trois canaux. Les valeurs disponibles étaient donc des diagnostics fallback, pas comparables à MNIST. Ce run sert surtout à signaler le besoin d'un évaluateur CIFAR correct.
+
+% ============================================================
+\section{Résultats V9}
+
+\subsection{But de V9}
+
+V9 a été conçu comme une chaîne complète: validation de $\beta_x(t)$, probes de spéciation MCL, calibration du routeur Bayes-risk, stratégies de génération et plots. Les objectifs explicites étaient: tester $\beta_x(t)=d/(2v_t)$, observer $\texttt{beta\_gap}$, l'entropie du teacher, la marge de risque et le rang/spectre de $A_{c,k}(t)$, puis comparer les stratégies de génération.
+
+\subsection{MNIST gold K4}
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Stratégie & FID & Precision & Recall\\
+\midrule
+baseline\_heun & 57.66 & 0.565 & 0.760\\
+\textbf{random\_expert} & \textbf{27.77} & 0.636 & 0.762\\
+risk\_confident & 29.51 & 0.671 & 0.740\\
+mixture\_score & 30.05 & 0.637 & 0.771\\
+risk\_gated & 30.18 & 0.628 & 0.750\\
+risk\_softmix & 31.41 & 0.661 & 0.759\\
+risk\_commit\_once & 33.09 & 0.658 & 0.776\\
+single\_expert & 34.44 & 0.640 & 0.758\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Le résultat brut est très fort contre la baseline: MCL descend de $57.66$ à environ $28$--$34$. Mais le meilleur FID est \texttt{random\_expert}, ce qui est un signal négatif pour l'explication par routage Bayes-risk. Les probes finaux indiquent:
+\[
+\texttt{teacher\_entropy}=1,
+\qquad
+\texttt{beta\_gap}\simeq 7.5\cdot10^{-8},
+\qquad
+\texttt{risk\_margin}\simeq 2.5\cdot10^{-10},
+\qquad
+I(c;k)\simeq 0.011.
+\]
+Donc $A_{c,k}$ est presque plat: le routeur n'a pas de structure stable à exploiter.
+
+\subsection{Validation $\beta$ et ablations}
+
+Le ratio $\beta_{\rm emp}/\beta_{\rm theory}$ dans V9 gold est proche de $0.25$, pas de $1$. Cela signale un mismatch d'échelle dans le pipeline complet. Les ablations $\rho\in\{0.5,1,2\}$ montrent peu de sensibilité claire: les meilleurs FID restent dans la zone $43$--$44$ sur les runs de taille moyenne, avec des gagnants changeants.
+
+\subsection{K2/K4/K8 et message}
+
+K2 améliore la baseline et \texttt{risk\_gated} est bon, mais l'effet absolu reste faible par rapport au gold K4. Les comparaisons K suggèrent que le nombre d'experts peut être inférieur au nombre de classes: les experts capturent des groupes ou des styles, pas nécessairement des classes individuelles.
+
+\subsection{Spéciation forcée et diversity}
+
+Deux runs V9 spéciaux sont instructifs.
+
+\paragraph{Hard-WTA sans balance.}
+Le hard-WTA casse fortement la symétrie:
+\[
+\texttt{teacher\_entropy}\approx 0,
+\quad
+\texttt{beta\_gap}\approx 43,
+\quad
+\texttt{risk\_margin}\approx 0.09.
+\]
+Mais l'usage collapse vers un seul expert. Les stratégies multi-experts deviennent pathologiques. Conclusion: casser la symétrie ne suffit pas; il faut une brisure saine, équilibrée.
+
+\paragraph{Diversity.}
+Avec diversité douce, on obtient un compromis:
+\[
+\texttt{teacher\_entropy}\approx 0.89,
+\quad
+\texttt{beta\_gap}\approx 0.62,
+\quad
+\texttt{risk\_margin}\approx 10^{-4}.
+\]
+Les FID sont meilleurs que la baseline mais restent autour de $45$. Cela suggère que la direction est bonne, mais la marge de routage reste trop faible.
+
+\subsection{Probes symmetry-breaking}
+
+Les probes contrôlés GMM/MNIST/CIFAR ne mesurent pas de FID diffusion, mais testent la théorie locale en espace latent.
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Dataset & Signal théorie & Spéciation & Routeur linéaire\\
+\midrule
+GMM & validé, $\beta\lambda\approx1$ à bas $t$ & forte & acc jusqu'à $1.0$\\
+MNIST PCA & pic vers $t\approx0.6$ & partielle & acc élevée si marge présente\\
+CIFAR auto/horse & signal faible & $A$ très plat & acc élevée mais peu de structure classe\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Ces probes soutiennent le théorème local: quand $A$ devient non dégénérée, le routeur linéaire/logistique suffit. Mais ils montrent aussi que le full diffusion n'atteint pas automatiquement ce régime.
+
+% ============================================================
+\section{Résultats V10}
+
+V10 a ajouté trois familles de routeurs: posterior-map, proxy géodésique et routeurs linéaires/logistiques appris. Il a aussi introduit \texttt{risk\_commit\_tstar} et conservé les diagnostics de brisure de symétrie. Le test scientifique était:
+\begin{quote}
+Si MCL n'a pas cassé la symétrie, $A_{c,k}(t)$ est presque dégénérée, les marges sont proches de zéro et tous les routeurs se ressemblent. Si la symétrie casse, $A$ devient non dégénérée, les routeurs diffèrent et commit-once près de $t_\star$ devient significatif.
+\end{quote}
+
+Le run V10 nuit a échoué à cause d'un bug \texttt{NameError: class\_var\_z\_diag is not defined}. Il n'y a donc pas de conclusion FID V10. Sa contribution principale reste méthodologique: il formalise les routeurs géodésiques et linéaires/logistiques à tester.
+
+% ============================================================
+\section{Résultats V11}
+
+\subsection{But de V11}
+
+V11 a implémenté le pipeline suivant:
+\begin{enumerate}[leftmargin=2em]
+\item estimer ou forcer un temps de spéciation $t_\star$;
+\item entraîner MCL surtout dans une fenêtre $[t_\star-\delta,t_\star+\delta]$;
+\item ajouter des régularisations anti-collapse;
+\item tester baseline/mixture avant $t_\star$, puis commit expert une seule fois.
+\end{enumerate}
+
+Les régularisations incluent balance d'usage, diversité de sortie, orthogonalité entre déviations d'experts, et variance de $A_{c,k}$.
+
+\subsection{Run auto $t_\star\approx0.812$}
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Stratégie & FID\\
+\midrule
+baseline\_heun & 54.88\\
+\textbf{random\_expert} & \textbf{42.94}\\
+linear\_commit\_once & 43.18\\
+risk\_commit\_tstar & 44.49\\
+mixture\_score & 45.19\\
+mixture\_then\_risk\_commit\_tstar & 47.35\\
+mixture\_then\_linear\_commit\_tstar & 48.62\\
+baseline\_then\_risk\_commit\_tstar & 54.14\\
+baseline\_then\_linear\_commit\_tstar & 57.92\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Run forcé $t_\star=0.6$}
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Stratégie & FID\\
+\midrule
+baseline\_heun & 55.03\\
+\textbf{risk\_commit\_tstar} & \textbf{46.76}\\
+linear\_commit\_once & 48.14\\
+mixture\_score & 48.57\\
+random\_expert & 48.90\\
+mixture\_then\_linear\_commit\_tstar & 49.92\\
+mixture\_then\_risk\_commit\_tstar & 50.01\\
+baseline\_then\_* & 55--57\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Diagnostics V11}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Diagnostic & Auto $t_\star\approx0.81$ & Forcé $t_\star=0.6$\\
+\midrule
+teacher entropy & $\approx1.0$ & $\approx1.0$\\
+beta gap moyen & $0.0018$ & $0.0089$\\
+risk margin moyen & $4.7\cdot10^{-6}$ & $2.3\cdot10^{-5}$\\
+oracle class MI max & $0.12$ & $0.24$\\
+$\Delta A$ inter-expert & $\sim10^{-6}$ & $\sim10^{-5}$\\
+usage commit & surtout expert $0$ & surtout expert $3$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Interprétation V11}
+
+V11 est un résultat négatif mais utile.
+
+\begin{enumerate}[leftmargin=2em]
+\item MCL reste meilleur que la baseline Heun.
+\item Les hybrides \texttt{mixture/baseline then commit} ne battent pas les stratégies simples.
+\item $A_{c,k}$ reste quasi plat; les marges restent faibles.
+\item Les usages experts sont biaisés ou quasi mono-expert.
+\item Forcer $t_\star=0.6$ améliore certains diagnostics mais pas assez pour retrouver V9 gold.
+\end{enumerate}
+
+Conclusion: V11 ne valide pas l'hypothèse commit-once en full diffusion. Elle montre que le problème est l'entraînement de la brisure de symétrie saine, pas la sophistication du routeur.
+
+% ============================================================
+\section{Synthèse: ce qui est validé et ce qui ne l'est pas}
+
+\subsection{Validé}
+
+\begin{enumerate}[leftmargin=2em]
+\item La formule soft--MCL et le teacher \eqref{eq:mcl_teacher} expliquent bien l'entraînement, mais pas le routage déployable.
+\item Le routeur Bayes-risk \eqref{eq:bayes_risk_router} est la bonne projection déployable du teacher, sous approximation par classes/modes.
+\item La forme $\beta(t)=d/(2v_t)$ est la température bayésienne naturelle pour une MSE moyenne sous modèle gaussien isotrope.
+\item Les probes GMM/RF/PCA soutiennent la transition locale de type BBP et le sufficiency du routeur linéaire après spéciation.
+\item MCL améliore souvent la FID par rapport à baseline Heun.
+\end{enumerate}
+
+\subsection{Non validé dans full diffusion V8--V11}
+
+\begin{enumerate}[leftmargin=2em]
+\item Le routeur Bayes-risk n'est pas encore prouvé comme cause du gain FID: \texttt{random\_expert} ou \texttt{mixture\_score} battent souvent les routeurs.
+\item La spéciation saine n'apparaît pas spontanément: $\texttt{teacher\_entropy}\approx1$ et $\texttt{risk\_margin}\approx0$ dans les gold soft-MCL.
+\item Hard-WTA casse la symétrie mais collapse.
+\item La fenêtre V11 autour de $t_\star$ n'a pas suffi.
+\item Le ratio $\beta_{\rm emp}/\beta_{\rm theory}$ n'est pas stablement proche de $1$ dans le pipeline diffusion complet.
+\end{enumerate}
+
+\subsection{Message scientifique prudent}
+
+La formulation la plus honnête est:
+\begin{quote}
+Les probes contrôlés soutiennent un mécanisme de brisure de symétrie de type BBP et montrent qu'un routeur linéaire/logistique suffit lorsque $A_{c,k}(t)$ devient non dégénérée. En revanche, les entraînements diffusion complets V8--V11 ne réalisent pas encore de façon fiable cette phase non dégénérée. Les gains observés sont donc des effets multi-experts, pas encore des gains causés de manière démontrée par le routeur Bayes-risk.
+\end{quote}
+
+% ============================================================
+\section{Implications pour V12}
+
+La prochaine version doit cibler la transition elle-même.
+
+\subsection{Mesurer la stabilité réelle du réseau complet}
+
+On doit mesurer un taux de croissance transverse:
+\begin{equation}
+G(t,\beta)=\frac1{\Delta s}\log\frac{\|\delta(s+\Delta s)\|}{\|\delta(s)\|},
+\end{equation}
+où $\delta$ est une perturbation antisymétrique entre experts. Si $G<0$, la symétrie est stable dans le réseau complet, même si le proxy PCA prédit un signal. Si $G>0$, la spéciation est réellement accessible.
+
+\subsection{MCL équilibré par Sinkhorn}
+
+Le hard-WTA collapse. Une alternative est une assignation équilibrée
+\begin{equation}
+Q^\star=\argmin_{Q\in\mathcal U}\sum_{i,k}Q_{ik}E_{ik}-\tau H(Q),
+\end{equation}
+avec
+\begin{equation}
+\sum_k Q_{ik}=1,
+\qquad
+\sum_i Q_{ik}=B/K.
+\end{equation}
+Cela force chaque expert à recevoir du gradient sans imposer une partition de classes codée à la main.
+
+\subsection{Warm-start sémantique faible}
+
+On peut initialiser une partition $r(c)\in\{1,\dots,K\}$ par clustering des classes/modes à $t_\star$ et ajouter temporairement
+\begin{equation}
+\mathcal L_{\rm seed}=\E\left[e_{r(c)}(\xt,\eps,t)\right].
+\end{equation}
+Puis on relâche vers MCL équilibré. Cela teste explicitement si la bonne branche existe mais n'est pas trouvée par l'optimisation.
+
+\subsection{Geler le backbone et apprendre des adapters}
+
+Écrire
+\begin{equation}
+f_k(\xt,t)=f_0(\xt,t)+h_k(\xt,t)
+\end{equation}
+avec backbone $f_0$ gelé au début peut éviter que le shared backbone absorbe la différence entre experts. La spéciation est alors forcée dans les adapters $h_k$.
+
+\subsection{Objectif direct sur $A$}
+
+On peut encourager la non-dégénérescence de la matrice centrée
+\begin{equation}
+\widetilde A=H_CAH_K
+\end{equation}
+par
+\begin{equation}
+\mathcal L_A=-\gamma\|\widetilde A\|_F^2
+\end{equation}
+sous contrainte de balance. Il faut le faire prudemment pour éviter de créer une séparation artificielle nuisible au FID.
+
+\subsection{Critères avant FID lourd}
+
+Avant de relancer un long sampling, on devrait exiger:
+\begin{align}
+\texttt{teacher\_entropy} &<0.8,\\
+\texttt{risk\_margin} &>10^{-4}\ \text{ou}\ 10^{-3},\\
+\texttt{delta\_A} &>10^{-4},\\
+\texttt{oracle\_class\_mi} &>0.2,\\
+\texttt{usage\_entropy} &>0.7.
+\end{align}
+Sans ces critères, le routeur n'aura probablement rien de fiable à router.
+
+% ============================================================
+\appendix
+\section{Dérivation détaillée du posterior GMM et de l'epsilon optimal}
+
+On rappelle
+\[
+\xt=\alpha_t\xzero+\sigma_t\eps,
+\qquad
+\xzero\mid c\sim\mathcal N(\mu_c,\sigma_0^2I),
+\qquad
+\eps\sim\mathcal N(0,I).
+\]
+Alors
+\[
+\E[\xt\mid c]=\alpha_t\mu_c,
+\qquad
+\Cov(\xt\mid c)=\alpha_t^2\sigma_0^2I+\sigma_t^2I=v_tI.
+\]
+D'où \eqref{eq:gmm_posterior}.
+
+Pour l'epsilon optimal, on utilise la régression gaussienne. Comme
+\[
+\Cov(\eps,\xt\mid c)=\Cov(\eps,\alpha_t\xzero+\sigma_t\eps)=\sigma_t I,
+\]
+on a
+\[
+\E[\eps\mid\xt,c]
+=\E[\eps]+\Cov(\eps,\xt\mid c)\Cov(\xt\mid c)^{-1}(\xt-
+\E[\xt\mid c])
+=\frac{\sigma_t}{v_t}(\xt-\alpha_t\mu_c).
+\]
+
+\section{Dérivation détaillée de $\beta=d/(2v)$}
+
+La densité gaussienne d'un résidu $r\in\R^d$ est
+\[
+p(r)=(2\pi v)^{-d/2}\exp\left(-\frac{1}{2v}\|r\|^2\right).
+\]
+Si le coût numérique est $e=d^{-1}\|r\|^2$, alors
+\[
+-\log p(r)=\mathrm{const}+\frac{d}{2v}e.
+\]
+Le poids Gibbs correspondant est
+\[
+\exp[-\beta e],
+\]
+avec
+\[
+\beta=\frac d{2v}.
+\]
+Cela est indépendant du réseau: c'est seulement une conversion entre vraisemblance gaussienne et MSE moyenne.
+
+\section{Dérivation détaillée du routeur Bayes-risk}
+
+Pour une règle de décision $\pi(\xt,t)\in\{1,\dots,K\}$, le risque attendu est
+\[
+\mathcal R(\pi)=\E[e_{\pi(\xt,t)}(\xt,\eps,t)].
+\]
+Conditionnons par $(\xt,t)$:
+\[
+\mathcal R(\pi)=\E_{\xt,t}\left[\E[e_{\pi(\xt,t)}\mid\xt,t]\right].
+\]
+Le minimiseur pointwise est donc
+\[
+\pi^\star(\xt,t)=\argmin_k\E[e_k\mid\xt,t].
+\]
+En introduisant $c$,
+\[
+\E[e_k\mid\xt,t]=\sum_c p(c\mid\xt,t)\E[e_k\mid\xt,c,t].
+\]
+Si l'on approxime $\E[e_k\mid\xt,c,t]\approx A_{c,k}(t)$, on obtient \eqref{eq:bayes_risk_router}.
+
+\section{Dérivation détaillée de la seconde variation soft--MCL}
+
+On part de
+\[
+F_\beta(e_1,\dots,e_K)=-\frac1\beta\log\frac1K\sum_k e^{-\beta e_k}.
+\]
+Écrivons $e_k=e_\star+\delta_k$. Alors
+\[
+F_\beta=e_\star-\frac1\beta\log\frac1K\sum_k e^{-\beta\delta_k}.
+\]
+Pour $\delta$ petit,
+\[
+e^{-\beta\delta_k}=1-\beta\delta_k+\frac{\beta^2}{2}\delta_k^2+O(\delta_k^3).
+\]
+Donc
+\[
+\frac1K\sum_k e^{-\beta\delta_k}=1-\beta\bar\delta+\frac{\beta^2}{2}\overline{\delta^2}+O(\delta^3).
+\]
+Avec $\log(1+x)=x-x^2/2+O(x^3)$,
+\[
+\log\frac1K\sum_k e^{-\beta\delta_k}
+=-\beta\bar\delta+\frac{\beta^2}{2}\overline{\delta^2}-\frac{\beta^2}{2}\bar\delta^2+O(\delta^3).
+\]
+Donc
+\[
+F_\beta=e_\star+\bar\delta-\frac\beta2(\overline{\delta^2}-\bar\delta^2)+O(\delta^3).
+\]
+La variance des coûts entre experts est donc le mécanisme de compétition qui peut rendre la branche symétrique instable.
+
+\section{Glossaire expérimental}
+
+\begin{description}[leftmargin=2.5cm]
+\item[$A_{c,k}$] Risque moyen de l'expert $k$ sur la classe $c$ au temps $t$.
+\item[$\beta$-gap] Proxy empirique de compétition: $\beta$ multiplié par l'écart moyen entre expert moyen et meilleur expert.
+\item[Teacher entropy] Entropie de $q_\beta(k\mid\xt,\eps,t)$.
+\item[Risk margin] Écart entre le plus petit et le second plus petit risque Bayes.
+\item[Commit] Choix d'un expert une seule fois puis maintien de cet expert.
+\item[Spéciation] Non-dégénérescence stable des experts, idéalement alignée avec des modes/classes latents.
+\end{description}
+
+\end{document}
